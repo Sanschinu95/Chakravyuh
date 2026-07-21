@@ -8,6 +8,12 @@ import ScenarioPanel from './components/ScenarioPanel'
 import CascadePanel from './components/CascadePanel'
 import AssumptionLedger from './components/AssumptionLedger'
 import PlanPanel from './components/PlanPanel'
+import SourcingPanel from './components/SourcingPanel'
+import Collapsible from './components/Collapsible'
+import LayerControls, {
+  DEFAULT_LAYERS,
+  type LayerVisibility,
+} from './components/LayerControls'
 import { useEventStream } from './lib/useEventStream'
 import {
   api,
@@ -21,7 +27,15 @@ import {
   type Summary,
 } from './lib/api'
 
-type RightTab = 'cascade' | 'assumptions' | 'corridor' | 'plan'
+type RightTab = 'corridor' | 'cascade' | 'plan' | 'sourcing' | 'assumptions'
+
+const TABS: Array<{ id: RightTab; label: string }> = [
+  { id: 'corridor', label: 'Corridor' },
+  { id: 'cascade', label: 'Cascade' },
+  { id: 'plan', label: 'Plan' },
+  { id: 'sourcing', label: 'Sourcing' },
+  { id: 'assumptions', label: 'Assumptions' },
+]
 
 export default function App() {
   const [summary, setSummary] = useState<Summary | null>(null)
@@ -40,6 +54,10 @@ export default function App() {
   const [elapsed, setElapsed] = useState<number | null>(null)
   const [tab, setTab] = useState<RightTab>('corridor')
   const [bootError, setBootError] = useState<string | null>(null)
+
+  const [layers, setLayers] = useState<LayerVisibility>(DEFAULT_LAYERS)
+  const [corridorFilter, setCorridorFilter] = useState<Set<string>>(new Set())
+  const [railOpen, setRailOpen] = useState(true)
 
   const { connected } = useEventStream()
 
@@ -63,46 +81,38 @@ export default function App() {
       .catch((e) => setBootError(String(e)))
   }, [])
 
-  // Re-running on every slider tick would hammer the backend; debounce so the
-  // drag feels live but only the settled value is simulated.
   const debounce = useRef<number | undefined>(undefined)
 
   // Cascade only — used for the live slider drag, which must stay cheap.
-  const runScenario = useCallback(
-    (scenarioId: string, ov: Record<string, number>) => {
-      setRunning(true)
-      api
-        .simulate({ scenario_id: scenarioId, overrides: ov })
-        .then((r) => {
-          setCascade(r)
-          setLedger(r.ledger)
-        })
-        .catch((e) => setBootError(String(e)))
-        .finally(() => setRunning(false))
-    },
-    [],
-  )
+  const runScenario = useCallback((id: string, ov: Record<string, number>) => {
+    setRunning(true)
+    api
+      .simulate({ scenario_id: id, overrides: ov })
+      .then((r) => {
+        setCascade(r)
+        setLedger(r.ledger)
+      })
+      .catch((e) => setBootError(String(e)))
+      .finally(() => setRunning(false))
+  }, [])
 
   // Full defense pipeline: cascade -> LP -> SPR bridge -> narration.
-  const runDefense = useCallback(
-    (scenarioId: string, ov: Record<string, number>) => {
-      setRunning(true)
-      setElapsed(null)
-      const t0 = performance.now()
-      api
-        .defend({ scenario_id: scenarioId, overrides: ov })
-        .then((r) => {
-          setDefense(r)
-          setCascade(r.cascade)
-          setLedger(r.ledger)
-          setElapsed(performance.now() - t0)
-          setTab('plan')
-        })
-        .catch((e) => setBootError(String(e)))
-        .finally(() => setRunning(false))
-    },
-    [],
-  )
+  const runDefense = useCallback((id: string, ov: Record<string, number>) => {
+    setRunning(true)
+    setElapsed(null)
+    const t0 = performance.now()
+    api
+      .defend({ scenario_id: id, overrides: ov })
+      .then((r) => {
+        setDefense(r)
+        setCascade(r.cascade)
+        setLedger(r.ledger)
+        setElapsed(performance.now() - t0)
+        setTab('plan')
+      })
+      .catch((e) => setBootError(String(e)))
+      .finally(() => setRunning(false))
+  }, [])
 
   const onRun = (id: string) => {
     setActiveScenario(id)
@@ -126,11 +136,6 @@ export default function App() {
     debounce.current = window.setTimeout(() => runScenario(activeScenario, next), 220)
   }
 
-  const onAssumptionReset = () => {
-    setOverrides({})
-    if (activeScenario) runScenario(activeScenario, {})
-  }
-
   const onSelectCorridor = (c: string | null) => {
     setSelected(c)
     if (c) setTab('corridor')
@@ -139,115 +144,155 @@ export default function App() {
   return (
     <div className="app">
       <TopBar summary={summary} connected={connected} />
-      <div className="stage">
-        <MapView
-          network={network}
-          selectedCorridor={selected}
-          onSelectCorridor={onSelectCorridor}
-        />
 
-        <div className="floating left-rail">
-          <ScenarioPanel
-            scenarios={scenarios}
-            activeId={activeScenario}
-            running={running}
-            onRun={onRun}
-            onClear={onClear}
+      <div className={`stage ${railOpen ? '' : 'rail-collapsed'}`}>
+        {/* ---------------------------------------------------- left rail */}
+        <aside className="rail rail-left scroll">
+          <Collapsible title="View" defaultOpen>
+            <LayerControls
+              layers={layers}
+              onLayers={setLayers}
+              corridors={corridors}
+              filter={corridorFilter}
+              onFilter={setCorridorFilter}
+            />
+          </Collapsible>
+
+          <Collapsible
+            title="Scenarios"
+            badge={activeScenario ? 'active' : undefined}
+            defaultOpen
+          >
+            <ScenarioPanel
+              scenarios={scenarios}
+              activeId={activeScenario}
+              running={running}
+              onRun={onRun}
+              onClear={onClear}
+            />
+          </Collapsible>
+
+          <Collapsible title="Corridor exposure" defaultOpen={false}>
+            <CorridorList
+              corridors={corridors}
+              selected={selected}
+              onSelect={onSelectCorridor}
+            />
+          </Collapsible>
+
+          <Collapsible title="Honesty legend" defaultOpen={false}>
+            <HonestyLegend legend={legend} />
+          </Collapsible>
+        </aside>
+
+        {/* -------------------------------------------------------- map */}
+        <div className="map-cell">
+          <MapView
+            network={network}
+            selectedCorridor={selected}
+            onSelectCorridor={onSelectCorridor}
+            layers={layers}
+            corridorFilter={corridorFilter}
           />
-          <CorridorList
-            corridors={corridors}
-            selected={selected}
-            onSelect={onSelectCorridor}
-          />
+          <button
+            className="rail-toggle"
+            onClick={() => setRailOpen(!railOpen)}
+            title={railOpen ? 'hide side panel' : 'show side panel'}
+          >
+            {railOpen ? '‹' : '›'}
+          </button>
         </div>
 
-        <div className="floating right-rail">
-          <div className="panel" style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
-            <div className="tabs">
-              <Tab id="corridor" tab={tab} set={setTab} label="Corridor" />
-              <Tab id="cascade" tab={tab} set={setTab} label="Cascade" dot={!!cascade} />
-              <Tab id="plan" tab={tab} set={setTab} label="Plan" dot={!!defense} />
-              <Tab
-                id="assumptions"
-                tab={tab}
-                set={setTab}
-                label="Assumptions"
-                dot={Object.keys(overrides).length > 0}
-              />
-              {running && <span className="tab-busy">running…</span>}
-              {!running && elapsed !== null && (
-                <span className="tab-clock" title="signal to executable plan">
-                  {(elapsed / 1000).toFixed(1)}s
-                </span>
-              )}
-            </div>
-
-            <div className="panel-body scroll" style={{ flex: 1, minHeight: 0 }}>
-              {tab === 'corridor' && <CorridorDetail corridor={selected} />}
-
-              {tab === 'cascade' &&
-                (cascade ? (
-                  <>
-                    <div className="cascade-head">
-                      <div className="cascade-name">{cascade.meta.name}</div>
-                      <div className="cascade-sum">{cascade.meta.summary}</div>
-                      {cascade.meta.historical_anchor && (
-                        <div className="cascade-anchor">
-                          ↳ {cascade.meta.historical_anchor}
-                        </div>
-                      )}
-                      <span className="tag prov-simulated">model output</span>
-                    </div>
-                    <CascadePanel result={cascade} />
-                  </>
-                ) : (
-                  <div className="empty">
-                    Pick a scenario to propagate a shock through supply gap,
-                    refinery runs, price, sector stress and GDP.
-                  </div>
-                ))}
-
-              {tab === 'plan' &&
-                (defense ? (
-                  <>
-                    <div className="cascade-head">
-                      <div className="cascade-name">Executable procurement plan</div>
-                      <div className="cascade-sum">
-                        Optimiser output for {defense.meta.name}. Every line respects
-                        the destination refinery's crude diet, tanker availability
-                        and voyage time.
-                      </div>
-                      <span className="tag prov-simulated">solver output</span>
-                    </div>
-                    <PlanPanel result={defense} />
-                  </>
-                ) : (
-                  <div className="empty">
-                    Run a scenario to generate a procurement plan, an SPR bridge
-                    schedule, and the binding constraint that limits them.
-                  </div>
-                ))}
-
-              {tab === 'assumptions' && (
-                <AssumptionLedger
-                  ledger={ledger}
-                  overrides={overrides}
-                  onChange={onAssumptionChange}
-                  onReset={onAssumptionReset}
-                  busy={running}
-                />
-              )}
-            </div>
+        {/* --------------------------------------------------- right rail */}
+        <aside className="rail rail-right">
+          <div className="tabs">
+            {TABS.map((t) => (
+              <button
+                key={t.id}
+                className={`tab ${tab === t.id ? 'on' : ''}`}
+                onClick={() => setTab(t.id)}
+              >
+                {t.label}
+                {t.id === 'cascade' && cascade && <span className="tab-dot" />}
+                {t.id === 'plan' && defense && <span className="tab-dot" />}
+                {t.id === 'assumptions' && Object.keys(overrides).length > 0 && (
+                  <span className="tab-dot" />
+                )}
+              </button>
+            ))}
+            {running && <span className="tab-busy">running…</span>}
+            {!running && elapsed !== null && (
+              <span className="tab-clock" title="signal to executable plan">
+                {(elapsed / 1000).toFixed(1)}s
+              </span>
+            )}
           </div>
-        </div>
 
-        <HonestyLegend legend={legend} />
+          <div className="rail-body scroll">
+            {tab === 'corridor' && <CorridorDetail corridor={selected} />}
+
+            {tab === 'cascade' &&
+              (cascade ? (
+                <>
+                  <div className="cascade-head">
+                    <div className="cascade-name">{cascade.meta.name}</div>
+                    <div className="cascade-sum">{cascade.meta.summary}</div>
+                    {cascade.meta.historical_anchor && (
+                      <div className="cascade-anchor">
+                        ↳ {cascade.meta.historical_anchor}
+                      </div>
+                    )}
+                    <span className="tag prov-simulated">model output</span>
+                  </div>
+                  <CascadePanel result={cascade} />
+                </>
+              ) : (
+                <div className="empty">
+                  Pick a scenario to propagate a shock through supply gap,
+                  refinery runs, price, sector stress and GDP.
+                </div>
+              ))}
+
+            {tab === 'plan' &&
+              (defense ? (
+                <>
+                  <div className="cascade-head">
+                    <div className="cascade-name">Executable procurement plan</div>
+                    <div className="cascade-sum">
+                      Optimiser output for {defense.meta.name}. Every line respects
+                      the destination refinery's crude diet, tanker availability
+                      and voyage time.
+                    </div>
+                    <span className="tag prov-simulated">solver output</span>
+                  </div>
+                  <PlanPanel result={defense} />
+                </>
+              ) : (
+                <div className="empty">
+                  Run a scenario to generate a procurement plan, an SPR bridge
+                  schedule, and the binding constraint that limits them.
+                </div>
+              ))}
+
+            {tab === 'sourcing' && <SourcingPanel scenarioId={activeScenario} />}
+
+            {tab === 'assumptions' && (
+              <AssumptionLedger
+                ledger={ledger}
+                overrides={overrides}
+                onChange={onAssumptionChange}
+                onReset={() => {
+                  setOverrides({})
+                  if (activeScenario) runScenario(activeScenario, {})
+                }}
+                busy={running}
+              />
+            )}
+          </div>
+        </aside>
 
         {bootError && (
-          <div
-            className="panel floating"
-            style={{ left: '50%', top: 90, transform: 'translateX(-50%)', width: 440 }}
-          >
+          <div className="boot-error panel">
             <div className="panel-head">
               <span className="panel-title" style={{ color: 'var(--crit)' }}>
                 Backend error
@@ -268,26 +313,5 @@ export default function App() {
         )}
       </div>
     </div>
-  )
-}
-
-function Tab({
-  id,
-  tab,
-  set,
-  label,
-  dot,
-}: {
-  id: RightTab
-  tab: RightTab
-  set: (t: RightTab) => void
-  label: string
-  dot?: boolean
-}) {
-  return (
-    <button className={`tab ${tab === id ? 'on' : ''}`} onClick={() => set(id)}>
-      {label}
-      {dot && <span className="tab-dot" />}
-    </button>
   )
 }

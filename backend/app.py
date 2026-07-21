@@ -23,6 +23,7 @@ from backend.config import (
     Provenance,
 )
 from backend.data import loaders
+from backend.intelligence.sourcing import sourcing_view
 from backend.sim import scenarios as scenario_lib
 from backend.sim import twin
 from backend.sim.assumptions import ledger_payload
@@ -353,6 +354,30 @@ async def simulate(req: SimulateRequest) -> dict[str, Any]:
     }, provenance=Provenance.SIMULATED)
 
     return result
+
+
+# --------------------------------------------------------------------------
+# Sourcing advisor -- country relations, concentration, and lead times
+# --------------------------------------------------------------------------
+@app.get("/api/sourcing")
+def sourcing(scenario_id: str | None = None) -> dict[str, Any]:
+    """Who to buy from, how much, and by when.
+
+    With no scenario this is the peacetime picture. With one, supplier
+    availability is reduced by that scenario's disruption so the advice
+    reflects who can actually deliver.
+    """
+    disrupted: dict[str, float] = {}
+    if scenario_id:
+        sc = scenario_lib.get(scenario_id)
+        if sc is None:
+            raise HTTPException(404, f"unknown scenario: {scenario_id}")
+        cascade = run_cascade(list(sc["shocks"]))
+        disrupted = {
+            d["supplier_id"]: d["blocked_frac"]
+            for d in cascade.stages[0]["by_supplier"]
+        }
+    return sourcing_view(disrupted)
 
 
 # --------------------------------------------------------------------------

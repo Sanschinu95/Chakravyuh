@@ -55,12 +55,60 @@ html, body, #root {
   width: 100vw;
 }
 
+/* Three real grid columns. The panels used to be absolutely positioned over
+   the map, which meant the left rail and the legend overlapped once the rail
+   grew -- clicks landed on whichever happened to be on top. Grid columns
+   cannot overlap, so that class of bug is gone by construction. */
 .stage {
-  position: relative;
+  display: grid;
+  grid-template-columns: 296px minmax(0, 1fr) 384px;
+  min-height: 0;
   overflow: hidden;
+  transition: grid-template-columns 160ms ease;
 }
+.stage.rail-collapsed { grid-template-columns: 0 minmax(0, 1fr) 384px; }
 
+.rail {
+  min-width: 0;
+  min-height: 0;
+  background: var(--bg-1);
+  display: flex;
+  flex-direction: column;
+}
+.rail-left { border-right: 1px solid var(--border); }
+.rail-right { border-left: 1px solid var(--border); }
+.stage.rail-collapsed .rail-left { display: none; }
+
+.rail-body { flex: 1; min-height: 0; padding: 12px 14px; }
+
+.map-cell { position: relative; min-width: 0; min-height: 0; }
 .map-host { position: absolute; inset: 0; }
+
+.rail-toggle {
+  position: absolute;
+  left: 0; top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: 16px; height: 44px;
+  background: var(--panel-solid);
+  border: 1px solid var(--border);
+  border-left: none;
+  border-radius: 0 6px 6px 0;
+  color: var(--text-faint);
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1;
+  padding: 0;
+}
+.rail-toggle:hover { color: var(--text); border-color: var(--accent); }
+
+.boot-error {
+  position: absolute;
+  left: 50%; top: 80px;
+  transform: translateX(-50%);
+  width: 440px;
+  z-index: 40;
+}
 
 /* ---------------------------------------------------------------- topbar */
 .topbar {
@@ -161,10 +209,181 @@ html, body, #root {
 
 .panel-body { padding: 12px 14px; }
 
-.floating { position: absolute; z-index: 10; }
-.left-rail  { left: 14px;  top: 14px; width: 310px; }
-.right-rail { right: 14px; top: 14px; width: 372px; bottom: 14px; display: flex; flex-direction: column; gap: 12px; }
-.bottom-left { left: 14px; bottom: 14px; width: 310px; }
+/* Collapsible sidebar sections */
+.sect { border-bottom: 1px solid var(--border); }
+.sect-head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: none;
+  border: none;
+  padding: 11px 14px;
+  cursor: pointer;
+  color: var(--text-dim);
+  text-align: left;
+}
+.sect-head:hover { background: rgba(56, 189, 248, 0.05); color: var(--text); }
+.sect-caret {
+  font-size: 9px;
+  transition: transform 140ms ease;
+  color: var(--text-faint);
+}
+.sect-caret.open { transform: rotate(90deg); }
+.sect-title {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.sect-badge {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: rgba(239, 68, 68, 0.14);
+  color: var(--crit);
+}
+.sect-body { padding: 0 14px 12px; }
+
+/* Layer + corridor controls */
+.ctl-label {
+  display: flex;
+  align-items: baseline;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 6px;
+}
+.ctl-clear {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0;
+}
+
+.chip-row { display: flex; flex-direction: column; gap: 4px; }
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 5px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 11px;
+  text-align: left;
+  transition: background 120ms, border-color 120ms, color 120ms;
+}
+.chip:hover { border-color: var(--border-bright); }
+.chip-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.chip:not(.on) .chip-dot { opacity: 0.3; }
+.chip-pct {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.switch-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 0;
+  cursor: pointer;
+}
+.switch-row input { accent-color: var(--accent); margin: 0; cursor: pointer; }
+.switch-label { font-size: 11px; color: var(--text-dim); }
+.switch-row:hover .switch-label { color: var(--text); }
+.switch-hint {
+  margin-left: auto;
+  font-size: 9px;
+  color: var(--text-faint);
+  font-family: var(--mono);
+}
+
+/* Sourcing advisor */
+.country-row {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(28, 40, 54, 0.6);
+}
+.country-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+.country-name { font-size: 12.5px; font-weight: 500; color: var(--text); }
+.country-action {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+.country-action.crit { background: rgba(239, 68, 68, 0.14); color: #fca5a5; }
+.country-action.warn { background: rgba(245, 158, 11, 0.14); color: var(--warn); }
+.country-action.ok   { background: rgba(34, 197, 94, 0.14); color: var(--ok); }
+.country-action.dim  { background: rgba(100, 121, 143, 0.14); color: var(--text-faint); }
+
+.country-bar {
+  height: 3px;
+  background: var(--bg-2);
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 5px 0 4px;
+}
+.country-fill { height: 100%; background: var(--accent); border-radius: 2px; }
+.country-meta {
+  display: flex;
+  gap: 9px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--text-faint);
+}
+.country-lead { margin-left: auto; color: var(--warn); }
+.country-why { font-size: 10.5px; color: var(--text-dim); line-height: 1.45; margin-top: 4px; }
+.country-blocked {
+  font-size: 10px;
+  color: #fca5a5;
+  margin-top: 3px;
+  font-family: var(--mono);
+}
+.country-grades {
+  margin-top: 7px;
+  padding-left: 9px;
+  border-left: 2px solid var(--border-bright);
+}
+.grade-row { padding: 3px 0; }
+.grade-name { font-size: 11px; color: var(--text); }
+.grade-meta {
+  display: block;
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--text-faint);
+  margin-top: 1px;
+}
 
 .scroll { overflow-y: auto; overflow-x: hidden; }
 .scroll::-webkit-scrollbar { width: 8px; }
@@ -337,8 +556,6 @@ html, body, #root {
 .maplibregl-ctrl-logo { display: none !important; }
 
 /* ------------------------------------------------------------- phase 2 */
-.left-rail { display: flex; flex-direction: column; gap: 12px; max-height: calc(100vh - 240px); }
-
 .btn-ghost {
   background: none;
   border: 1px solid var(--border-bright);

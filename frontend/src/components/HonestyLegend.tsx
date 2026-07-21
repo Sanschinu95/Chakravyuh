@@ -8,14 +8,8 @@ import type { Legend } from '../lib/api'
 export default function HonestyLegend({ legend }: { legend: Legend | null }) {
   if (!legend) return null
   return (
-    <div className="panel floating bottom-left">
-      <div className="panel-head">
-        <span className="panel-title">Honesty Legend</span>
-        <span className="panel-title" style={{ color: 'var(--text-faint)' }}>
-          data provenance
-        </span>
-      </div>
-      <div className="panel-body">
+    <>
+      <div>
         {legend.entries.map((e) => (
           <div className="legend-row" key={e.key}>
             <span className="legend-swatch" style={{ background: e.color }} />
@@ -27,6 +21,6 @@ export default function HonestyLegend({ legend }: { legend: Legend | null }) {
         ))}
         <div className="legend-note">{legend.disclosure}</div>
       </div>
-    </div>
+    </>
   )
 }

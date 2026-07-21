@@ -60,10 +60,19 @@ PROVENANCE_COLORS = {
 # --------------------------------------------------------------------------
 ANTHROPIC_API_KEY: Final[str | None] = os.getenv("ANTHROPIC_API_KEY")
 ANTHROPIC_MODEL: Final[str] = os.getenv("ANTHROPIC_MODEL", "claude-opus-4-8")
-ANTHROPIC_FAST_MODEL: Final[str] = os.getenv("ANTHROPIC_FAST_MODEL", "claude-sonnet-5")
+
+# Groq is the default provider for this deployment. gpt-oss-120b is the most
+# capable model on the account that also supports function calling, which the
+# red team agent requires; the fast model handles bulk extraction.
+GROQ_API_KEY: Final[str | None] = os.getenv("GROQ_API_KEY")
+GROQ_MODEL: Final[str] = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")
+GROQ_FAST_MODEL: Final[str] = os.getenv("GROQ_FAST_MODEL", "llama-3.3-70b-versatile")
+
+LLM_PROVIDER: Final[str] = os.getenv("LLM_PROVIDER", "groq").lower()
+
 AISSTREAM_API_KEY: Final[str | None] = os.getenv("AISSTREAM_API_KEY")
 
-LLM_ENABLED: Final[bool] = bool(ANTHROPIC_API_KEY)
+LLM_ENABLED: Final[bool] = bool(GROQ_API_KEY or ANTHROPIC_API_KEY)
 AIS_ENABLED: Final[bool] = bool(AISSTREAM_API_KEY)
 
 

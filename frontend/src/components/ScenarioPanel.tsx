@@ -22,16 +22,18 @@ export default function ScenarioPanel({
   onClear,
 }: Props) {
   return (
-    <div className="panel">
-      <div className="panel-head">
-        <span className="panel-title">Scenario Library</span>
-        {activeId && (
-          <button className="btn-ghost" onClick={onClear} disabled={running}>
-            clear
-          </button>
-        )}
-      </div>
-      <div className="panel-body scroll" style={{ maxHeight: 300, paddingTop: 6 }}>
+    <>
+      {activeId && (
+        <button
+          className="btn-ghost"
+          style={{ width: '100%', marginBottom: 8 }}
+          onClick={onClear}
+          disabled={running}
+        >
+          clear active scenario
+        </button>
+      )}
+      <div>
         {scenarios.map((s) => (
           <div
             key={s.id}
@@ -52,6 +54,6 @@ export default function ScenarioPanel({
           </div>
         ))}
       </div>
-    </div>
+    </>
   )
 }

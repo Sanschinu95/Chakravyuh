@@ -10,14 +10,8 @@ interface Props {
 export default function CorridorList({ corridors, selected, onSelect }: Props) {
   const max = Math.max(1, ...corridors.map((c) => c.share_pct))
   return (
-    <div className="panel" style={{ minHeight: 0, display: 'flex', flexDirection: 'column' }}>
-      <div className="panel-head">
-        <span className="panel-title">Corridor Exposure</span>
-        <span className="tag" style={{ background: 'rgba(245,158,11,.14)', color: 'var(--curated)' }}>
-          curated
-        </span>
-      </div>
-      <div className="panel-body" style={{ paddingTop: 6 }}>
+    <>
+      <div>
         {corridors.map((c) => (
           <div
             key={c.corridor}
@@ -42,6 +36,6 @@ export default function CorridorList({ corridors, selected, onSelect }: Props) {
           </div>
         ))}
       </div>
-    </div>
+    </>
   )
 }

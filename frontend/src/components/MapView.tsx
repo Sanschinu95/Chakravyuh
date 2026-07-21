@@ -5,6 +5,7 @@ import Map, { type MapRef } from 'react-map-gl/maplibre'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
 import DeckOverlay from './DeckOverlay'
+import type { LayerVisibility } from './LayerControls'
 import type { NetworkPayload, NetworkNode, Flow } from '../lib/api'
 import { corridorRgb, corridorLabel, num } from '../lib/format'
 import { useElementSize } from '../lib/useElementSize'
@@ -34,11 +35,20 @@ interface Props {
   network: NetworkPayload | null
   selectedCorridor: string | null
   onSelectCorridor: (c: string | null) => void
+  layers: LayerVisibility
+  /** Empty set means "show every corridor". */
+  corridorFilter: Set<string>
 }
 
 type Hover = { x: number; y: number; title: string; lines: string[] } | null
 
-export default function MapView({ network, selectedCorridor, onSelectCorridor }: Props) {
+export default function MapView({
+  network,
+  selectedCorridor,
+  onSelectCorridor,
+  layers: vis,
+  corridorFilter,
+}: Props) {
   const [hover, setHover] = useState<Hover>(null)
   const [styleFailed, setStyleFailed] = useState(false)
   const { ref: hostRef, width, height } = useElementSize<HTMLDivElement>()
@@ -59,6 +69,10 @@ export default function MapView({ network, selectedCorridor, onSelectCorridor }:
     return g
   }, [network])
 
+  // A corridor is filtered out entirely (hidden) or merely de-emphasised
+  // because another corridor is selected in the side panel.
+  const shown = (corridor: string) =>
+    corridorFilter.size === 0 || corridorFilter.has(corridor)
   const dimmed = (corridor: string) =>
     selectedCorridor !== null && selectedCorridor !== corridor
 
@@ -66,12 +80,18 @@ export default function MapView({ network, selectedCorridor, onSelectCorridor }:
     if (!network) return []
 
     const flowAlpha = (f: Flow) => (dimmed(f.corridor) ? 34 : 190)
+    const visibleFlows = network.flows.filter((f) => shown(f.corridor))
+    const visiblePaths = network.corridor_paths.filter((p) => shown(p.corridor))
+    const visibleSuppliers = (nodesByKind.supplier ?? []).filter((d) =>
+      shown(d.corridor as string),
+    )
 
     return [
       // --- corridor spines -------------------------------------------
       new PathLayer<(typeof network.corridor_paths)[number]>({
         id: 'corridors',
-        data: network.corridor_paths,
+        visible: vis.corridors,
+        data: visiblePaths,
         getPath: (d) => d.path,
         getColor: (d) => {
           const [r, g, b] = corridorRgb(d.corridor)
@@ -109,7 +129,8 @@ export default function MapView({ network, selectedCorridor, onSelectCorridor }:
       // --- baseline import arcs (supplier origin -> discharge port) ----
       new ArcLayer<Flow>({
         id: 'flows',
-        data: network.flows,
+        visible: vis.flows,
+        data: visibleFlows,
         getSourcePosition: (d) => d.from,
         getTargetPosition: (d) => d.to,
         getSourceColor: (d) => {
@@ -147,6 +168,7 @@ export default function MapView({ network, selectedCorridor, onSelectCorridor }:
       // --- chokepoints -------------------------------------------------
       new ScatterplotLayer<NetworkNode>({
         id: 'chokepoints',
+        visible: vis.chokepoints,
         data: nodesByKind.chokepoint ?? [],
         getPosition: (d) => [d.lon, d.lat],
         getRadius: (d) => 3200 * Math.sqrt((d.global_oil_transit_mbd as number) ?? 1),
@@ -181,7 +203,8 @@ export default function MapView({ network, selectedCorridor, onSelectCorridor }:
       // --- supplier origins -------------------------------------------
       new ScatterplotLayer<NetworkNode>({
         id: 'suppliers',
-        data: nodesByKind.supplier ?? [],
+        visible: vis.suppliers,
+        data: visibleSuppliers,
         getPosition: (d) => [d.lon, d.lat],
         getRadius: (d) => 900 * Math.sqrt(((d.baseline_kb_week as number) ?? 100) / 7),
         radiusMinPixels: 2.5,
@@ -216,6 +239,7 @@ export default function MapView({ network, selectedCorridor, onSelectCorridor }:
       // --- refineries --------------------------------------------------
       new ScatterplotLayer<NetworkNode>({
         id: 'refineries',
+        visible: vis.refineries,
         data: nodesByKind.refinery ?? [],
         getPosition: (d) => [d.lon, d.lat],
         getRadius: (d) => 260 * Math.sqrt((d.capacity_kbd as number) ?? 100),
@@ -250,6 +274,7 @@ export default function MapView({ network, selectedCorridor, onSelectCorridor }:
       // --- strategic reserve -------------------------------------------
       new ScatterplotLayer<NetworkNode>({
         id: 'spr',
+        visible: vis.spr,
         data: nodesByKind.spr ?? [],
         getPosition: (d) => [d.lon, d.lat],
         getRadius: (d) => 9000 * Math.sqrt((d.capacity_mmbbl as number) ?? 1),
@@ -283,6 +308,7 @@ export default function MapView({ network, selectedCorridor, onSelectCorridor }:
       // --- refinery labels ---------------------------------------------
       new TextLayer<NetworkNode>({
         id: 'refinery-labels',
+        visible: vis.labels && vis.refineries,
         data: (nodesByKind.refinery ?? []).filter(
           (d) => ((d.capacity_kbd as number) ?? 0) >= 240,
         ),
@@ -296,7 +322,7 @@ export default function MapView({ network, selectedCorridor, onSelectCorridor }:
         billboard: true,
       }),
     ]
-  }, [network, nodesByKind, selectedCorridor, onSelectCorridor])
+  }, [network, nodesByKind, selectedCorridor, onSelectCorridor, vis, corridorFilter])
 
   return (
     <div className="map-host" ref={hostRef}>

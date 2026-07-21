@@ -339,6 +339,58 @@ export interface DefenseResult {
   provenance: Provenance
 }
 
+// -------------------------------------------------------- sourcing advisor
+export interface SourcingGrade {
+  supplier_id: string
+  grade: string
+  api_gravity: number
+  sulfur_pct: number
+  current_kbd: number
+  spare_kbd: number
+  corridor: string
+  compatible_refineries: number
+  fastest_days: number
+  blocked_pct: number
+  pricing_formula: string
+}
+
+export interface SourcingCountry {
+  country: string
+  region: string
+  grades: SourcingGrade[]
+  current_kbd: number
+  share_pct: number
+  spare_kbd: number
+  blocked_kbd: number
+  political_risk: number
+  avg_premium_usd_bbl: number
+  corridors: string[]
+  single_corridor: boolean
+  lead_time_days: number
+  reachable: boolean
+  recommendation: {
+    action: string
+    urgency: string
+    rationale: string
+    when: string
+    lead_time_days: number
+  }
+}
+
+export interface SourcingView {
+  countries: SourcingCountry[]
+  concentration: {
+    hhi: number
+    top3_share_pct: number
+    verdict: string
+    note: string
+    corridor_share_pct: Record<string, number>
+  }
+  total_import_kbd: number
+  under_disruption: boolean
+  provenance: Provenance
+}
+
 async function post<T>(path: string, body: unknown): Promise<T> {
   const res = await fetch(path, {
     method: 'POST',
@@ -376,4 +428,8 @@ export const api = {
     shocks?: Omit<ShockDef, 'label' | 'start_day'>[]
     overrides?: Record<string, number>
   }) => post<DefenseResult>('/api/defend', body),
+  sourcing: (scenarioId?: string) =>
+    get<SourcingView>(
+      `/api/sourcing${scenarioId ? `?scenario_id=${encodeURIComponent(scenarioId)}` : ''}`,
+    ),
 }
