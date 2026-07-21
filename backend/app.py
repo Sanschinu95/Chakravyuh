@@ -11,6 +11,7 @@ from typing import Any
 
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, Field
 
 from backend.bus import bus
 from backend.config import (
@@ -22,7 +23,10 @@ from backend.config import (
     Provenance,
 )
 from backend.data import loaders
+from backend.sim import scenarios as scenario_lib
 from backend.sim import twin
+from backend.sim.assumptions import ledger_payload
+from backend.sim.simulator import Shock, run_cascade
 
 
 @asynccontextmanager
@@ -279,6 +283,75 @@ def spr() -> dict[str, Any]:
         "max_drawdown_kbd": float(sites["max_drawdown_kbd"].sum()),
         "provenance": Provenance.CURATED,
     }
+
+
+# --------------------------------------------------------------------------
+# Phase 2 -- scenario modeller
+# --------------------------------------------------------------------------
+class ShockIn(BaseModel):
+    kind: str = Field(description="chokepoint | corridor | supplier | port")
+    target: str
+    severity: float = Field(ge=0.0, le=1.0)
+    duration_days: int = Field(ge=1, le=365)
+    start_day: int = 0
+    label: str = ""
+
+
+class SimulateRequest(BaseModel):
+    scenario_id: str | None = None
+    shocks: list[ShockIn] | None = None
+    overrides: dict[str, float] = Field(default_factory=dict)
+
+
+@app.get("/api/scenarios")
+def list_scenarios() -> list[dict[str, Any]]:
+    return scenario_lib.listing()
+
+
+@app.get("/api/assumptions")
+def assumptions(overrides: str | None = None) -> list[dict[str, Any]]:
+    """The assumption ledger. Every coefficient the cascade uses, with sources."""
+    return ledger_payload()
+
+
+@app.post("/api/simulate")
+async def simulate(req: SimulateRequest) -> dict[str, Any]:
+    """Run the deterministic cascade.
+
+    Accepts either a named scenario or an arbitrary shock list, so the same
+    endpoint serves the scenario panel and the judge's attack console.
+    """
+    if req.scenario_id:
+        sc = scenario_lib.get(req.scenario_id)
+        if sc is None:
+            raise HTTPException(404, f"unknown scenario: {req.scenario_id}")
+        shocks = list(sc["shocks"])
+        meta = {"scenario_id": req.scenario_id, "name": sc["name"],
+                "summary": sc["summary"],
+                "historical_anchor": sc["historical_anchor"]}
+    elif req.shocks:
+        shocks = [
+            Shock(kind=s.kind, target=s.target, severity=s.severity,
+                  duration_days=s.duration_days, start_day=s.start_day,
+                  label=s.label)
+            for s in req.shocks
+        ]
+        meta = {"scenario_id": None, "name": "Custom shock",
+                "summary": "Operator-defined shock set.",
+                "historical_anchor": None}
+    else:
+        raise HTTPException(400, "provide either scenario_id or shocks")
+
+    result = run_cascade(shocks, req.overrides).to_dict()
+    result["meta"] = meta
+    result["ledger"] = ledger_payload(req.overrides)
+
+    await bus.publish("cascade.complete", {
+        "name": meta["name"],
+        "headline": result["headline"],
+    }, provenance=Provenance.SIMULATED)
+
+    return result
 
 
 # --------------------------------------------------------------------------

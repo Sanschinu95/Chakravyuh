@@ -163,6 +163,85 @@ export interface Health {
   ws_clients: number
 }
 
+// ---------------------------------------------------------------- phase 2
+export interface ShockDef {
+  kind: string
+  target: string
+  severity: number
+  duration_days: number
+  start_day: number
+  label: string
+}
+
+export interface Scenario {
+  id: string
+  name: string
+  summary: string
+  severity_label: string
+  historical_anchor: string
+  shocks: ShockDef[]
+}
+
+export interface Assumption {
+  key: string
+  label: string
+  value: number
+  min: number
+  max: number
+  step: number
+  unit: string
+  stage: string
+  source: string
+  note: string
+  overridden: boolean
+}
+
+export interface CascadeHeadline {
+  net_lost_kbd: number
+  lost_pct_of_imports: number
+  refinery_cut_kbd: number
+  refineries_tripped: number
+  brent_usd: number
+  brent_delta_pct: number
+  unserved_pct_of_demand: number
+  gdp_loss_usd_bn: number
+  total_cost_usd_bn: number
+  duration_days: number
+  spr_days_at_this_gap: number
+  spr_exhausted: boolean
+}
+
+export interface CascadeStage {
+  stage: number
+  name: string
+  [k: string]: unknown
+}
+
+export interface CascadeResult {
+  shocks: ShockDef[]
+  assumptions: Record<string, number>
+  stages: CascadeStage[]
+  headline: CascadeHeadline
+  provenance: Provenance
+  ledger: Assumption[]
+  meta: {
+    scenario_id: string | null
+    name: string
+    summary: string
+    historical_anchor: string | null
+  }
+}
+
+async function post<T>(path: string, body: unknown): Promise<T> {
+  const res = await fetch(path, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  })
+  if (!res.ok) throw new Error(`${path} -> ${res.status} ${await res.text()}`)
+  return (await res.json()) as T
+}
+
 async function get<T>(path: string): Promise<T> {
   const res = await fetch(path)
   if (!res.ok) throw new Error(`${path} -> ${res.status} ${res.statusText}`)
@@ -178,4 +257,11 @@ export const api = {
   corridor: (id: string) => get<CorridorDetail>(`/api/corridors/${id}`),
   refineries: () => get<Refinery[]>('/api/refineries'),
   spr: () => get<SprPayload>('/api/spr'),
+  scenarios: () => get<Scenario[]>('/api/scenarios'),
+  assumptions: () => get<Assumption[]>('/api/assumptions'),
+  simulate: (body: {
+    scenario_id?: string
+    shocks?: Omit<ShockDef, 'label' | 'start_day'>[]
+    overrides?: Record<string, number>
+  }) => post<CascadeResult>('/api/simulate', body),
 }

@@ -72,6 +72,58 @@ def main() -> int:
         r = c.get("/api/spr")
         check("spr 3 sites", len(r.json()["sites"]) == 3)
 
+        print("scenario modeller")
+        r = c.get("/api/scenarios")
+        scen = r.json()
+        check("scenario library >= 6", len(scen) >= 6, str(len(scen)))
+        r = c.get("/api/assumptions")
+        led = r.json()
+        check("ledger has sources", all(a["source"] for a in led))
+        check("ledger spans 5 stages", len({a["stage"] for a in led}) == 5)
+
+        r = c.post("/api/simulate", json={"scenario_id": "hormuz_partial"})
+        sim = r.json()
+        check("cascade has 5 stages", len(sim["stages"]) == 5)
+        h = sim["headline"]
+        check("hormuz partial loses barrels", h["net_lost_kbd"] > 300, str(h["net_lost_kbd"]))
+        check("brent rises", h["brent_delta_pct"] > 0, str(h["brent_delta_pct"]))
+        # Physical consistency: you cannot cut more refinery throughput than the
+        # crude you actually lost (absent a unit tripping entirely).
+        check("refinery cut <= crude lost",
+              h["refinery_cut_kbd"] <= h["net_lost_kbd"] * 1.02,
+              f"cut={h['refinery_cut_kbd']} lost={h['net_lost_kbd']}")
+
+        # Voyage time must bind: distant grades cannot rescue a short shock.
+        stage2 = sim["stages"][1]
+        check("voyage time strands distant crude",
+              stage2["stranded_spare_kbd"] > 0, str(stage2["stranded_spare_kbd"]))
+        # Stranded volume is a property of the barrels, so it must be counted
+        # once -- not once per refinery.
+        check("stranded volume not double-counted",
+              stage2["stranded_spare_kbd"] < s["import_kbd"],
+              f"stranded={stage2['stranded_spare_kbd']} imports={s['import_kbd']}")
+
+        # Dragging an assumption must actually move the answer.
+        r2 = c.post("/api/simulate", json={
+            "scenario_id": "hormuz_partial",
+            "overrides": {"brent_supply_elasticity": 12.0},
+        })
+        check("assumption override changes result",
+              r2.json()["headline"]["brent_usd"] > h["brent_usd"],
+              f"{r2.json()['headline']['brent_usd']} vs {h['brent_usd']}")
+
+        # Severity must be monotonic: a worse shock cannot cost less.
+        full = c.post("/api/simulate", json={"scenario_id": "hormuz_full"}).json()
+        check("full closure worse than partial",
+              full["headline"]["net_lost_kbd"] > h["net_lost_kbd"])
+
+        r = c.post("/api/simulate", json={"shocks": [
+            {"kind": "chokepoint", "target": "HORMUZ", "severity": 0.4,
+             "duration_days": 14}]})
+        check("custom shock accepted", r.status_code == 200, r.text[:120])
+        check("bad scenario 404",
+              c.post("/api/simulate", json={"scenario_id": "nope"}).status_code == 404)
+
     print()
     if FAILURES:
         print(f"{len(FAILURES)} FAILED: {', '.join(FAILURES)}")

@@ -24,31 +24,35 @@ export default function CorridorDetail({ corridor }: { corridor: string | null }
 
   if (!corridor) {
     return (
-      <div className="panel" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <div className="panel-head">
-          <span className="panel-title">Corridor Detail</span>
-        </div>
-        <div className="empty">
-          Select a corridor to inspect the grades that move through it,
-          the chokepoints they transit, and the voyage times that bound
-          how fast a replacement barrel can arrive.
-        </div>
+      <div className="empty">
+        Select a corridor to inspect the grades that move through it, the
+        chokepoints they transit, and the voyage times that bound how fast a
+        replacement barrel can arrive.
       </div>
     )
   }
 
   return (
-    <div className="panel" style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
-      <div className="panel-head">
-        <span className="panel-title" style={{ color: corridorCss(corridor) }}>
+    <>
+      <div className="cascade-head">
+        <div
+          className="cascade-name"
+          style={{ color: corridorCss(corridor) }}
+        >
           {corridorLabel(corridor)}
-        </span>
+        </div>
         {detail && (
-          <span className="corridor-val">{num(detail.total_kb_week / 7)} kbd</span>
+          <div className="cascade-sum">
+            {num(detail.total_kb_week / 7)} kbd across{' '}
+            {detail.suppliers.length} grades
+          </div>
         )}
+        <span className="tag" style={{ background: 'rgba(245,158,11,.14)', color: 'var(--curated)' }}>
+          curated
+        </span>
       </div>
 
-      <div className="panel-body scroll" style={{ flex: 1, minHeight: 0 }}>
+      <div>
         {err && <div className="empty">{err}</div>}
         {!detail && !err && <div className="empty">loading…</div>}
 
@@ -109,7 +113,7 @@ export default function CorridorDetail({ corridor }: { corridor: string | null }
           </>
         )}
       </div>
-    </div>
+    </>
   )
 }
 
