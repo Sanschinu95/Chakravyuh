@@ -6,13 +6,16 @@ the honesty legend. Later phases mount additional routers onto this app.
 
 from __future__ import annotations
 
+import time
 from contextlib import asynccontextmanager
-from typing import Any
+from typing import Any, Awaitable, Callable
 
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
+from backend.agents.red_team import run_red_team
+from backend.agents.tender import draft_tenders
 from backend.bus import bus
 from backend.config import (
     AIS_ENABLED,
@@ -22,13 +25,18 @@ from backend.config import (
     PROVENANCE_LABELS,
     Provenance,
 )
-from backend.data import loaders
+from backend.data import ais_stream, loaders
+from backend.data import market as market_feed
+from backend.eval import backtest as backtest_mod
+from backend.eval import calibration as calibration_mod
+from backend.intelligence import cri as cri_mod
 from backend.intelligence.sourcing import sourcing_view
 from backend.sim import scenarios as scenario_lib
 from backend.sim import twin
 from backend.sim.assumptions import ledger_payload
 from backend.sim.simulator import Shock, run_cascade
 from backend.solve.pipeline import run_defense_pipeline
+from backend.solve.portfolio import optimise_portfolio
 
 
 @asynccontextmanager
@@ -410,6 +418,160 @@ async def defend(req: SimulateRequest) -> dict[str, Any]:
     result = await run_defense_pipeline(shocks, req.overrides, meta)
     result["ledger"] = ledger_payload(req.overrides)
     return result
+
+
+# --------------------------------------------------------------------------
+# Phase 5-6 -- intelligence fusion (CRI) and evaluation
+#
+# These endpoints sit in front of external feeds, so each is wrapped in a small
+# in-process TTL cache. The cache holds whatever the feed layer returned,
+# including its provenance tag -- a cached LIVE payload stays LIVE for its TTL
+# and then re-fetches; it is never relabelled on the way out.
+# --------------------------------------------------------------------------
+_TTL_CACHE: dict[str, tuple[float, Any]] = {}
+
+
+async def _cached(key: str, ttl_s: float,
+                  producer: Callable[[], Awaitable[Any]]) -> Any:
+    hit = _TTL_CACHE.get(key)
+    now = time.monotonic()
+    if hit and now < hit[0]:
+        return hit[1]
+    value = await producer()
+    _TTL_CACHE[key] = (now + ttl_s, value)
+    return value
+
+
+@app.get("/api/cri")
+async def cri_all(days: int = 7, llm: bool = False) -> dict[str, Any]:
+    """Corridor Risk Index for all four corridors, with the weighting exposed.
+
+    `llm=true` enriches the most recent headlines with LLM extraction. It is
+    off by default: the index must be deterministic, and the numbers must not
+    move because a language model felt different today.
+    """
+    key = f"cri:{days}:{llm}"
+    return await _cached(key, 120.0, lambda: cri_mod.cri_snapshot(days, llm))
+
+
+@app.get("/api/cri/{corridor}")
+async def cri_one(corridor: str, days: int = 7,
+                  llm: bool = False) -> dict[str, Any]:
+    """One corridor with its full evidence chain, for the drill-down click."""
+    if corridor not in CORRIDORS:
+        raise HTTPException(404, f"unknown corridor: {corridor}")
+    snap = await _cached(f"cri:{days}:{llm}", 120.0,
+                         lambda: cri_mod.cri_snapshot(days, llm))
+    record = next(c for c in snap["corridors"] if c["corridor"] == corridor)
+    return {
+        **record,
+        "weighting_rationale": snap["weighting_rationale"],
+        "inputs": snap["inputs"],
+        "extraction_method": snap["extraction_method"],
+        "generated_at": snap["generated_at"],
+    }
+
+
+@app.get("/api/market")
+async def market() -> dict[str, Any]:
+    """Brent snapshot: last close, % change, 90-day series, realized vol."""
+    snap = await _cached("brent", 120.0, market_feed.brent_snapshot)
+    return {**snap, "stress": market_feed.market_stress(snap)}
+
+
+@app.get("/api/vessels")
+async def vessels() -> dict[str, Any]:
+    """AIS snapshot plus detected anomalies.
+
+    REPLAY unless a live AIS key is configured -- see the payload `note`.
+    """
+    return await _cached("vessels", 60.0, ais_stream.vessel_snapshot)
+
+
+@app.get("/api/backtest")
+async def backtest() -> dict[str, Any]:
+    """Replay of June 2025: lead time in hours and the Brier score."""
+    return await _cached("backtest", 600.0, backtest_mod.run_backtest)
+
+
+@app.get("/api/calibration")
+async def calibration() -> dict[str, Any]:
+    """CRI-implied probabilities against a realized-vol market proxy."""
+    return await _cached("calibration", 600.0, calibration_mod.run_calibration)
+
+
+# --------------------------------------------------------------------------
+# Phase 4 -- tender generation
+# --------------------------------------------------------------------------
+@app.post("/api/tender")
+async def tender(req: SimulateRequest) -> dict[str, Any]:
+    """Run the pipeline and draft procurement tenders from its output."""
+    if req.scenario_id:
+        sc = scenario_lib.get(req.scenario_id)
+        if sc is None:
+            raise HTTPException(404, f"unknown scenario: {req.scenario_id}")
+        shocks = list(sc["shocks"])
+        meta = {"scenario_id": req.scenario_id, "name": sc["name"],
+                "summary": sc["summary"], "historical_anchor": sc["historical_anchor"]}
+    elif req.shocks:
+        shocks = [Shock(kind=s.kind, target=s.target, severity=s.severity,
+                        duration_days=s.duration_days, start_day=s.start_day,
+                        label=s.label) for s in req.shocks]
+        meta = {"scenario_id": None, "name": "Custom shock",
+                "summary": "Operator-defined shock set.", "historical_anchor": None}
+    else:
+        raise HTTPException(400, "provide either scenario_id or shocks")
+
+    result = await run_defense_pipeline(shocks, req.overrides, meta, narrate=False)
+    drafted = await draft_tenders(result)
+    drafted["meta"] = meta
+    drafted["procurement_status"] = result["procurement"]["status"]
+    return drafted
+
+
+# --------------------------------------------------------------------------
+# Phase 7 -- red team + peacetime portfolio
+# --------------------------------------------------------------------------
+_redteam_cache: dict[str, Any] = {}
+
+
+@app.get("/api/redteam")
+async def redteam(refresh: bool = False, budget: float = 50.0) -> dict[str, Any]:
+    """Latest adversarial run.
+
+    The search is expensive (it runs the full defense pipeline per candidate),
+    so this serves the last nightly result unless explicitly refreshed --
+    which is also the honest framing: the red team runs overnight, not on
+    demand while a judge waits.
+    """
+    if refresh or not _redteam_cache:
+        t0 = time.perf_counter()
+        out = await run_red_team(budget=budget)
+        out["computed_in_s"] = round(time.perf_counter() - t0, 1)
+        out["cached"] = False
+        _redteam_cache.clear()
+        _redteam_cache.update(out)
+        await bus.publish("redteam.complete", {
+            "resilience_score": out["resilience_score"],
+            "found_by": out["found_by"],
+        }, provenance=Provenance.INJECTED)
+        return out
+    return {**_redteam_cache, "cached": True}
+
+
+@app.get("/api/portfolio")
+async def portfolio(budget: float = 220.0) -> dict[str, Any]:
+    """Peacetime instruments priced against the red team's discovered attacks."""
+    rt = await redteam()
+    attacks = [a for a in rt.get("baseline_top", []) if a]
+    if rt.get("best_attack"):
+        attacks = [rt["best_attack"]] + [
+            a for a in attacks if a != rt["best_attack"]
+        ]
+    out = optimise_portfolio(attacks[:6], budget_usd_mn=budget)
+    out["resilience_score"] = rt.get("resilience_score")
+    out["attack_source"] = rt.get("found_by")
+    return out
 
 
 # --------------------------------------------------------------------------

@@ -1,0 +1,45 @@
+{
+  "total_entries": 19169,
+  "vessel_entries": 1517,
+  "shipping_linked_entries": 2201,
+  "in_scope_maritime_entries": 1853,
+  "top_vessel_flags": {
+    "Panama": 269,
+    "Russia": 243,
+    "Iran": 192,
+    "China": 158,
+    "Democratic People's Republic of Korea": 73,
+    "Barbados": 67,
+    "Liberia": 60,
+    "Palau": 53
+  },
+  "fetched_at": "2026-07-21T18:40:21+00:00",
+  "source": "https://sanctionslistservice.ofac.treas.gov/api/PublicationPreview/exports/SDN.CSV",
+  "history": [
+    {
+      "fetched_at": "2026-07-21T18:37:25+00:00",
+      "vessel_entries": 1517,
+      "in_scope_maritime_entries": 1853
+    },
+    {
+      "fetched_at": "2026-07-21T18:37:56+00:00",
+      "vessel_entries": 1517,
+      "in_scope_maritime_entries": 1853
+    },
+    {
+      "fetched_at": "2026-07-21T18:39:17+00:00",
+      "vessel_entries": 1517,
+      "in_scope_maritime_entries": 1853
+    },
+    {
+      "fetched_at": "2026-07-21T18:39:53+00:00",
+      "vessel_entries": 1517,
+      "in_scope_maritime_entries": 1853
+    },
+    {
+      "fetched_at": "2026-07-21T18:40:21+00:00",
+      "vessel_entries": 1517,
+      "in_scope_maritime_entries": 1853
+    }
+  ]
+}

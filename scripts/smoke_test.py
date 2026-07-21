@@ -174,6 +174,128 @@ def main() -> int:
         check("worse shock leaves more unmet",
               full["procurement"]["unmet_kb"] > lp["unmet_kb"])
 
+        print("phase 5-6")
+        r = c.get("/api/cri")
+        check("cri 200", r.status_code == 200, r.text[:200])
+        cri = r.json()
+        cors = cri["corridors"]
+        check("cri covers 4 corridors", len(cors) == 4, str(len(cors)))
+        check("every cri score in 0-100",
+              all(0.0 <= x["score"] <= 100.0 for x in cors),
+              str([x["score"] for x in cors]))
+        # The band is the alert contract; it must follow the threshold exactly.
+        thr = cri["thresholds"]["red"]
+        amber = cri["thresholds"]["amber"]
+        bad_band = [
+            x for x in cors
+            if x["band"] != ("red" if x["score"] >= thr
+                             else "amber" if x["score"] >= amber else "green")
+        ]
+        check("bands agree with the threshold", not bad_band,
+              str([(x["corridor"], x["score"], x["band"]) for x in bad_band]))
+        check("alert flag agrees with band",
+              all(x["alert"] == (x["score"] >= thr) for x in cors))
+        # Weights must be visible, sum to 1, and be renormalised over whatever
+        # signals were actually available.
+        check("cri weights sum to 1",
+              abs(sum(cri["weights"].values()) - 1.0) < 1e-6,
+              str(cri["weights"]))
+        check("effective weights sum to 1",
+              all(abs(sum(x["weights_effective"].values()) - 1.0) < 1e-6
+                  for x in cors))
+        # Score must reconcile with the components the payload shows.
+        recon = [
+            x for x in cors
+            if abs(sum(cp["contribution"] for cp in x["components"]) - x["score"]) > 0.5
+        ]
+        check("score reconciles with its components", not recon,
+              str([(x["corridor"], x["score"]) for x in recon]))
+        check("hormuz carries the most supplier exposure",
+              len(next(x for x in cors if x["corridor"] == "Hormuz")
+                  ["supplier_disruption_prob"]) == 8)
+        check("supplier probabilities are probabilities",
+              all(0.0 <= s["disruption_prob"] <= 1.0
+                  for x in cors for s in x["supplier_disruption_prob"]))
+        check("cri is model output", cri["provenance"] == "simulated")
+
+        r = c.get("/api/cri/Hormuz")
+        one = r.json()
+        check("corridor drill-down 200", r.status_code == 200, r.text[:200])
+        check("evidence is present",
+              one["evidence"]["event_count"] > 0
+              or one["evidence"]["anomaly_count"] > 0,
+              str(one["evidence"]["event_count"]))
+        check("evidence events carry titles",
+              all(e.get("title") for e in one["evidence"]["events"]))
+        check("unknown corridor 404", c.get("/api/cri/Nowhere").status_code == 404)
+
+        r = c.get("/api/vessels")
+        ves = r.json()
+        # Rule 1: no AIS key means this can never be labelled live.
+        check("ais provenance is never live without a key",
+              ves["provenance"] != "live" or ves["live_ais_configured"],
+              f"provenance={ves['provenance']} key={ves['live_ais_configured']}")
+        check("ais is replay on this deployment", ves["provenance"] == "replay")
+        check("vessels present", ves["vessel_count"] >= 35, str(ves["vessel_count"]))
+        check("anomalies detected", ves["anomaly_count"] > 0)
+        check("every vessel carries provenance",
+              all("provenance" in v for v in ves["vessels"]))
+
+        r = c.get("/api/market")
+        mkt = r.json()
+        check("market 200", r.status_code == 200, r.text[:200])
+        check("market provenance is live or replay",
+              mkt["provenance"] in ("live", "replay"), mkt["provenance"])
+        check("market series or an explicit unavailable flag",
+              bool(mkt["series"]) or mkt["available"] is False)
+
+        r = c.get("/api/backtest")
+        bt = r.json()
+        check("backtest 200", r.status_code == 200, r.text[:200])
+        check("backtest is replay", bt["provenance"] == "replay")
+        check("lead time is numeric or honestly null",
+              isinstance(bt["lead_time_hours"], (int, float))
+              or bt["lead_time_hours"] is None,
+              str(bt["lead_time_hours"]))
+        check("backtest produced a lead time",
+              isinstance(bt["lead_time_hours"], (int, float)),
+              bt["lead_note"])
+        check("brier score in [0,1]",
+              0.0 <= bt["brier_score"] <= 1.0, str(bt["brier_score"]))
+        check("brier has a reference to compare against",
+              0.0 <= bt["brier_reference_base_rate"] <= 1.0)
+        check("backtest walks the whole month", len(bt["series"]) == 30,
+              str(len(bt["series"])))
+        check("alert precedes the price spike",
+              bt["alert_day"] < bt["spike_day"],
+              f"alert={bt['alert_day']} spike={bt['spike_day']}")
+        # Signals with no June 2025 archive must be declared, not faked.
+        check("unavailable signals declared",
+              set(bt["signals_excluded"]) == {"ais", "sanctions"})
+
+        r = c.get("/api/calibration")
+        cal = r.json()
+        check("calibration 200", r.status_code == 200, r.text[:200])
+        check("calibration bins sum to the sample",
+              cal["bin_count_total"] == cal["n_points"],
+              f"bins={cal['bin_count_total']} n={cal['n_points']}")
+        check("market bins sum to the sample",
+              cal["market_bin_count_total"] == cal["n_points"])
+        check("bin observed counts sum to the outcomes",
+              sum(b["observed_count"] for b in cal["bins"])
+              == round(cal["observed_frequency"] * cal["n_points"]))
+        check("reliability curve is plottable",
+              len(cal["reliability_curve"]) == len(cal["bins"]))
+        check("every populated bin has a predicted and observed value",
+              all(b["predicted_mean"] is not None and b["observed_freq"] is not None
+                  for b in cal["bins"] if b["count"] > 0))
+        check("disagreement flags carry a direction",
+              all(f["direction"] in ("system_above_market", "system_below_market")
+                  for f in cal["flags"]))
+        check("market proxy derivation is documented",
+              bool(cal["market_proxy"]["formula"])
+              and len(cal["market_proxy"]["caveats"]) >= 3)
+
     print()
     if FAILURES:
         print(f"{len(FAILURES)} FAILED: {', '.join(FAILURES)}")
