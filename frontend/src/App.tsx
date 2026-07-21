@@ -7,19 +7,21 @@ import HonestyLegend from './components/HonestyLegend'
 import ScenarioPanel from './components/ScenarioPanel'
 import CascadePanel from './components/CascadePanel'
 import AssumptionLedger from './components/AssumptionLedger'
+import PlanPanel from './components/PlanPanel'
 import { useEventStream } from './lib/useEventStream'
 import {
   api,
   type Assumption,
   type CascadeResult,
   type CorridorSummary,
+  type DefenseResult,
   type Legend,
   type NetworkPayload,
   type Scenario,
   type Summary,
 } from './lib/api'
 
-type RightTab = 'cascade' | 'assumptions' | 'corridor'
+type RightTab = 'cascade' | 'assumptions' | 'corridor' | 'plan'
 
 export default function App() {
   const [summary, setSummary] = useState<Summary | null>(null)
@@ -32,8 +34,10 @@ export default function App() {
   const [selected, setSelected] = useState<string | null>(null)
   const [activeScenario, setActiveScenario] = useState<string | null>(null)
   const [cascade, setCascade] = useState<CascadeResult | null>(null)
+  const [defense, setDefense] = useState<DefenseResult | null>(null)
   const [overrides, setOverrides] = useState<Record<string, number>>({})
   const [running, setRunning] = useState(false)
+  const [elapsed, setElapsed] = useState<number | null>(null)
   const [tab, setTab] = useState<RightTab>('corridor')
   const [bootError, setBootError] = useState<string | null>(null)
 
@@ -63,6 +67,7 @@ export default function App() {
   // drag feels live but only the settled value is simulated.
   const debounce = useRef<number | undefined>(undefined)
 
+  // Cascade only — used for the live slider drag, which must stay cheap.
   const runScenario = useCallback(
     (scenarioId: string, ov: Record<string, number>) => {
       setRunning(true)
@@ -71,7 +76,27 @@ export default function App() {
         .then((r) => {
           setCascade(r)
           setLedger(r.ledger)
-          setTab('cascade')
+        })
+        .catch((e) => setBootError(String(e)))
+        .finally(() => setRunning(false))
+    },
+    [],
+  )
+
+  // Full defense pipeline: cascade -> LP -> SPR bridge -> narration.
+  const runDefense = useCallback(
+    (scenarioId: string, ov: Record<string, number>) => {
+      setRunning(true)
+      setElapsed(null)
+      const t0 = performance.now()
+      api
+        .defend({ scenario_id: scenarioId, overrides: ov })
+        .then((r) => {
+          setDefense(r)
+          setCascade(r.cascade)
+          setLedger(r.ledger)
+          setElapsed(performance.now() - t0)
+          setTab('plan')
         })
         .catch((e) => setBootError(String(e)))
         .finally(() => setRunning(false))
@@ -82,12 +107,14 @@ export default function App() {
   const onRun = (id: string) => {
     setActiveScenario(id)
     setSelected(null)
-    runScenario(id, overrides)
+    runDefense(id, overrides)
   }
 
   const onClear = () => {
     setActiveScenario(null)
     setCascade(null)
+    setDefense(null)
+    setElapsed(null)
     setTab('corridor')
   }
 
@@ -139,6 +166,7 @@ export default function App() {
             <div className="tabs">
               <Tab id="corridor" tab={tab} set={setTab} label="Corridor" />
               <Tab id="cascade" tab={tab} set={setTab} label="Cascade" dot={!!cascade} />
+              <Tab id="plan" tab={tab} set={setTab} label="Plan" dot={!!defense} />
               <Tab
                 id="assumptions"
                 tab={tab}
@@ -147,6 +175,11 @@ export default function App() {
                 dot={Object.keys(overrides).length > 0}
               />
               {running && <span className="tab-busy">running…</span>}
+              {!running && elapsed !== null && (
+                <span className="tab-clock" title="signal to executable plan">
+                  {(elapsed / 1000).toFixed(1)}s
+                </span>
+              )}
             </div>
 
             <div className="panel-body scroll" style={{ flex: 1, minHeight: 0 }}>
@@ -171,6 +204,27 @@ export default function App() {
                   <div className="empty">
                     Pick a scenario to propagate a shock through supply gap,
                     refinery runs, price, sector stress and GDP.
+                  </div>
+                ))}
+
+              {tab === 'plan' &&
+                (defense ? (
+                  <>
+                    <div className="cascade-head">
+                      <div className="cascade-name">Executable procurement plan</div>
+                      <div className="cascade-sum">
+                        Optimiser output for {defense.meta.name}. Every line respects
+                        the destination refinery's crude diet, tanker availability
+                        and voyage time.
+                      </div>
+                      <span className="tag prov-simulated">solver output</span>
+                    </div>
+                    <PlanPanel result={defense} />
+                  </>
+                ) : (
+                  <div className="empty">
+                    Run a scenario to generate a procurement plan, an SPR bridge
+                    schedule, and the binding constraint that limits them.
                   </div>
                 ))}
 

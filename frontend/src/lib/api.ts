@@ -232,6 +232,113 @@ export interface CascadeResult {
   }
 }
 
+// ---------------------------------------------------------------- phase 3
+export interface ProcurementLine {
+  supplier_id: string
+  grade: string
+  country: string
+  refinery_id: string
+  refinery: string
+  port: string
+  vessel_class: string
+  voyage_days: number
+  first_delivery_day: number
+  volume_kb: number
+  cargoes: number
+  unit_cost_usd_bbl: number
+  freight_usd_bbl: number
+  cost_usd_mn: number
+  api_gravity: number
+  sulfur_pct: number
+  pricing_formula: string
+  load_port: string
+}
+
+export interface BindingConstraint {
+  constraint: string
+  label: string
+  explanation: string
+  shadow_price_usd_bbl: number
+  kind: string
+}
+
+export interface ProcurementPlan {
+  status: string
+  lines: ProcurementLine[]
+  covered_kb: number
+  gap_kb: number
+  unmet_kb: number
+  coverage_pct: number
+  cost_delta_usd_mn: number
+  cost_delta_inr_crore: number
+  first_delivery_day: number | null
+  binding: BindingConstraint[]
+  horizon_weeks: number
+  solve_ms: number
+  provenance: Provenance
+}
+
+export interface SprDay {
+  day: number
+  gap_kbd: number
+  spr_draw_kbd: number
+  unserved_kbd: number
+  spr_remaining_kb: number
+  spr_remaining_pct: number
+}
+
+export interface SprPlan {
+  status: string
+  days: SprDay[]
+  by_site: Array<{
+    site_id: string
+    site: string
+    notional_grade: string
+    available_kb: number
+    drawn_kb: number
+    drawn_pct: number
+    max_drawdown_kbd: number
+  }>
+  total_drawn_kb: number
+  total_drawn_mmbbl: number
+  total_available_kb: number
+  utilisation_pct: number
+  peak_unserved_kbd: number
+  end_buffer_kb: number
+  end_buffer_mmbbl: number
+  counterfactual: {
+    policy: string
+    exhausted_on_day: number | null
+    survives_shock: boolean
+    total_unserved_kb: number
+    end_buffer_mmbbl: number
+  }
+}
+
+export interface TraceStep {
+  step: string
+  detail: string
+  elapsed_ms: number
+}
+
+export interface DefenseResult {
+  run_id: string
+  meta: CascadeResult['meta']
+  cascade: CascadeResult
+  procurement: ProcurementPlan
+  spr: SprPlan
+  narration: {
+    text: string
+    mode: 'llm' | 'deterministic'
+    model_note: string
+    provenance: Provenance
+  }
+  trace: TraceStep[]
+  elapsed_ms: number
+  ledger: Assumption[]
+  provenance: Provenance
+}
+
 async function post<T>(path: string, body: unknown): Promise<T> {
   const res = await fetch(path, {
     method: 'POST',
@@ -264,4 +371,9 @@ export const api = {
     shocks?: Omit<ShockDef, 'label' | 'start_day'>[]
     overrides?: Record<string, number>
   }) => post<CascadeResult>('/api/simulate', body),
+  defend: (body: {
+    scenario_id?: string
+    shocks?: Omit<ShockDef, 'label' | 'start_day'>[]
+    overrides?: Record<string, number>
+  }) => post<DefenseResult>('/api/defend', body),
 }
