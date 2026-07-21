@@ -124,6 +124,56 @@ def main() -> int:
         check("bad scenario 404",
               c.post("/api/simulate", json={"scenario_id": "nope"}).status_code == 404)
 
+        print("defense pipeline")
+        import time as _t
+        t0 = _t.perf_counter()
+        r = c.post("/api/defend", json={"scenario_id": "hormuz_partial"})
+        wall_s = _t.perf_counter() - t0
+        d = r.json()
+        check("pipeline 200", r.status_code == 200, r.text[:200])
+        check("pipeline under 3 min", wall_s < 180, f"{wall_s:.1f}s")
+
+        lp = d["procurement"]
+        check("LP optimal", lp["status"] == "OPTIMAL", lp["status"])
+        check("LP produced lines", len(lp["lines"]) > 0)
+        # Grade compatibility must hold for every recommended cargo -- this is
+        # what makes the plan executable rather than generic.
+        refs = {x["refinery_id"]: x for x in c.get("/api/refineries").json()}
+        bad = [
+            ln for ln in lp["lines"]
+            if not (refs[ln["refinery_id"]]["api_min"] <= ln["api_gravity"]
+                    <= refs[ln["refinery_id"]]["api_max"]
+                    and ln["sulfur_pct"] <= refs[ln["refinery_id"]]["sulfur_max_pct"])
+        ]
+        check("every cargo is grade-compatible", not bad,
+              f"{len(bad)} violations e.g. {bad[:1]}")
+        # Voyage time must be respected: nothing berths on day zero.
+        check("no instantaneous deliveries",
+              all(ln["first_delivery_day"] >= 1 for ln in lp["lines"]))
+        check("coverage accounting reconciles",
+              abs((lp["covered_kb"] + lp["unmet_kb"]) - lp["gap_kb"])
+              / max(1.0, lp["gap_kb"]) < 0.02,
+              f"covered={lp['covered_kb']} unmet={lp['unmet_kb']} gap={lp['gap_kb']}")
+        check("binding constraints named", len(lp["binding"]) > 0)
+
+        spr = d["spr"]
+        check("SPR optimal", spr["status"] == "OPTIMAL", spr["status"])
+        check("SPR holds an end buffer", spr["end_buffer_kb"] > 0)
+        check("SPR never over-draws",
+              spr["total_drawn_kb"] <= spr["total_available_kb"] + 1)
+        check("SPR counterfactual present", "policy" in spr["counterfactual"])
+
+        check("narration present", bool(d["narration"]["text"]))
+        check("narration mode labelled",
+              d["narration"]["mode"] in ("llm", "deterministic"))
+        check("pipeline trace has 4 steps", len(d["trace"]) == 4,
+              str([t["step"] for t in d["trace"]]))
+
+        # A worse shock must not produce a cheaper plan.
+        full = c.post("/api/defend", json={"scenario_id": "hormuz_full"}).json()
+        check("worse shock leaves more unmet",
+              full["procurement"]["unmet_kb"] > lp["unmet_kb"])
+
     print()
     if FAILURES:
         print(f"{len(FAILURES)} FAILED: {', '.join(FAILURES)}")

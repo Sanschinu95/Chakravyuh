@@ -27,6 +27,7 @@ from backend.sim import scenarios as scenario_lib
 from backend.sim import twin
 from backend.sim.assumptions import ledger_payload
 from backend.sim.simulator import Shock, run_cascade
+from backend.solve.pipeline import run_defense_pipeline
 
 
 @asynccontextmanager
@@ -351,6 +352,38 @@ async def simulate(req: SimulateRequest) -> dict[str, Any]:
         "headline": result["headline"],
     }, provenance=Provenance.SIMULATED)
 
+    return result
+
+
+# --------------------------------------------------------------------------
+# Phase 3 -- defense pipeline (cascade -> LP -> SPR -> narration)
+# --------------------------------------------------------------------------
+@app.post("/api/defend")
+async def defend(req: SimulateRequest) -> dict[str, Any]:
+    """The full defense pipeline. This is the path the demo stopwatch times."""
+    if req.scenario_id:
+        sc = scenario_lib.get(req.scenario_id)
+        if sc is None:
+            raise HTTPException(404, f"unknown scenario: {req.scenario_id}")
+        shocks = list(sc["shocks"])
+        meta = {"scenario_id": req.scenario_id, "name": sc["name"],
+                "summary": sc["summary"],
+                "historical_anchor": sc["historical_anchor"]}
+    elif req.shocks:
+        shocks = [
+            Shock(kind=s.kind, target=s.target, severity=s.severity,
+                  duration_days=s.duration_days, start_day=s.start_day,
+                  label=s.label)
+            for s in req.shocks
+        ]
+        meta = {"scenario_id": None, "name": "Custom shock",
+                "summary": "Operator-defined shock set.",
+                "historical_anchor": None}
+    else:
+        raise HTTPException(400, "provide either scenario_id or shocks")
+
+    result = await run_defense_pipeline(shocks, req.overrides, meta)
+    result["ledger"] = ledger_payload(req.overrides)
     return result
 
 
