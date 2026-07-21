@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+node_modules/
+frontend/dist/
+chakravyuh.duckdb
+chakravyuh.duckdb.wal
+state/
+.env
+.DS_Store

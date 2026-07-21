@@ -1,0 +1,22 @@
+supplier_id,corridor,barrels_per_week_kb,share_pct,typical_discharge_port
+URAL,RedSea_Suez,6300,19.15,Vadinar SPM
+URLB,Cape,4200,12.77,Sikka
+ESPO,Malacca,1750,5.32,Paradip
+SOKL,Malacca,420,1.28,Paradip
+BASM,Hormuz,4550,13.83,Sikka
+BASH,Hormuz,1750,5.32,Vadinar SPM
+ARBL,Hormuz,2450,7.45,Sikka
+ARBM,Hormuz,1400,4.26,New Mangalore
+MURB,Hormuz,1750,5.32,Sikka
+UZAK,Hormuz,1050,3.19,Vadinar SPM
+OMAN,Hormuz,560,1.70,New Mangalore
+QALS,Hormuz,420,1.28,Kochi (Puthuvypeen SPM)
+WTIM,Cape,1610,4.89,Sikka
+MARS,Cape,490,1.49,Paradip
+BONL,Cape,700,2.13,Kochi (Puthuvypeen SPM)
+QUAI,Cape,420,1.28,Visakhapatnam
+GIRA,Cape,420,1.28,New Mangalore
+TUPI,Cape,700,2.13,Sikka
+LIZA,Cape,560,1.70,Sikka
+CPCB,RedSea_Suez,490,1.49,Vadinar SPM
+JSVE,Cape,420,1.28,Kochi (Puthuvypeen SPM)

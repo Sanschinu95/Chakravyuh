@@ -1,0 +1,13 @@
+refinery_id,name,operator,state,lat,lon,capacity_kbd,api_min,api_max,sulfur_max_pct,nelson_complexity,primary_port,port_lat,port_lon,berth_capacity_kbd,product_share_diesel,product_share_gasoline
+JAM,Jamnagar DTA+SEZ,Reliance Industries,Gujarat,22.3450,70.0500,1240,18.0,45.0,3.60,14.0,Sikka,22.4200,69.8400,1450,0.42,0.24
+VAD,Vadinar,Nayara Energy,Gujarat,22.2800,69.7200,405,20.0,45.0,3.40,11.8,Vadinar SPM,22.3600,69.6300,470,0.44,0.22
+PAR,Paradip,Indian Oil Corporation,Odisha,20.2600,86.6700,300,22.0,42.0,3.20,12.2,Paradip,20.2650,86.6900,340,0.45,0.20
+KOC,Kochi,Bharat Petroleum,Kerala,9.9600,76.2600,310,24.0,44.0,2.50,11.0,Kochi (Puthuvypeen SPM),9.9800,76.2100,350,0.43,0.21
+PAN,Panipat,Indian Oil Corporation,Haryana,29.3900,76.9700,300,28.0,45.0,2.00,10.6,Vadinar SPM (pipeline),22.3600,69.6300,320,0.46,0.22
+MAN,Mangaluru,MRPL,Karnataka,12.9200,74.8300,300,25.0,44.0,2.50,9.5,New Mangalore,12.9300,74.8000,330,0.44,0.21
+VIS,Visakhapatnam,HPCL,Andhra Pradesh,17.7000,83.2200,300,26.0,44.0,2.20,8.9,Visakhapatnam,17.6900,83.2800,330,0.43,0.23
+MUM,Mumbai (Mahul),BPCL,Maharashtra,19.0000,72.8900,240,28.0,44.0,2.00,9.2,Mumbai (Butcher Island),18.9500,72.8700,270,0.42,0.24
+CHE,Manali Chennai,CPCL,Tamil Nadu,13.1600,80.2600,210,26.0,44.0,2.60,9.1,Chennai,13.1000,80.3000,240,0.45,0.20
+BAT,Bathinda,HMEL,Punjab,30.1500,74.9500,226,28.0,45.0,2.40,12.5,Mundra (pipeline),22.8400,69.7200,250,0.46,0.21
+BIN,Bina,BPCL-OQ,Madhya Pradesh,24.1800,78.1900,156,28.0,45.0,2.30,9.8,Vadinar SPM (pipeline),22.3600,69.6300,175,0.45,0.22
+MAT,Mathura,Indian Oil Corporation,Uttar Pradesh,27.4900,77.6700,160,30.0,45.0,1.80,9.4,Vadinar SPM (pipeline),22.3600,69.6300,180,0.44,0.23

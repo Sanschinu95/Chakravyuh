@@ -1,0 +1,22 @@
+supplier_id,grade,country,region,api_gravity,sulfur_pct,benchmark,pricing_formula,primary_corridor,load_port,load_lat,load_lon,max_liftable_kbd,spot_premium_usd_bbl,political_risk
+BASM,Basrah Medium,Iraq,Middle East,29.7,2.60,Oman/Dubai,Basrah Medium OSP = avg(Platts Oman+Dubai) + SOMO monthly diff,Hormuz,Basrah Oil Terminal,29.6800,48.8100,900,0.85,0.42
+BASH,Basrah Heavy,Iraq,Middle East,24.7,3.90,Oman/Dubai,Basrah Heavy OSP = avg(Platts Oman+Dubai) + SOMO monthly diff,Hormuz,Basrah Oil Terminal,29.6800,48.8100,450,0.60,0.42
+ARBL,Arab Light,Saudi Arabia,Middle East,32.8,1.80,Oman/Dubai,Saudi Aramco OSP Asia = avg(Platts Oman+Dubai) + monthly OSP diff,Hormuz,Ras Tanura,26.6400,50.1600,700,1.20,0.30
+ARBM,Arab Medium,Saudi Arabia,Middle East,30.5,2.55,Oman/Dubai,Saudi Aramco OSP Asia = avg(Platts Oman+Dubai) + monthly OSP diff,Hormuz,Ras Tanura,26.6400,50.1600,400,0.95,0.30
+MURB,Murban,UAE,Middle East,40.2,0.74,Murban Futures,IFAD Murban futures month-ahead settlement,Hormuz,Jebel Dhanna,24.1800,52.6000,600,1.35,0.26
+UZAK,Upper Zakum,UAE,Middle East,34.3,1.72,Murban Futures,ADNOC OSP = Murban futures + monthly diff,Hormuz,Zirku Island,24.8700,53.0700,350,1.05,0.26
+OMAN,Oman Export Blend,Oman,Middle East,33.2,1.10,DME Oman,DME Oman futures month-ahead settlement,Hormuz,Mina al Fahal,23.6300,58.5100,300,1.10,0.22
+QALS,Al-Shaheen,Qatar,Middle East,28.3,2.45,Oman/Dubai,QatarEnergy OSP = avg(Platts Oman+Dubai) + monthly diff,Hormuz,Ras Laffan,25.9100,51.5700,250,0.75,0.24
+URAL,Urals,Russia,Black Sea,31.0,1.50,Dated Brent,Dated Brent minus negotiated discount (delivered India),RedSea_Suez,Novorossiysk,44.7200,37.7900,900,-3.20,0.62
+URLB,Urals Baltic,Russia,Baltic,31.0,1.50,Dated Brent,Dated Brent minus negotiated discount (delivered India),Cape,Primorsk,60.3400,28.7300,600,-2.80,0.62
+ESPO,ESPO Blend,Russia,Far East,34.8,0.62,Dubai,Platts Dubai + negotiated diff (delivered India),Malacca,Kozmino,42.6900,133.0400,450,-1.90,0.62
+SOKL,Sokol,Russia,Far East,37.0,0.23,Dubai,Platts Dubai + negotiated diff,Malacca,De-Kastri,51.4700,140.7800,150,-1.40,0.62
+WTIM,WTI Midland,United States,Atlantic,40.5,0.42,Dated Brent,Dated Brent + WTI Midland differential (Argus AFRA),Cape,Corpus Christi,27.8100,-97.4000,500,1.55,0.10
+MARS,Mars Blend,United States,Atlantic,29.6,1.90,Dated Brent,Dated Brent + Mars differential,Cape,LOOP Louisiana,28.8900,-90.0300,200,1.10,0.10
+BONL,Bonny Light,Nigeria,West Africa,35.3,0.15,Dated Brent,Dated Brent + NNPC official differential,Cape,Bonny Terminal,4.4200,7.1500,250,1.85,0.48
+QUAI,Qua Iboe,Nigeria,West Africa,36.1,0.12,Dated Brent,Dated Brent + NNPC official differential,Cape,Qua Iboe Terminal,4.2600,8.0100,200,1.90,0.48
+GIRA,Girassol,Angola,West Africa,31.5,0.33,Dated Brent,Dated Brent + Sonangol differential,Cape,Girassol FPSO,-6.8500,11.6000,180,1.45,0.36
+TUPI,Tupi (Lula),Brazil,Latin America,29.4,0.37,Dated Brent,Dated Brent + Petrobras differential,Cape,Angra dos Reis,-23.0100,-44.3200,320,1.25,0.18
+LIZA,Liza,Guyana,Latin America,32.1,0.51,Dated Brent,Dated Brent + Exxon marketing differential,Cape,Liza Destiny FPSO,8.0500,-56.9000,300,1.40,0.20
+CPCB,CPC Blend,Kazakhstan,Caspian,45.3,0.55,Dated Brent,Dated Brent + CPC differential,RedSea_Suez,Novorossiysk CPC,44.6200,37.9000,280,0.90,0.34
+JSVE,Johan Sverdrup,Norway,North Sea,28.0,0.80,Dated Brent,Dated Brent + Equinor term differential,Cape,Mongstad,60.8100,5.0400,220,0.95,0.06

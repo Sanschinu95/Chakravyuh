@@ -1,0 +1,526 @@
+route_id,supplier_id,load_port,discharge_port,corridor,vessel_class,distance_nm,voyage_days,cargo_size_kb,chokepoints
+BASM-SIKK-VLC,BASM,Basrah Oil Terminal,Sikka,Hormuz,VLCC,1500,6.8,2000,Strait of Hormuz
+BASM-SIKK-SUE,BASM,Basrah Oil Terminal,Sikka,Hormuz,Suezmax,1500,6.6,1000,Strait of Hormuz
+BASM-SIKK-AFR,BASM,Basrah Oil Terminal,Sikka,Hormuz,Aframax,1500,6.6,650,Strait of Hormuz
+BASM-VADI-VLC,BASM,Basrah Oil Terminal,Vadinar SPM,Hormuz,VLCC,1520,6.9,2000,Strait of Hormuz
+BASM-VADI-SUE,BASM,Basrah Oil Terminal,Vadinar SPM,Hormuz,Suezmax,1520,6.7,1000,Strait of Hormuz
+BASM-VADI-AFR,BASM,Basrah Oil Terminal,Vadinar SPM,Hormuz,Aframax,1520,6.7,650,Strait of Hormuz
+BASM-MUND-VLC,BASM,Basrah Oil Terminal,Mundra,Hormuz,VLCC,1620,7.2,2000,Strait of Hormuz
+BASM-MUND-SUE,BASM,Basrah Oil Terminal,Mundra,Hormuz,Suezmax,1620,7.0,1000,Strait of Hormuz
+BASM-MUND-AFR,BASM,Basrah Oil Terminal,Mundra,Hormuz,Aframax,1620,7.0,650,Strait of Hormuz
+BASM-MUMB-SUE,BASM,Basrah Oil Terminal,Mumbai (Butcher Island),Hormuz,Suezmax,1880,7.8,1000,Strait of Hormuz
+BASM-MUMB-AFR,BASM,Basrah Oil Terminal,Mumbai (Butcher Island),Hormuz,Aframax,1880,7.8,650,Strait of Hormuz
+BASM-NEW-VLC,BASM,Basrah Oil Terminal,New Mangalore,Hormuz,VLCC,2330,9.5,2000,Strait of Hormuz
+BASM-NEW-SUE,BASM,Basrah Oil Terminal,New Mangalore,Hormuz,Suezmax,2330,9.2,1000,Strait of Hormuz
+BASM-NEW-AFR,BASM,Basrah Oil Terminal,New Mangalore,Hormuz,Aframax,2330,9.2,650,Strait of Hormuz
+BASM-KOCH-VLC,BASM,Basrah Oil Terminal,Kochi (Puthuvypeen SPM),Hormuz,VLCC,2550,10.2,2000,Strait of Hormuz
+BASM-KOCH-SUE,BASM,Basrah Oil Terminal,Kochi (Puthuvypeen SPM),Hormuz,Suezmax,2550,9.9,1000,Strait of Hormuz
+BASM-KOCH-AFR,BASM,Basrah Oil Terminal,Kochi (Puthuvypeen SPM),Hormuz,Aframax,2550,9.9,650,Strait of Hormuz
+BASM-CHEN-SUE,BASM,Basrah Oil Terminal,Chennai,Hormuz,Suezmax,3350,12.3,1000,Strait of Hormuz
+BASM-CHEN-AFR,BASM,Basrah Oil Terminal,Chennai,Hormuz,Aframax,3350,12.3,650,Strait of Hormuz
+BASM-VISA-VLC,BASM,Basrah Oil Terminal,Visakhapatnam,Hormuz,VLCC,3800,14.2,2000,Strait of Hormuz
+BASM-VISA-SUE,BASM,Basrah Oil Terminal,Visakhapatnam,Hormuz,Suezmax,3800,13.7,1000,Strait of Hormuz
+BASM-VISA-AFR,BASM,Basrah Oil Terminal,Visakhapatnam,Hormuz,Aframax,3800,13.7,650,Strait of Hormuz
+BASM-PARA-VLC,BASM,Basrah Oil Terminal,Paradip,Hormuz,VLCC,4150,15.3,2000,Strait of Hormuz
+BASM-PARA-SUE,BASM,Basrah Oil Terminal,Paradip,Hormuz,Suezmax,4150,14.8,1000,Strait of Hormuz
+BASM-PARA-AFR,BASM,Basrah Oil Terminal,Paradip,Hormuz,Aframax,4150,14.8,650,Strait of Hormuz
+BASH-SIKK-VLC,BASH,Basrah Oil Terminal,Sikka,Hormuz,VLCC,1500,6.8,2000,Strait of Hormuz
+BASH-SIKK-SUE,BASH,Basrah Oil Terminal,Sikka,Hormuz,Suezmax,1500,6.6,1000,Strait of Hormuz
+BASH-SIKK-AFR,BASH,Basrah Oil Terminal,Sikka,Hormuz,Aframax,1500,6.6,650,Strait of Hormuz
+BASH-VADI-VLC,BASH,Basrah Oil Terminal,Vadinar SPM,Hormuz,VLCC,1520,6.9,2000,Strait of Hormuz
+BASH-VADI-SUE,BASH,Basrah Oil Terminal,Vadinar SPM,Hormuz,Suezmax,1520,6.7,1000,Strait of Hormuz
+BASH-VADI-AFR,BASH,Basrah Oil Terminal,Vadinar SPM,Hormuz,Aframax,1520,6.7,650,Strait of Hormuz
+BASH-MUND-VLC,BASH,Basrah Oil Terminal,Mundra,Hormuz,VLCC,1620,7.2,2000,Strait of Hormuz
+BASH-MUND-SUE,BASH,Basrah Oil Terminal,Mundra,Hormuz,Suezmax,1620,7.0,1000,Strait of Hormuz
+BASH-MUND-AFR,BASH,Basrah Oil Terminal,Mundra,Hormuz,Aframax,1620,7.0,650,Strait of Hormuz
+BASH-MUMB-SUE,BASH,Basrah Oil Terminal,Mumbai (Butcher Island),Hormuz,Suezmax,1880,7.8,1000,Strait of Hormuz
+BASH-MUMB-AFR,BASH,Basrah Oil Terminal,Mumbai (Butcher Island),Hormuz,Aframax,1880,7.8,650,Strait of Hormuz
+BASH-NEW-VLC,BASH,Basrah Oil Terminal,New Mangalore,Hormuz,VLCC,2330,9.5,2000,Strait of Hormuz
+BASH-NEW-SUE,BASH,Basrah Oil Terminal,New Mangalore,Hormuz,Suezmax,2330,9.2,1000,Strait of Hormuz
+BASH-NEW-AFR,BASH,Basrah Oil Terminal,New Mangalore,Hormuz,Aframax,2330,9.2,650,Strait of Hormuz
+BASH-KOCH-VLC,BASH,Basrah Oil Terminal,Kochi (Puthuvypeen SPM),Hormuz,VLCC,2550,10.2,2000,Strait of Hormuz
+BASH-KOCH-SUE,BASH,Basrah Oil Terminal,Kochi (Puthuvypeen SPM),Hormuz,Suezmax,2550,9.9,1000,Strait of Hormuz
+BASH-KOCH-AFR,BASH,Basrah Oil Terminal,Kochi (Puthuvypeen SPM),Hormuz,Aframax,2550,9.9,650,Strait of Hormuz
+BASH-CHEN-SUE,BASH,Basrah Oil Terminal,Chennai,Hormuz,Suezmax,3350,12.3,1000,Strait of Hormuz
+BASH-CHEN-AFR,BASH,Basrah Oil Terminal,Chennai,Hormuz,Aframax,3350,12.3,650,Strait of Hormuz
+BASH-VISA-VLC,BASH,Basrah Oil Terminal,Visakhapatnam,Hormuz,VLCC,3800,14.2,2000,Strait of Hormuz
+BASH-VISA-SUE,BASH,Basrah Oil Terminal,Visakhapatnam,Hormuz,Suezmax,3800,13.7,1000,Strait of Hormuz
+BASH-VISA-AFR,BASH,Basrah Oil Terminal,Visakhapatnam,Hormuz,Aframax,3800,13.7,650,Strait of Hormuz
+BASH-PARA-VLC,BASH,Basrah Oil Terminal,Paradip,Hormuz,VLCC,4150,15.3,2000,Strait of Hormuz
+BASH-PARA-SUE,BASH,Basrah Oil Terminal,Paradip,Hormuz,Suezmax,4150,14.8,1000,Strait of Hormuz
+BASH-PARA-AFR,BASH,Basrah Oil Terminal,Paradip,Hormuz,Aframax,4150,14.8,650,Strait of Hormuz
+ARBL-SIKK-VLC,ARBL,Ras Tanura,Sikka,Hormuz,VLCC,1550,7.0,2000,Strait of Hormuz
+ARBL-SIKK-SUE,ARBL,Ras Tanura,Sikka,Hormuz,Suezmax,1550,6.8,1000,Strait of Hormuz
+ARBL-SIKK-AFR,ARBL,Ras Tanura,Sikka,Hormuz,Aframax,1550,6.8,650,Strait of Hormuz
+ARBL-VADI-VLC,ARBL,Ras Tanura,Vadinar SPM,Hormuz,VLCC,1570,7.0,2000,Strait of Hormuz
+ARBL-VADI-SUE,ARBL,Ras Tanura,Vadinar SPM,Hormuz,Suezmax,1570,6.8,1000,Strait of Hormuz
+ARBL-VADI-AFR,ARBL,Ras Tanura,Vadinar SPM,Hormuz,Aframax,1570,6.8,650,Strait of Hormuz
+ARBL-MUND-VLC,ARBL,Ras Tanura,Mundra,Hormuz,VLCC,1670,7.4,2000,Strait of Hormuz
+ARBL-MUND-SUE,ARBL,Ras Tanura,Mundra,Hormuz,Suezmax,1670,7.2,1000,Strait of Hormuz
+ARBL-MUND-AFR,ARBL,Ras Tanura,Mundra,Hormuz,Aframax,1670,7.2,650,Strait of Hormuz
+ARBL-MUMB-SUE,ARBL,Ras Tanura,Mumbai (Butcher Island),Hormuz,Suezmax,1930,8.0,1000,Strait of Hormuz
+ARBL-MUMB-AFR,ARBL,Ras Tanura,Mumbai (Butcher Island),Hormuz,Aframax,1930,8.0,650,Strait of Hormuz
+ARBL-NEW-VLC,ARBL,Ras Tanura,New Mangalore,Hormuz,VLCC,2380,9.6,2000,Strait of Hormuz
+ARBL-NEW-SUE,ARBL,Ras Tanura,New Mangalore,Hormuz,Suezmax,2380,9.3,1000,Strait of Hormuz
+ARBL-NEW-AFR,ARBL,Ras Tanura,New Mangalore,Hormuz,Aframax,2380,9.3,650,Strait of Hormuz
+ARBL-KOCH-VLC,ARBL,Ras Tanura,Kochi (Puthuvypeen SPM),Hormuz,VLCC,2600,10.3,2000,Strait of Hormuz
+ARBL-KOCH-SUE,ARBL,Ras Tanura,Kochi (Puthuvypeen SPM),Hormuz,Suezmax,2600,10.0,1000,Strait of Hormuz
+ARBL-KOCH-AFR,ARBL,Ras Tanura,Kochi (Puthuvypeen SPM),Hormuz,Aframax,2600,10.0,650,Strait of Hormuz
+ARBL-CHEN-SUE,ARBL,Ras Tanura,Chennai,Hormuz,Suezmax,3400,12.5,1000,Strait of Hormuz
+ARBL-CHEN-AFR,ARBL,Ras Tanura,Chennai,Hormuz,Aframax,3400,12.5,650,Strait of Hormuz
+ARBL-VISA-VLC,ARBL,Ras Tanura,Visakhapatnam,Hormuz,VLCC,3850,14.3,2000,Strait of Hormuz
+ARBL-VISA-SUE,ARBL,Ras Tanura,Visakhapatnam,Hormuz,Suezmax,3850,13.9,1000,Strait of Hormuz
+ARBL-VISA-AFR,ARBL,Ras Tanura,Visakhapatnam,Hormuz,Aframax,3850,13.9,650,Strait of Hormuz
+ARBL-PARA-VLC,ARBL,Ras Tanura,Paradip,Hormuz,VLCC,4200,15.5,2000,Strait of Hormuz
+ARBL-PARA-SUE,ARBL,Ras Tanura,Paradip,Hormuz,Suezmax,4200,15.0,1000,Strait of Hormuz
+ARBL-PARA-AFR,ARBL,Ras Tanura,Paradip,Hormuz,Aframax,4200,15.0,650,Strait of Hormuz
+ARBM-SIKK-VLC,ARBM,Ras Tanura,Sikka,Hormuz,VLCC,1550,7.0,2000,Strait of Hormuz
+ARBM-SIKK-SUE,ARBM,Ras Tanura,Sikka,Hormuz,Suezmax,1550,6.8,1000,Strait of Hormuz
+ARBM-SIKK-AFR,ARBM,Ras Tanura,Sikka,Hormuz,Aframax,1550,6.8,650,Strait of Hormuz
+ARBM-VADI-VLC,ARBM,Ras Tanura,Vadinar SPM,Hormuz,VLCC,1570,7.0,2000,Strait of Hormuz
+ARBM-VADI-SUE,ARBM,Ras Tanura,Vadinar SPM,Hormuz,Suezmax,1570,6.8,1000,Strait of Hormuz
+ARBM-VADI-AFR,ARBM,Ras Tanura,Vadinar SPM,Hormuz,Aframax,1570,6.8,650,Strait of Hormuz
+ARBM-MUND-VLC,ARBM,Ras Tanura,Mundra,Hormuz,VLCC,1670,7.4,2000,Strait of Hormuz
+ARBM-MUND-SUE,ARBM,Ras Tanura,Mundra,Hormuz,Suezmax,1670,7.2,1000,Strait of Hormuz
+ARBM-MUND-AFR,ARBM,Ras Tanura,Mundra,Hormuz,Aframax,1670,7.2,650,Strait of Hormuz
+ARBM-MUMB-SUE,ARBM,Ras Tanura,Mumbai (Butcher Island),Hormuz,Suezmax,1930,8.0,1000,Strait of Hormuz
+ARBM-MUMB-AFR,ARBM,Ras Tanura,Mumbai (Butcher Island),Hormuz,Aframax,1930,8.0,650,Strait of Hormuz
+ARBM-NEW-VLC,ARBM,Ras Tanura,New Mangalore,Hormuz,VLCC,2380,9.6,2000,Strait of Hormuz
+ARBM-NEW-SUE,ARBM,Ras Tanura,New Mangalore,Hormuz,Suezmax,2380,9.3,1000,Strait of Hormuz
+ARBM-NEW-AFR,ARBM,Ras Tanura,New Mangalore,Hormuz,Aframax,2380,9.3,650,Strait of Hormuz
+ARBM-KOCH-VLC,ARBM,Ras Tanura,Kochi (Puthuvypeen SPM),Hormuz,VLCC,2600,10.3,2000,Strait of Hormuz
+ARBM-KOCH-SUE,ARBM,Ras Tanura,Kochi (Puthuvypeen SPM),Hormuz,Suezmax,2600,10.0,1000,Strait of Hormuz
+ARBM-KOCH-AFR,ARBM,Ras Tanura,Kochi (Puthuvypeen SPM),Hormuz,Aframax,2600,10.0,650,Strait of Hormuz
+ARBM-CHEN-SUE,ARBM,Ras Tanura,Chennai,Hormuz,Suezmax,3400,12.5,1000,Strait of Hormuz
+ARBM-CHEN-AFR,ARBM,Ras Tanura,Chennai,Hormuz,Aframax,3400,12.5,650,Strait of Hormuz
+ARBM-VISA-VLC,ARBM,Ras Tanura,Visakhapatnam,Hormuz,VLCC,3850,14.3,2000,Strait of Hormuz
+ARBM-VISA-SUE,ARBM,Ras Tanura,Visakhapatnam,Hormuz,Suezmax,3850,13.9,1000,Strait of Hormuz
+ARBM-VISA-AFR,ARBM,Ras Tanura,Visakhapatnam,Hormuz,Aframax,3850,13.9,650,Strait of Hormuz
+ARBM-PARA-VLC,ARBM,Ras Tanura,Paradip,Hormuz,VLCC,4200,15.5,2000,Strait of Hormuz
+ARBM-PARA-SUE,ARBM,Ras Tanura,Paradip,Hormuz,Suezmax,4200,15.0,1000,Strait of Hormuz
+ARBM-PARA-AFR,ARBM,Ras Tanura,Paradip,Hormuz,Aframax,4200,15.0,650,Strait of Hormuz
+MURB-SIKK-VLC,MURB,Jebel Dhanna,Sikka,Hormuz,VLCC,1200,5.8,2000,Strait of Hormuz
+MURB-SIKK-SUE,MURB,Jebel Dhanna,Sikka,Hormuz,Suezmax,1200,5.7,1000,Strait of Hormuz
+MURB-SIKK-AFR,MURB,Jebel Dhanna,Sikka,Hormuz,Aframax,1200,5.7,650,Strait of Hormuz
+MURB-VADI-VLC,MURB,Jebel Dhanna,Vadinar SPM,Hormuz,VLCC,1220,5.9,2000,Strait of Hormuz
+MURB-VADI-SUE,MURB,Jebel Dhanna,Vadinar SPM,Hormuz,Suezmax,1220,5.8,1000,Strait of Hormuz
+MURB-VADI-AFR,MURB,Jebel Dhanna,Vadinar SPM,Hormuz,Aframax,1220,5.8,650,Strait of Hormuz
+MURB-MUND-VLC,MURB,Jebel Dhanna,Mundra,Hormuz,VLCC,1320,6.2,2000,Strait of Hormuz
+MURB-MUND-SUE,MURB,Jebel Dhanna,Mundra,Hormuz,Suezmax,1320,6.1,1000,Strait of Hormuz
+MURB-MUND-AFR,MURB,Jebel Dhanna,Mundra,Hormuz,Aframax,1320,6.1,650,Strait of Hormuz
+MURB-MUMB-SUE,MURB,Jebel Dhanna,Mumbai (Butcher Island),Hormuz,Suezmax,1580,6.9,1000,Strait of Hormuz
+MURB-MUMB-AFR,MURB,Jebel Dhanna,Mumbai (Butcher Island),Hormuz,Aframax,1580,6.9,650,Strait of Hormuz
+MURB-NEW-VLC,MURB,Jebel Dhanna,New Mangalore,Hormuz,VLCC,2030,8.5,2000,Strait of Hormuz
+MURB-NEW-SUE,MURB,Jebel Dhanna,New Mangalore,Hormuz,Suezmax,2030,8.3,1000,Strait of Hormuz
+MURB-NEW-AFR,MURB,Jebel Dhanna,New Mangalore,Hormuz,Aframax,2030,8.3,650,Strait of Hormuz
+MURB-KOCH-VLC,MURB,Jebel Dhanna,Kochi (Puthuvypeen SPM),Hormuz,VLCC,2250,9.2,2000,Strait of Hormuz
+MURB-KOCH-SUE,MURB,Jebel Dhanna,Kochi (Puthuvypeen SPM),Hormuz,Suezmax,2250,8.9,1000,Strait of Hormuz
+MURB-KOCH-AFR,MURB,Jebel Dhanna,Kochi (Puthuvypeen SPM),Hormuz,Aframax,2250,8.9,650,Strait of Hormuz
+MURB-CHEN-SUE,MURB,Jebel Dhanna,Chennai,Hormuz,Suezmax,3050,11.4,1000,Strait of Hormuz
+MURB-CHEN-AFR,MURB,Jebel Dhanna,Chennai,Hormuz,Aframax,3050,11.4,650,Strait of Hormuz
+MURB-VISA-VLC,MURB,Jebel Dhanna,Visakhapatnam,Hormuz,VLCC,3500,13.2,2000,Strait of Hormuz
+MURB-VISA-SUE,MURB,Jebel Dhanna,Visakhapatnam,Hormuz,Suezmax,3500,12.8,1000,Strait of Hormuz
+MURB-VISA-AFR,MURB,Jebel Dhanna,Visakhapatnam,Hormuz,Aframax,3500,12.8,650,Strait of Hormuz
+MURB-PARA-VLC,MURB,Jebel Dhanna,Paradip,Hormuz,VLCC,3850,14.3,2000,Strait of Hormuz
+MURB-PARA-SUE,MURB,Jebel Dhanna,Paradip,Hormuz,Suezmax,3850,13.9,1000,Strait of Hormuz
+MURB-PARA-AFR,MURB,Jebel Dhanna,Paradip,Hormuz,Aframax,3850,13.9,650,Strait of Hormuz
+UZAK-SIKK-VLC,UZAK,Zirku Island,Sikka,Hormuz,VLCC,1220,5.9,2000,Strait of Hormuz
+UZAK-SIKK-SUE,UZAK,Zirku Island,Sikka,Hormuz,Suezmax,1220,5.8,1000,Strait of Hormuz
+UZAK-SIKK-AFR,UZAK,Zirku Island,Sikka,Hormuz,Aframax,1220,5.8,650,Strait of Hormuz
+UZAK-VADI-VLC,UZAK,Zirku Island,Vadinar SPM,Hormuz,VLCC,1240,6.0,2000,Strait of Hormuz
+UZAK-VADI-SUE,UZAK,Zirku Island,Vadinar SPM,Hormuz,Suezmax,1240,5.8,1000,Strait of Hormuz
+UZAK-VADI-AFR,UZAK,Zirku Island,Vadinar SPM,Hormuz,Aframax,1240,5.8,650,Strait of Hormuz
+UZAK-MUND-VLC,UZAK,Zirku Island,Mundra,Hormuz,VLCC,1340,6.3,2000,Strait of Hormuz
+UZAK-MUND-SUE,UZAK,Zirku Island,Mundra,Hormuz,Suezmax,1340,6.1,1000,Strait of Hormuz
+UZAK-MUND-AFR,UZAK,Zirku Island,Mundra,Hormuz,Aframax,1340,6.1,650,Strait of Hormuz
+UZAK-MUMB-SUE,UZAK,Zirku Island,Mumbai (Butcher Island),Hormuz,Suezmax,1600,6.9,1000,Strait of Hormuz
+UZAK-MUMB-AFR,UZAK,Zirku Island,Mumbai (Butcher Island),Hormuz,Aframax,1600,6.9,650,Strait of Hormuz
+UZAK-NEW-VLC,UZAK,Zirku Island,New Mangalore,Hormuz,VLCC,2050,8.6,2000,Strait of Hormuz
+UZAK-NEW-SUE,UZAK,Zirku Island,New Mangalore,Hormuz,Suezmax,2050,8.3,1000,Strait of Hormuz
+UZAK-NEW-AFR,UZAK,Zirku Island,New Mangalore,Hormuz,Aframax,2050,8.3,650,Strait of Hormuz
+UZAK-KOCH-VLC,UZAK,Zirku Island,Kochi (Puthuvypeen SPM),Hormuz,VLCC,2270,9.3,2000,Strait of Hormuz
+UZAK-KOCH-SUE,UZAK,Zirku Island,Kochi (Puthuvypeen SPM),Hormuz,Suezmax,2270,9.0,1000,Strait of Hormuz
+UZAK-KOCH-AFR,UZAK,Zirku Island,Kochi (Puthuvypeen SPM),Hormuz,Aframax,2270,9.0,650,Strait of Hormuz
+UZAK-CHEN-SUE,UZAK,Zirku Island,Chennai,Hormuz,Suezmax,3070,11.5,1000,Strait of Hormuz
+UZAK-CHEN-AFR,UZAK,Zirku Island,Chennai,Hormuz,Aframax,3070,11.5,650,Strait of Hormuz
+UZAK-VISA-VLC,UZAK,Zirku Island,Visakhapatnam,Hormuz,VLCC,3520,13.3,2000,Strait of Hormuz
+UZAK-VISA-SUE,UZAK,Zirku Island,Visakhapatnam,Hormuz,Suezmax,3520,12.9,1000,Strait of Hormuz
+UZAK-VISA-AFR,UZAK,Zirku Island,Visakhapatnam,Hormuz,Aframax,3520,12.9,650,Strait of Hormuz
+UZAK-PARA-VLC,UZAK,Zirku Island,Paradip,Hormuz,VLCC,3870,14.4,2000,Strait of Hormuz
+UZAK-PARA-SUE,UZAK,Zirku Island,Paradip,Hormuz,Suezmax,3870,13.9,1000,Strait of Hormuz
+UZAK-PARA-AFR,UZAK,Zirku Island,Paradip,Hormuz,Aframax,3870,13.9,650,Strait of Hormuz
+OMAN-SIKK-VLC,OMAN,Mina al Fahal,Sikka,Hormuz,VLCC,900,4.9,2000,Strait of Hormuz
+OMAN-SIKK-SUE,OMAN,Mina al Fahal,Sikka,Hormuz,Suezmax,900,4.8,1000,Strait of Hormuz
+OMAN-SIKK-AFR,OMAN,Mina al Fahal,Sikka,Hormuz,Aframax,900,4.8,650,Strait of Hormuz
+OMAN-VADI-VLC,OMAN,Mina al Fahal,Vadinar SPM,Hormuz,VLCC,920,4.9,2000,Strait of Hormuz
+OMAN-VADI-SUE,OMAN,Mina al Fahal,Vadinar SPM,Hormuz,Suezmax,920,4.8,1000,Strait of Hormuz
+OMAN-VADI-AFR,OMAN,Mina al Fahal,Vadinar SPM,Hormuz,Aframax,920,4.8,650,Strait of Hormuz
+OMAN-MUND-VLC,OMAN,Mina al Fahal,Mundra,Hormuz,VLCC,1020,5.3,2000,Strait of Hormuz
+OMAN-MUND-SUE,OMAN,Mina al Fahal,Mundra,Hormuz,Suezmax,1020,5.1,1000,Strait of Hormuz
+OMAN-MUND-AFR,OMAN,Mina al Fahal,Mundra,Hormuz,Aframax,1020,5.1,650,Strait of Hormuz
+OMAN-MUMB-SUE,OMAN,Mina al Fahal,Mumbai (Butcher Island),Hormuz,Suezmax,1280,6.0,1000,Strait of Hormuz
+OMAN-MUMB-AFR,OMAN,Mina al Fahal,Mumbai (Butcher Island),Hormuz,Aframax,1280,6.0,650,Strait of Hormuz
+OMAN-NEW-VLC,OMAN,Mina al Fahal,New Mangalore,Hormuz,VLCC,1730,7.5,2000,Strait of Hormuz
+OMAN-NEW-SUE,OMAN,Mina al Fahal,New Mangalore,Hormuz,Suezmax,1730,7.3,1000,Strait of Hormuz
+OMAN-NEW-AFR,OMAN,Mina al Fahal,New Mangalore,Hormuz,Aframax,1730,7.3,650,Strait of Hormuz
+OMAN-KOCH-VLC,OMAN,Mina al Fahal,Kochi (Puthuvypeen SPM),Hormuz,VLCC,1950,8.2,2000,Strait of Hormuz
+OMAN-KOCH-SUE,OMAN,Mina al Fahal,Kochi (Puthuvypeen SPM),Hormuz,Suezmax,1950,8.0,1000,Strait of Hormuz
+OMAN-KOCH-AFR,OMAN,Mina al Fahal,Kochi (Puthuvypeen SPM),Hormuz,Aframax,1950,8.0,650,Strait of Hormuz
+OMAN-CHEN-SUE,OMAN,Mina al Fahal,Chennai,Hormuz,Suezmax,2750,10.5,1000,Strait of Hormuz
+OMAN-CHEN-AFR,OMAN,Mina al Fahal,Chennai,Hormuz,Aframax,2750,10.5,650,Strait of Hormuz
+OMAN-VISA-VLC,OMAN,Mina al Fahal,Visakhapatnam,Hormuz,VLCC,3200,12.3,2000,Strait of Hormuz
+OMAN-VISA-SUE,OMAN,Mina al Fahal,Visakhapatnam,Hormuz,Suezmax,3200,11.9,1000,Strait of Hormuz
+OMAN-VISA-AFR,OMAN,Mina al Fahal,Visakhapatnam,Hormuz,Aframax,3200,11.9,650,Strait of Hormuz
+OMAN-PARA-VLC,OMAN,Mina al Fahal,Paradip,Hormuz,VLCC,3550,13.4,2000,Strait of Hormuz
+OMAN-PARA-SUE,OMAN,Mina al Fahal,Paradip,Hormuz,Suezmax,3550,13.0,1000,Strait of Hormuz
+OMAN-PARA-AFR,OMAN,Mina al Fahal,Paradip,Hormuz,Aframax,3550,13.0,650,Strait of Hormuz
+QALS-SIKK-VLC,QALS,Ras Laffan,Sikka,Hormuz,VLCC,1350,6.3,2000,Strait of Hormuz
+QALS-SIKK-SUE,QALS,Ras Laffan,Sikka,Hormuz,Suezmax,1350,6.2,1000,Strait of Hormuz
+QALS-SIKK-AFR,QALS,Ras Laffan,Sikka,Hormuz,Aframax,1350,6.2,650,Strait of Hormuz
+QALS-VADI-VLC,QALS,Ras Laffan,Vadinar SPM,Hormuz,VLCC,1370,6.4,2000,Strait of Hormuz
+QALS-VADI-SUE,QALS,Ras Laffan,Vadinar SPM,Hormuz,Suezmax,1370,6.2,1000,Strait of Hormuz
+QALS-VADI-AFR,QALS,Ras Laffan,Vadinar SPM,Hormuz,Aframax,1370,6.2,650,Strait of Hormuz
+QALS-MUND-VLC,QALS,Ras Laffan,Mundra,Hormuz,VLCC,1470,6.7,2000,Strait of Hormuz
+QALS-MUND-SUE,QALS,Ras Laffan,Mundra,Hormuz,Suezmax,1470,6.5,1000,Strait of Hormuz
+QALS-MUND-AFR,QALS,Ras Laffan,Mundra,Hormuz,Aframax,1470,6.5,650,Strait of Hormuz
+QALS-MUMB-SUE,QALS,Ras Laffan,Mumbai (Butcher Island),Hormuz,Suezmax,1730,7.3,1000,Strait of Hormuz
+QALS-MUMB-AFR,QALS,Ras Laffan,Mumbai (Butcher Island),Hormuz,Aframax,1730,7.3,650,Strait of Hormuz
+QALS-NEW-VLC,QALS,Ras Laffan,New Mangalore,Hormuz,VLCC,2180,9.0,2000,Strait of Hormuz
+QALS-NEW-SUE,QALS,Ras Laffan,New Mangalore,Hormuz,Suezmax,2180,8.7,1000,Strait of Hormuz
+QALS-NEW-AFR,QALS,Ras Laffan,New Mangalore,Hormuz,Aframax,2180,8.7,650,Strait of Hormuz
+QALS-KOCH-VLC,QALS,Ras Laffan,Kochi (Puthuvypeen SPM),Hormuz,VLCC,2400,9.7,2000,Strait of Hormuz
+QALS-KOCH-SUE,QALS,Ras Laffan,Kochi (Puthuvypeen SPM),Hormuz,Suezmax,2400,9.4,1000,Strait of Hormuz
+QALS-KOCH-AFR,QALS,Ras Laffan,Kochi (Puthuvypeen SPM),Hormuz,Aframax,2400,9.4,650,Strait of Hormuz
+QALS-CHEN-SUE,QALS,Ras Laffan,Chennai,Hormuz,Suezmax,3200,11.9,1000,Strait of Hormuz
+QALS-CHEN-AFR,QALS,Ras Laffan,Chennai,Hormuz,Aframax,3200,11.9,650,Strait of Hormuz
+QALS-VISA-VLC,QALS,Ras Laffan,Visakhapatnam,Hormuz,VLCC,3650,13.7,2000,Strait of Hormuz
+QALS-VISA-SUE,QALS,Ras Laffan,Visakhapatnam,Hormuz,Suezmax,3650,13.3,1000,Strait of Hormuz
+QALS-VISA-AFR,QALS,Ras Laffan,Visakhapatnam,Hormuz,Aframax,3650,13.3,650,Strait of Hormuz
+QALS-PARA-VLC,QALS,Ras Laffan,Paradip,Hormuz,VLCC,4000,14.8,2000,Strait of Hormuz
+QALS-PARA-SUE,QALS,Ras Laffan,Paradip,Hormuz,Suezmax,4000,14.3,1000,Strait of Hormuz
+QALS-PARA-AFR,QALS,Ras Laffan,Paradip,Hormuz,Aframax,4000,14.3,650,Strait of Hormuz
+URAL-SIKK-VLC,URAL,Novorossiysk,Sikka,RedSea_Suez,VLCC,4600,16.7,2000,Bab el-Mandeb|Suez Canal
+URAL-SIKK-SUE,URAL,Novorossiysk,Sikka,RedSea_Suez,Suezmax,4600,16.2,1000,Bab el-Mandeb|Suez Canal
+URAL-SIKK-AFR,URAL,Novorossiysk,Sikka,RedSea_Suez,Aframax,4600,16.2,650,Bab el-Mandeb|Suez Canal
+URAL-VADI-VLC,URAL,Novorossiysk,Vadinar SPM,RedSea_Suez,VLCC,4620,16.8,2000,Bab el-Mandeb|Suez Canal
+URAL-VADI-SUE,URAL,Novorossiysk,Vadinar SPM,RedSea_Suez,Suezmax,4620,16.3,1000,Bab el-Mandeb|Suez Canal
+URAL-VADI-AFR,URAL,Novorossiysk,Vadinar SPM,RedSea_Suez,Aframax,4620,16.3,650,Bab el-Mandeb|Suez Canal
+URAL-MUND-VLC,URAL,Novorossiysk,Mundra,RedSea_Suez,VLCC,4720,17.1,2000,Bab el-Mandeb|Suez Canal
+URAL-MUND-SUE,URAL,Novorossiysk,Mundra,RedSea_Suez,Suezmax,4720,16.6,1000,Bab el-Mandeb|Suez Canal
+URAL-MUND-AFR,URAL,Novorossiysk,Mundra,RedSea_Suez,Aframax,4720,16.6,650,Bab el-Mandeb|Suez Canal
+URAL-MUMB-SUE,URAL,Novorossiysk,Mumbai (Butcher Island),RedSea_Suez,Suezmax,4980,17.4,1000,Bab el-Mandeb|Suez Canal
+URAL-MUMB-AFR,URAL,Novorossiysk,Mumbai (Butcher Island),RedSea_Suez,Aframax,4980,17.4,650,Bab el-Mandeb|Suez Canal
+URAL-NEW-VLC,URAL,Novorossiysk,New Mangalore,RedSea_Suez,VLCC,5430,19.4,2000,Bab el-Mandeb|Suez Canal
+URAL-NEW-SUE,URAL,Novorossiysk,New Mangalore,RedSea_Suez,Suezmax,5430,18.8,1000,Bab el-Mandeb|Suez Canal
+URAL-NEW-AFR,URAL,Novorossiysk,New Mangalore,RedSea_Suez,Aframax,5430,18.8,650,Bab el-Mandeb|Suez Canal
+URAL-KOCH-VLC,URAL,Novorossiysk,Kochi (Puthuvypeen SPM),RedSea_Suez,VLCC,5650,20.1,2000,Bab el-Mandeb|Suez Canal
+URAL-KOCH-SUE,URAL,Novorossiysk,Kochi (Puthuvypeen SPM),RedSea_Suez,Suezmax,5650,19.4,1000,Bab el-Mandeb|Suez Canal
+URAL-KOCH-AFR,URAL,Novorossiysk,Kochi (Puthuvypeen SPM),RedSea_Suez,Aframax,5650,19.4,650,Bab el-Mandeb|Suez Canal
+URAL-CHEN-SUE,URAL,Novorossiysk,Chennai,RedSea_Suez,Suezmax,6450,21.9,1000,Bab el-Mandeb|Suez Canal
+URAL-CHEN-AFR,URAL,Novorossiysk,Chennai,RedSea_Suez,Aframax,6450,21.9,650,Bab el-Mandeb|Suez Canal
+URAL-VISA-VLC,URAL,Novorossiysk,Visakhapatnam,RedSea_Suez,VLCC,6900,24.1,2000,Bab el-Mandeb|Suez Canal
+URAL-VISA-SUE,URAL,Novorossiysk,Visakhapatnam,RedSea_Suez,Suezmax,6900,23.3,1000,Bab el-Mandeb|Suez Canal
+URAL-VISA-AFR,URAL,Novorossiysk,Visakhapatnam,RedSea_Suez,Aframax,6900,23.3,650,Bab el-Mandeb|Suez Canal
+URAL-PARA-VLC,URAL,Novorossiysk,Paradip,RedSea_Suez,VLCC,7250,25.2,2000,Bab el-Mandeb|Suez Canal
+URAL-PARA-SUE,URAL,Novorossiysk,Paradip,RedSea_Suez,Suezmax,7250,24.4,1000,Bab el-Mandeb|Suez Canal
+URAL-PARA-AFR,URAL,Novorossiysk,Paradip,RedSea_Suez,Aframax,7250,24.4,650,Bab el-Mandeb|Suez Canal
+URLB-SIKK-VLC,URLB,Primorsk,Sikka,Cape,VLCC,11500,38.9,2000,Danish Straits|Cape of Good Hope
+URLB-SIKK-SUE,URLB,Primorsk,Sikka,Cape,Suezmax,11500,37.5,1000,Danish Straits|Cape of Good Hope
+URLB-SIKK-AFR,URLB,Primorsk,Sikka,Cape,Aframax,11500,37.5,650,Danish Straits|Cape of Good Hope
+URLB-VADI-VLC,URLB,Primorsk,Vadinar SPM,Cape,VLCC,11520,38.9,2000,Danish Straits|Cape of Good Hope
+URLB-VADI-SUE,URLB,Primorsk,Vadinar SPM,Cape,Suezmax,11520,37.6,1000,Danish Straits|Cape of Good Hope
+URLB-VADI-AFR,URLB,Primorsk,Vadinar SPM,Cape,Aframax,11520,37.6,650,Danish Straits|Cape of Good Hope
+URLB-MUND-VLC,URLB,Primorsk,Mundra,Cape,VLCC,11620,39.2,2000,Danish Straits|Cape of Good Hope
+URLB-MUND-SUE,URLB,Primorsk,Mundra,Cape,Suezmax,11620,37.9,1000,Danish Straits|Cape of Good Hope
+URLB-MUND-AFR,URLB,Primorsk,Mundra,Cape,Aframax,11620,37.9,650,Danish Straits|Cape of Good Hope
+URLB-MUMB-SUE,URLB,Primorsk,Mumbai (Butcher Island),Cape,Suezmax,11880,38.7,1000,Danish Straits|Cape of Good Hope
+URLB-MUMB-AFR,URLB,Primorsk,Mumbai (Butcher Island),Cape,Aframax,11880,38.7,650,Danish Straits|Cape of Good Hope
+URLB-NEW-VLC,URLB,Primorsk,New Mangalore,Cape,VLCC,12330,41.5,2000,Danish Straits|Cape of Good Hope
+URLB-NEW-SUE,URLB,Primorsk,New Mangalore,Cape,Suezmax,12330,40.1,1000,Danish Straits|Cape of Good Hope
+URLB-NEW-AFR,URLB,Primorsk,New Mangalore,Cape,Aframax,12330,40.1,650,Danish Straits|Cape of Good Hope
+URLB-KOCH-VLC,URLB,Primorsk,Kochi (Puthuvypeen SPM),Cape,VLCC,12550,42.2,2000,Danish Straits|Cape of Good Hope
+URLB-KOCH-SUE,URLB,Primorsk,Kochi (Puthuvypeen SPM),Cape,Suezmax,12550,40.7,1000,Danish Straits|Cape of Good Hope
+URLB-KOCH-AFR,URLB,Primorsk,Kochi (Puthuvypeen SPM),Cape,Aframax,12550,40.7,650,Danish Straits|Cape of Good Hope
+URLB-CHEN-SUE,URLB,Primorsk,Chennai,Cape,Suezmax,13350,43.2,1000,Danish Straits|Cape of Good Hope
+URLB-CHEN-AFR,URLB,Primorsk,Chennai,Cape,Aframax,13350,43.2,650,Danish Straits|Cape of Good Hope
+URLB-VISA-VLC,URLB,Primorsk,Visakhapatnam,Cape,VLCC,13800,46.2,2000,Danish Straits|Cape of Good Hope
+URLB-VISA-SUE,URLB,Primorsk,Visakhapatnam,Cape,Suezmax,13800,44.6,1000,Danish Straits|Cape of Good Hope
+URLB-VISA-AFR,URLB,Primorsk,Visakhapatnam,Cape,Aframax,13800,44.6,650,Danish Straits|Cape of Good Hope
+URLB-PARA-VLC,URLB,Primorsk,Paradip,Cape,VLCC,14150,47.4,2000,Danish Straits|Cape of Good Hope
+URLB-PARA-SUE,URLB,Primorsk,Paradip,Cape,Suezmax,14150,45.7,1000,Danish Straits|Cape of Good Hope
+URLB-PARA-AFR,URLB,Primorsk,Paradip,Cape,Aframax,14150,45.7,650,Danish Straits|Cape of Good Hope
+ESPO-SIKK-VLC,ESPO,Kozmino,Sikka,Malacca,VLCC,5600,19.9,2000,Strait of Malacca
+ESPO-SIKK-SUE,ESPO,Kozmino,Sikka,Malacca,Suezmax,5600,19.3,1000,Strait of Malacca
+ESPO-SIKK-AFR,ESPO,Kozmino,Sikka,Malacca,Aframax,5600,19.3,650,Strait of Malacca
+ESPO-VADI-VLC,ESPO,Kozmino,Vadinar SPM,Malacca,VLCC,5620,20.0,2000,Strait of Malacca
+ESPO-VADI-SUE,ESPO,Kozmino,Vadinar SPM,Malacca,Suezmax,5620,19.3,1000,Strait of Malacca
+ESPO-VADI-AFR,ESPO,Kozmino,Vadinar SPM,Malacca,Aframax,5620,19.3,650,Strait of Malacca
+ESPO-MUND-VLC,ESPO,Kozmino,Mundra,Malacca,VLCC,5720,20.3,2000,Strait of Malacca
+ESPO-MUND-SUE,ESPO,Kozmino,Mundra,Malacca,Suezmax,5720,19.7,1000,Strait of Malacca
+ESPO-MUND-AFR,ESPO,Kozmino,Mundra,Malacca,Aframax,5720,19.7,650,Strait of Malacca
+ESPO-MUMB-SUE,ESPO,Kozmino,Mumbai (Butcher Island),Malacca,Suezmax,5980,20.5,1000,Strait of Malacca
+ESPO-MUMB-AFR,ESPO,Kozmino,Mumbai (Butcher Island),Malacca,Aframax,5980,20.5,650,Strait of Malacca
+ESPO-NEW-VLC,ESPO,Kozmino,New Mangalore,Malacca,VLCC,6430,22.6,2000,Strait of Malacca
+ESPO-NEW-SUE,ESPO,Kozmino,New Mangalore,Malacca,Suezmax,6430,21.8,1000,Strait of Malacca
+ESPO-NEW-AFR,ESPO,Kozmino,New Mangalore,Malacca,Aframax,6430,21.8,650,Strait of Malacca
+ESPO-KOCH-VLC,ESPO,Kozmino,Kochi (Puthuvypeen SPM),Malacca,VLCC,6650,23.3,2000,Strait of Malacca
+ESPO-KOCH-SUE,ESPO,Kozmino,Kochi (Puthuvypeen SPM),Malacca,Suezmax,6650,22.5,1000,Strait of Malacca
+ESPO-KOCH-AFR,ESPO,Kozmino,Kochi (Puthuvypeen SPM),Malacca,Aframax,6650,22.5,650,Strait of Malacca
+ESPO-CHEN-SUE,ESPO,Kozmino,Chennai,Malacca,Suezmax,7450,25.0,1000,Strait of Malacca
+ESPO-CHEN-AFR,ESPO,Kozmino,Chennai,Malacca,Aframax,7450,25.0,650,Strait of Malacca
+ESPO-VISA-VLC,ESPO,Kozmino,Visakhapatnam,Malacca,VLCC,7900,27.3,2000,Strait of Malacca
+ESPO-VISA-SUE,ESPO,Kozmino,Visakhapatnam,Malacca,Suezmax,7900,26.4,1000,Strait of Malacca
+ESPO-VISA-AFR,ESPO,Kozmino,Visakhapatnam,Malacca,Aframax,7900,26.4,650,Strait of Malacca
+ESPO-PARA-VLC,ESPO,Kozmino,Paradip,Malacca,VLCC,8250,28.4,2000,Strait of Malacca
+ESPO-PARA-SUE,ESPO,Kozmino,Paradip,Malacca,Suezmax,8250,27.5,1000,Strait of Malacca
+ESPO-PARA-AFR,ESPO,Kozmino,Paradip,Malacca,Aframax,8250,27.5,650,Strait of Malacca
+SOKL-SIKK-VLC,SOKL,De-Kastri,Sikka,Malacca,VLCC,6000,21.2,2000,Strait of Malacca
+SOKL-SIKK-SUE,SOKL,De-Kastri,Sikka,Malacca,Suezmax,6000,20.5,1000,Strait of Malacca
+SOKL-SIKK-AFR,SOKL,De-Kastri,Sikka,Malacca,Aframax,6000,20.5,650,Strait of Malacca
+SOKL-VADI-VLC,SOKL,De-Kastri,Vadinar SPM,Malacca,VLCC,6020,21.3,2000,Strait of Malacca
+SOKL-VADI-SUE,SOKL,De-Kastri,Vadinar SPM,Malacca,Suezmax,6020,20.6,1000,Strait of Malacca
+SOKL-VADI-AFR,SOKL,De-Kastri,Vadinar SPM,Malacca,Aframax,6020,20.6,650,Strait of Malacca
+SOKL-MUND-VLC,SOKL,De-Kastri,Mundra,Malacca,VLCC,6120,21.6,2000,Strait of Malacca
+SOKL-MUND-SUE,SOKL,De-Kastri,Mundra,Malacca,Suezmax,6120,20.9,1000,Strait of Malacca
+SOKL-MUND-AFR,SOKL,De-Kastri,Mundra,Malacca,Aframax,6120,20.9,650,Strait of Malacca
+SOKL-MUMB-SUE,SOKL,De-Kastri,Mumbai (Butcher Island),Malacca,Suezmax,6380,21.7,1000,Strait of Malacca
+SOKL-MUMB-AFR,SOKL,De-Kastri,Mumbai (Butcher Island),Malacca,Aframax,6380,21.7,650,Strait of Malacca
+SOKL-NEW-VLC,SOKL,De-Kastri,New Mangalore,Malacca,VLCC,6830,23.9,2000,Strait of Malacca
+SOKL-NEW-SUE,SOKL,De-Kastri,New Mangalore,Malacca,Suezmax,6830,23.1,1000,Strait of Malacca
+SOKL-NEW-AFR,SOKL,De-Kastri,New Mangalore,Malacca,Aframax,6830,23.1,650,Strait of Malacca
+SOKL-KOCH-VLC,SOKL,De-Kastri,Kochi (Puthuvypeen SPM),Malacca,VLCC,7050,24.6,2000,Strait of Malacca
+SOKL-KOCH-SUE,SOKL,De-Kastri,Kochi (Puthuvypeen SPM),Malacca,Suezmax,7050,23.8,1000,Strait of Malacca
+SOKL-KOCH-AFR,SOKL,De-Kastri,Kochi (Puthuvypeen SPM),Malacca,Aframax,7050,23.8,650,Strait of Malacca
+SOKL-CHEN-SUE,SOKL,De-Kastri,Chennai,Malacca,Suezmax,7850,26.2,1000,Strait of Malacca
+SOKL-CHEN-AFR,SOKL,De-Kastri,Chennai,Malacca,Aframax,7850,26.2,650,Strait of Malacca
+SOKL-VISA-VLC,SOKL,De-Kastri,Visakhapatnam,Malacca,VLCC,8300,28.6,2000,Strait of Malacca
+SOKL-VISA-SUE,SOKL,De-Kastri,Visakhapatnam,Malacca,Suezmax,8300,27.6,1000,Strait of Malacca
+SOKL-VISA-AFR,SOKL,De-Kastri,Visakhapatnam,Malacca,Aframax,8300,27.6,650,Strait of Malacca
+SOKL-PARA-VLC,SOKL,De-Kastri,Paradip,Malacca,VLCC,8650,29.7,2000,Strait of Malacca
+SOKL-PARA-SUE,SOKL,De-Kastri,Paradip,Malacca,Suezmax,8650,28.7,1000,Strait of Malacca
+SOKL-PARA-AFR,SOKL,De-Kastri,Paradip,Malacca,Aframax,8650,28.7,650,Strait of Malacca
+WTIM-SIKK-VLC,WTIM,Corpus Christi,Sikka,Cape,VLCC,11800,39.8,2000,Cape of Good Hope
+WTIM-SIKK-SUE,WTIM,Corpus Christi,Sikka,Cape,Suezmax,11800,38.4,1000,Cape of Good Hope
+WTIM-SIKK-AFR,WTIM,Corpus Christi,Sikka,Cape,Aframax,11800,38.4,650,Cape of Good Hope
+WTIM-VADI-VLC,WTIM,Corpus Christi,Vadinar SPM,Cape,VLCC,11820,39.9,2000,Cape of Good Hope
+WTIM-VADI-SUE,WTIM,Corpus Christi,Vadinar SPM,Cape,Suezmax,11820,38.5,1000,Cape of Good Hope
+WTIM-VADI-AFR,WTIM,Corpus Christi,Vadinar SPM,Cape,Aframax,11820,38.5,650,Cape of Good Hope
+WTIM-MUND-VLC,WTIM,Corpus Christi,Mundra,Cape,VLCC,11920,40.2,2000,Cape of Good Hope
+WTIM-MUND-SUE,WTIM,Corpus Christi,Mundra,Cape,Suezmax,11920,38.8,1000,Cape of Good Hope
+WTIM-MUND-AFR,WTIM,Corpus Christi,Mundra,Cape,Aframax,11920,38.8,650,Cape of Good Hope
+WTIM-MUMB-SUE,WTIM,Corpus Christi,Mumbai (Butcher Island),Cape,Suezmax,12180,39.6,1000,Cape of Good Hope
+WTIM-MUMB-AFR,WTIM,Corpus Christi,Mumbai (Butcher Island),Cape,Aframax,12180,39.6,650,Cape of Good Hope
+WTIM-NEW-VLC,WTIM,Corpus Christi,New Mangalore,Cape,VLCC,12630,42.5,2000,Cape of Good Hope
+WTIM-NEW-SUE,WTIM,Corpus Christi,New Mangalore,Cape,Suezmax,12630,41.0,1000,Cape of Good Hope
+WTIM-NEW-AFR,WTIM,Corpus Christi,New Mangalore,Cape,Aframax,12630,41.0,650,Cape of Good Hope
+WTIM-KOCH-VLC,WTIM,Corpus Christi,Kochi (Puthuvypeen SPM),Cape,VLCC,12850,43.2,2000,Cape of Good Hope
+WTIM-KOCH-SUE,WTIM,Corpus Christi,Kochi (Puthuvypeen SPM),Cape,Suezmax,12850,41.7,1000,Cape of Good Hope
+WTIM-KOCH-AFR,WTIM,Corpus Christi,Kochi (Puthuvypeen SPM),Cape,Aframax,12850,41.7,650,Cape of Good Hope
+WTIM-CHEN-SUE,WTIM,Corpus Christi,Chennai,Cape,Suezmax,13650,44.1,1000,Cape of Good Hope
+WTIM-CHEN-AFR,WTIM,Corpus Christi,Chennai,Cape,Aframax,13650,44.1,650,Cape of Good Hope
+WTIM-VISA-VLC,WTIM,Corpus Christi,Visakhapatnam,Cape,VLCC,14100,47.2,2000,Cape of Good Hope
+WTIM-VISA-SUE,WTIM,Corpus Christi,Visakhapatnam,Cape,Suezmax,14100,45.5,1000,Cape of Good Hope
+WTIM-VISA-AFR,WTIM,Corpus Christi,Visakhapatnam,Cape,Aframax,14100,45.5,650,Cape of Good Hope
+WTIM-PARA-VLC,WTIM,Corpus Christi,Paradip,Cape,VLCC,14450,48.3,2000,Cape of Good Hope
+WTIM-PARA-SUE,WTIM,Corpus Christi,Paradip,Cape,Suezmax,14450,46.6,1000,Cape of Good Hope
+WTIM-PARA-AFR,WTIM,Corpus Christi,Paradip,Cape,Aframax,14450,46.6,650,Cape of Good Hope
+MARS-SIKK-VLC,MARS,LOOP Louisiana,Sikka,Cape,VLCC,11900,40.1,2000,Cape of Good Hope
+MARS-SIKK-SUE,MARS,LOOP Louisiana,Sikka,Cape,Suezmax,11900,38.7,1000,Cape of Good Hope
+MARS-SIKK-AFR,MARS,LOOP Louisiana,Sikka,Cape,Aframax,11900,38.7,650,Cape of Good Hope
+MARS-VADI-VLC,MARS,LOOP Louisiana,Vadinar SPM,Cape,VLCC,11920,40.2,2000,Cape of Good Hope
+MARS-VADI-SUE,MARS,LOOP Louisiana,Vadinar SPM,Cape,Suezmax,11920,38.8,1000,Cape of Good Hope
+MARS-VADI-AFR,MARS,LOOP Louisiana,Vadinar SPM,Cape,Aframax,11920,38.8,650,Cape of Good Hope
+MARS-MUND-VLC,MARS,LOOP Louisiana,Mundra,Cape,VLCC,12020,40.5,2000,Cape of Good Hope
+MARS-MUND-SUE,MARS,LOOP Louisiana,Mundra,Cape,Suezmax,12020,39.1,1000,Cape of Good Hope
+MARS-MUND-AFR,MARS,LOOP Louisiana,Mundra,Cape,Aframax,12020,39.1,650,Cape of Good Hope
+MARS-MUMB-SUE,MARS,LOOP Louisiana,Mumbai (Butcher Island),Cape,Suezmax,12280,39.9,1000,Cape of Good Hope
+MARS-MUMB-AFR,MARS,LOOP Louisiana,Mumbai (Butcher Island),Cape,Aframax,12280,39.9,650,Cape of Good Hope
+MARS-NEW-VLC,MARS,LOOP Louisiana,New Mangalore,Cape,VLCC,12730,42.8,2000,Cape of Good Hope
+MARS-NEW-SUE,MARS,LOOP Louisiana,New Mangalore,Cape,Suezmax,12730,41.3,1000,Cape of Good Hope
+MARS-NEW-AFR,MARS,LOOP Louisiana,New Mangalore,Cape,Aframax,12730,41.3,650,Cape of Good Hope
+MARS-KOCH-VLC,MARS,LOOP Louisiana,Kochi (Puthuvypeen SPM),Cape,VLCC,12950,43.5,2000,Cape of Good Hope
+MARS-KOCH-SUE,MARS,LOOP Louisiana,Kochi (Puthuvypeen SPM),Cape,Suezmax,12950,42.0,1000,Cape of Good Hope
+MARS-KOCH-AFR,MARS,LOOP Louisiana,Kochi (Puthuvypeen SPM),Cape,Aframax,12950,42.0,650,Cape of Good Hope
+MARS-CHEN-SUE,MARS,LOOP Louisiana,Chennai,Cape,Suezmax,13750,44.4,1000,Cape of Good Hope
+MARS-CHEN-AFR,MARS,LOOP Louisiana,Chennai,Cape,Aframax,13750,44.4,650,Cape of Good Hope
+MARS-VISA-VLC,MARS,LOOP Louisiana,Visakhapatnam,Cape,VLCC,14200,47.5,2000,Cape of Good Hope
+MARS-VISA-SUE,MARS,LOOP Louisiana,Visakhapatnam,Cape,Suezmax,14200,45.8,1000,Cape of Good Hope
+MARS-VISA-AFR,MARS,LOOP Louisiana,Visakhapatnam,Cape,Aframax,14200,45.8,650,Cape of Good Hope
+MARS-PARA-VLC,MARS,LOOP Louisiana,Paradip,Cape,VLCC,14550,48.6,2000,Cape of Good Hope
+MARS-PARA-SUE,MARS,LOOP Louisiana,Paradip,Cape,Suezmax,14550,46.9,1000,Cape of Good Hope
+MARS-PARA-AFR,MARS,LOOP Louisiana,Paradip,Cape,Aframax,14550,46.9,650,Cape of Good Hope
+BONL-SIKK-VLC,BONL,Bonny Terminal,Sikka,Cape,VLCC,6900,24.1,2000,Cape of Good Hope
+BONL-SIKK-SUE,BONL,Bonny Terminal,Sikka,Cape,Suezmax,6900,23.3,1000,Cape of Good Hope
+BONL-SIKK-AFR,BONL,Bonny Terminal,Sikka,Cape,Aframax,6900,23.3,650,Cape of Good Hope
+BONL-VADI-VLC,BONL,Bonny Terminal,Vadinar SPM,Cape,VLCC,6920,24.2,2000,Cape of Good Hope
+BONL-VADI-SUE,BONL,Bonny Terminal,Vadinar SPM,Cape,Suezmax,6920,23.4,1000,Cape of Good Hope
+BONL-VADI-AFR,BONL,Bonny Terminal,Vadinar SPM,Cape,Aframax,6920,23.4,650,Cape of Good Hope
+BONL-MUND-VLC,BONL,Bonny Terminal,Mundra,Cape,VLCC,7020,24.5,2000,Cape of Good Hope
+BONL-MUND-SUE,BONL,Bonny Terminal,Mundra,Cape,Suezmax,7020,23.7,1000,Cape of Good Hope
+BONL-MUND-AFR,BONL,Bonny Terminal,Mundra,Cape,Aframax,7020,23.7,650,Cape of Good Hope
+BONL-MUMB-SUE,BONL,Bonny Terminal,Mumbai (Butcher Island),Cape,Suezmax,7280,24.5,1000,Cape of Good Hope
+BONL-MUMB-AFR,BONL,Bonny Terminal,Mumbai (Butcher Island),Cape,Aframax,7280,24.5,650,Cape of Good Hope
+BONL-NEW-VLC,BONL,Bonny Terminal,New Mangalore,Cape,VLCC,7730,26.8,2000,Cape of Good Hope
+BONL-NEW-SUE,BONL,Bonny Terminal,New Mangalore,Cape,Suezmax,7730,25.9,1000,Cape of Good Hope
+BONL-NEW-AFR,BONL,Bonny Terminal,New Mangalore,Cape,Aframax,7730,25.9,650,Cape of Good Hope
+BONL-KOCH-VLC,BONL,Bonny Terminal,Kochi (Puthuvypeen SPM),Cape,VLCC,7950,27.5,2000,Cape of Good Hope
+BONL-KOCH-SUE,BONL,Bonny Terminal,Kochi (Puthuvypeen SPM),Cape,Suezmax,7950,26.5,1000,Cape of Good Hope
+BONL-KOCH-AFR,BONL,Bonny Terminal,Kochi (Puthuvypeen SPM),Cape,Aframax,7950,26.5,650,Cape of Good Hope
+BONL-CHEN-SUE,BONL,Bonny Terminal,Chennai,Cape,Suezmax,8750,29.0,1000,Cape of Good Hope
+BONL-CHEN-AFR,BONL,Bonny Terminal,Chennai,Cape,Aframax,8750,29.0,650,Cape of Good Hope
+BONL-VISA-VLC,BONL,Bonny Terminal,Visakhapatnam,Cape,VLCC,9200,31.5,2000,Cape of Good Hope
+BONL-VISA-SUE,BONL,Bonny Terminal,Visakhapatnam,Cape,Suezmax,9200,30.4,1000,Cape of Good Hope
+BONL-VISA-AFR,BONL,Bonny Terminal,Visakhapatnam,Cape,Aframax,9200,30.4,650,Cape of Good Hope
+BONL-PARA-VLC,BONL,Bonny Terminal,Paradip,Cape,VLCC,9550,32.6,2000,Cape of Good Hope
+BONL-PARA-SUE,BONL,Bonny Terminal,Paradip,Cape,Suezmax,9550,31.5,1000,Cape of Good Hope
+BONL-PARA-AFR,BONL,Bonny Terminal,Paradip,Cape,Aframax,9550,31.5,650,Cape of Good Hope
+QUAI-SIKK-VLC,QUAI,Qua Iboe Terminal,Sikka,Cape,VLCC,6850,24.0,2000,Cape of Good Hope
+QUAI-SIKK-SUE,QUAI,Qua Iboe Terminal,Sikka,Cape,Suezmax,6850,23.1,1000,Cape of Good Hope
+QUAI-SIKK-AFR,QUAI,Qua Iboe Terminal,Sikka,Cape,Aframax,6850,23.1,650,Cape of Good Hope
+QUAI-VADI-VLC,QUAI,Qua Iboe Terminal,Vadinar SPM,Cape,VLCC,6870,24.0,2000,Cape of Good Hope
+QUAI-VADI-SUE,QUAI,Qua Iboe Terminal,Vadinar SPM,Cape,Suezmax,6870,23.2,1000,Cape of Good Hope
+QUAI-VADI-AFR,QUAI,Qua Iboe Terminal,Vadinar SPM,Cape,Aframax,6870,23.2,650,Cape of Good Hope
+QUAI-MUND-VLC,QUAI,Qua Iboe Terminal,Mundra,Cape,VLCC,6970,24.3,2000,Cape of Good Hope
+QUAI-MUND-SUE,QUAI,Qua Iboe Terminal,Mundra,Cape,Suezmax,6970,23.5,1000,Cape of Good Hope
+QUAI-MUND-AFR,QUAI,Qua Iboe Terminal,Mundra,Cape,Aframax,6970,23.5,650,Cape of Good Hope
+QUAI-MUMB-SUE,QUAI,Qua Iboe Terminal,Mumbai (Butcher Island),Cape,Suezmax,7230,24.3,1000,Cape of Good Hope
+QUAI-MUMB-AFR,QUAI,Qua Iboe Terminal,Mumbai (Butcher Island),Cape,Aframax,7230,24.3,650,Cape of Good Hope
+QUAI-NEW-VLC,QUAI,Qua Iboe Terminal,New Mangalore,Cape,VLCC,7680,26.6,2000,Cape of Good Hope
+QUAI-NEW-SUE,QUAI,Qua Iboe Terminal,New Mangalore,Cape,Suezmax,7680,25.7,1000,Cape of Good Hope
+QUAI-NEW-AFR,QUAI,Qua Iboe Terminal,New Mangalore,Cape,Aframax,7680,25.7,650,Cape of Good Hope
+QUAI-KOCH-VLC,QUAI,Qua Iboe Terminal,Kochi (Puthuvypeen SPM),Cape,VLCC,7900,27.3,2000,Cape of Good Hope
+QUAI-KOCH-SUE,QUAI,Qua Iboe Terminal,Kochi (Puthuvypeen SPM),Cape,Suezmax,7900,26.4,1000,Cape of Good Hope
+QUAI-KOCH-AFR,QUAI,Qua Iboe Terminal,Kochi (Puthuvypeen SPM),Cape,Aframax,7900,26.4,650,Cape of Good Hope
+QUAI-CHEN-SUE,QUAI,Qua Iboe Terminal,Chennai,Cape,Suezmax,8700,28.9,1000,Cape of Good Hope
+QUAI-CHEN-AFR,QUAI,Qua Iboe Terminal,Chennai,Cape,Aframax,8700,28.9,650,Cape of Good Hope
+QUAI-VISA-VLC,QUAI,Qua Iboe Terminal,Visakhapatnam,Cape,VLCC,9150,31.3,2000,Cape of Good Hope
+QUAI-VISA-SUE,QUAI,Qua Iboe Terminal,Visakhapatnam,Cape,Suezmax,9150,30.2,1000,Cape of Good Hope
+QUAI-VISA-AFR,QUAI,Qua Iboe Terminal,Visakhapatnam,Cape,Aframax,9150,30.2,650,Cape of Good Hope
+QUAI-PARA-VLC,QUAI,Qua Iboe Terminal,Paradip,Cape,VLCC,9500,32.4,2000,Cape of Good Hope
+QUAI-PARA-SUE,QUAI,Qua Iboe Terminal,Paradip,Cape,Suezmax,9500,31.3,1000,Cape of Good Hope
+QUAI-PARA-AFR,QUAI,Qua Iboe Terminal,Paradip,Cape,Aframax,9500,31.3,650,Cape of Good Hope
+GIRA-SIKK-VLC,GIRA,Girassol FPSO,Sikka,Cape,VLCC,6200,21.9,2000,Cape of Good Hope
+GIRA-SIKK-SUE,GIRA,Girassol FPSO,Sikka,Cape,Suezmax,6200,21.1,1000,Cape of Good Hope
+GIRA-SIKK-AFR,GIRA,Girassol FPSO,Sikka,Cape,Aframax,6200,21.1,650,Cape of Good Hope
+GIRA-VADI-VLC,GIRA,Girassol FPSO,Vadinar SPM,Cape,VLCC,6220,21.9,2000,Cape of Good Hope
+GIRA-VADI-SUE,GIRA,Girassol FPSO,Vadinar SPM,Cape,Suezmax,6220,21.2,1000,Cape of Good Hope
+GIRA-VADI-AFR,GIRA,Girassol FPSO,Vadinar SPM,Cape,Aframax,6220,21.2,650,Cape of Good Hope
+GIRA-MUND-VLC,GIRA,Girassol FPSO,Mundra,Cape,VLCC,6320,22.3,2000,Cape of Good Hope
+GIRA-MUND-SUE,GIRA,Girassol FPSO,Mundra,Cape,Suezmax,6320,21.5,1000,Cape of Good Hope
+GIRA-MUND-AFR,GIRA,Girassol FPSO,Mundra,Cape,Aframax,6320,21.5,650,Cape of Good Hope
+GIRA-MUMB-SUE,GIRA,Girassol FPSO,Mumbai (Butcher Island),Cape,Suezmax,6580,22.3,1000,Cape of Good Hope
+GIRA-MUMB-AFR,GIRA,Girassol FPSO,Mumbai (Butcher Island),Cape,Aframax,6580,22.3,650,Cape of Good Hope
+GIRA-NEW-VLC,GIRA,Girassol FPSO,New Mangalore,Cape,VLCC,7030,24.5,2000,Cape of Good Hope
+GIRA-NEW-SUE,GIRA,Girassol FPSO,New Mangalore,Cape,Suezmax,7030,23.7,1000,Cape of Good Hope
+GIRA-NEW-AFR,GIRA,Girassol FPSO,New Mangalore,Cape,Aframax,7030,23.7,650,Cape of Good Hope
+GIRA-KOCH-VLC,GIRA,Girassol FPSO,Kochi (Puthuvypeen SPM),Cape,VLCC,7250,25.2,2000,Cape of Good Hope
+GIRA-KOCH-SUE,GIRA,Girassol FPSO,Kochi (Puthuvypeen SPM),Cape,Suezmax,7250,24.4,1000,Cape of Good Hope
+GIRA-KOCH-AFR,GIRA,Girassol FPSO,Kochi (Puthuvypeen SPM),Cape,Aframax,7250,24.4,650,Cape of Good Hope
+GIRA-CHEN-SUE,GIRA,Girassol FPSO,Chennai,Cape,Suezmax,8050,26.8,1000,Cape of Good Hope
+GIRA-CHEN-AFR,GIRA,Girassol FPSO,Chennai,Cape,Aframax,8050,26.8,650,Cape of Good Hope
+GIRA-VISA-VLC,GIRA,Girassol FPSO,Visakhapatnam,Cape,VLCC,8500,29.2,2000,Cape of Good Hope
+GIRA-VISA-SUE,GIRA,Girassol FPSO,Visakhapatnam,Cape,Suezmax,8500,28.2,1000,Cape of Good Hope
+GIRA-VISA-AFR,GIRA,Girassol FPSO,Visakhapatnam,Cape,Aframax,8500,28.2,650,Cape of Good Hope
+GIRA-PARA-VLC,GIRA,Girassol FPSO,Paradip,Cape,VLCC,8850,30.4,2000,Cape of Good Hope
+GIRA-PARA-SUE,GIRA,Girassol FPSO,Paradip,Cape,Suezmax,8850,29.3,1000,Cape of Good Hope
+GIRA-PARA-AFR,GIRA,Girassol FPSO,Paradip,Cape,Aframax,8850,29.3,650,Cape of Good Hope
+TUPI-SIKK-VLC,TUPI,Angra dos Reis,Sikka,Cape,VLCC,8300,28.6,2000,Cape of Good Hope
+TUPI-SIKK-SUE,TUPI,Angra dos Reis,Sikka,Cape,Suezmax,8300,27.6,1000,Cape of Good Hope
+TUPI-SIKK-AFR,TUPI,Angra dos Reis,Sikka,Cape,Aframax,8300,27.6,650,Cape of Good Hope
+TUPI-VADI-VLC,TUPI,Angra dos Reis,Vadinar SPM,Cape,VLCC,8320,28.7,2000,Cape of Good Hope
+TUPI-VADI-SUE,TUPI,Angra dos Reis,Vadinar SPM,Cape,Suezmax,8320,27.7,1000,Cape of Good Hope
+TUPI-VADI-AFR,TUPI,Angra dos Reis,Vadinar SPM,Cape,Aframax,8320,27.7,650,Cape of Good Hope
+TUPI-MUND-VLC,TUPI,Angra dos Reis,Mundra,Cape,VLCC,8420,29.0,2000,Cape of Good Hope
+TUPI-MUND-SUE,TUPI,Angra dos Reis,Mundra,Cape,Suezmax,8420,28.0,1000,Cape of Good Hope
+TUPI-MUND-AFR,TUPI,Angra dos Reis,Mundra,Cape,Aframax,8420,28.0,650,Cape of Good Hope
+TUPI-MUMB-SUE,TUPI,Angra dos Reis,Mumbai (Butcher Island),Cape,Suezmax,8680,28.8,1000,Cape of Good Hope
+TUPI-MUMB-AFR,TUPI,Angra dos Reis,Mumbai (Butcher Island),Cape,Aframax,8680,28.8,650,Cape of Good Hope
+TUPI-NEW-VLC,TUPI,Angra dos Reis,New Mangalore,Cape,VLCC,9130,31.3,2000,Cape of Good Hope
+TUPI-NEW-SUE,TUPI,Angra dos Reis,New Mangalore,Cape,Suezmax,9130,30.2,1000,Cape of Good Hope
+TUPI-NEW-AFR,TUPI,Angra dos Reis,New Mangalore,Cape,Aframax,9130,30.2,650,Cape of Good Hope
+TUPI-KOCH-VLC,TUPI,Angra dos Reis,Kochi (Puthuvypeen SPM),Cape,VLCC,9350,32.0,2000,Cape of Good Hope
+TUPI-KOCH-SUE,TUPI,Angra dos Reis,Kochi (Puthuvypeen SPM),Cape,Suezmax,9350,30.9,1000,Cape of Good Hope
+TUPI-KOCH-AFR,TUPI,Angra dos Reis,Kochi (Puthuvypeen SPM),Cape,Aframax,9350,30.9,650,Cape of Good Hope
+TUPI-CHEN-SUE,TUPI,Angra dos Reis,Chennai,Cape,Suezmax,10150,33.3,1000,Cape of Good Hope
+TUPI-CHEN-AFR,TUPI,Angra dos Reis,Chennai,Cape,Aframax,10150,33.3,650,Cape of Good Hope
+TUPI-VISA-VLC,TUPI,Angra dos Reis,Visakhapatnam,Cape,VLCC,10600,36.0,2000,Cape of Good Hope
+TUPI-VISA-SUE,TUPI,Angra dos Reis,Visakhapatnam,Cape,Suezmax,10600,34.7,1000,Cape of Good Hope
+TUPI-VISA-AFR,TUPI,Angra dos Reis,Visakhapatnam,Cape,Aframax,10600,34.7,650,Cape of Good Hope
+TUPI-PARA-VLC,TUPI,Angra dos Reis,Paradip,Cape,VLCC,10950,37.1,2000,Cape of Good Hope
+TUPI-PARA-SUE,TUPI,Angra dos Reis,Paradip,Cape,Suezmax,10950,35.8,1000,Cape of Good Hope
+TUPI-PARA-AFR,TUPI,Angra dos Reis,Paradip,Cape,Aframax,10950,35.8,650,Cape of Good Hope
+LIZA-SIKK-VLC,LIZA,Liza Destiny FPSO,Sikka,Cape,VLCC,10300,35.0,2000,Cape of Good Hope
+LIZA-SIKK-SUE,LIZA,Liza Destiny FPSO,Sikka,Cape,Suezmax,10300,33.8,1000,Cape of Good Hope
+LIZA-SIKK-AFR,LIZA,Liza Destiny FPSO,Sikka,Cape,Aframax,10300,33.8,650,Cape of Good Hope
+LIZA-VADI-VLC,LIZA,Liza Destiny FPSO,Vadinar SPM,Cape,VLCC,10320,35.1,2000,Cape of Good Hope
+LIZA-VADI-SUE,LIZA,Liza Destiny FPSO,Vadinar SPM,Cape,Suezmax,10320,33.9,1000,Cape of Good Hope
+LIZA-VADI-AFR,LIZA,Liza Destiny FPSO,Vadinar SPM,Cape,Aframax,10320,33.9,650,Cape of Good Hope
+LIZA-MUND-VLC,LIZA,Liza Destiny FPSO,Mundra,Cape,VLCC,10420,35.4,2000,Cape of Good Hope
+LIZA-MUND-SUE,LIZA,Liza Destiny FPSO,Mundra,Cape,Suezmax,10420,34.2,1000,Cape of Good Hope
+LIZA-MUND-AFR,LIZA,Liza Destiny FPSO,Mundra,Cape,Aframax,10420,34.2,650,Cape of Good Hope
+LIZA-MUMB-SUE,LIZA,Liza Destiny FPSO,Mumbai (Butcher Island),Cape,Suezmax,10680,35.0,1000,Cape of Good Hope
+LIZA-MUMB-AFR,LIZA,Liza Destiny FPSO,Mumbai (Butcher Island),Cape,Aframax,10680,35.0,650,Cape of Good Hope
+LIZA-NEW-VLC,LIZA,Liza Destiny FPSO,New Mangalore,Cape,VLCC,11130,37.7,2000,Cape of Good Hope
+LIZA-NEW-SUE,LIZA,Liza Destiny FPSO,New Mangalore,Cape,Suezmax,11130,36.4,1000,Cape of Good Hope
+LIZA-NEW-AFR,LIZA,Liza Destiny FPSO,New Mangalore,Cape,Aframax,11130,36.4,650,Cape of Good Hope
+LIZA-KOCH-VLC,LIZA,Liza Destiny FPSO,Kochi (Puthuvypeen SPM),Cape,VLCC,11350,38.4,2000,Cape of Good Hope
+LIZA-KOCH-SUE,LIZA,Liza Destiny FPSO,Kochi (Puthuvypeen SPM),Cape,Suezmax,11350,37.0,1000,Cape of Good Hope
+LIZA-KOCH-AFR,LIZA,Liza Destiny FPSO,Kochi (Puthuvypeen SPM),Cape,Aframax,11350,37.0,650,Cape of Good Hope
+LIZA-CHEN-SUE,LIZA,Liza Destiny FPSO,Chennai,Cape,Suezmax,12150,39.5,1000,Cape of Good Hope
+LIZA-CHEN-AFR,LIZA,Liza Destiny FPSO,Chennai,Cape,Aframax,12150,39.5,650,Cape of Good Hope
+LIZA-VISA-VLC,LIZA,Liza Destiny FPSO,Visakhapatnam,Cape,VLCC,12600,42.4,2000,Cape of Good Hope
+LIZA-VISA-SUE,LIZA,Liza Destiny FPSO,Visakhapatnam,Cape,Suezmax,12600,40.9,1000,Cape of Good Hope
+LIZA-VISA-AFR,LIZA,Liza Destiny FPSO,Visakhapatnam,Cape,Aframax,12600,40.9,650,Cape of Good Hope
+LIZA-PARA-VLC,LIZA,Liza Destiny FPSO,Paradip,Cape,VLCC,12950,43.5,2000,Cape of Good Hope
+LIZA-PARA-SUE,LIZA,Liza Destiny FPSO,Paradip,Cape,Suezmax,12950,42.0,1000,Cape of Good Hope
+LIZA-PARA-AFR,LIZA,Liza Destiny FPSO,Paradip,Cape,Aframax,12950,42.0,650,Cape of Good Hope
+CPCB-SIKK-VLC,CPCB,Novorossiysk CPC,Sikka,RedSea_Suez,VLCC,4600,16.7,2000,Bab el-Mandeb|Suez Canal
+CPCB-SIKK-SUE,CPCB,Novorossiysk CPC,Sikka,RedSea_Suez,Suezmax,4600,16.2,1000,Bab el-Mandeb|Suez Canal
+CPCB-SIKK-AFR,CPCB,Novorossiysk CPC,Sikka,RedSea_Suez,Aframax,4600,16.2,650,Bab el-Mandeb|Suez Canal
+CPCB-VADI-VLC,CPCB,Novorossiysk CPC,Vadinar SPM,RedSea_Suez,VLCC,4620,16.8,2000,Bab el-Mandeb|Suez Canal
+CPCB-VADI-SUE,CPCB,Novorossiysk CPC,Vadinar SPM,RedSea_Suez,Suezmax,4620,16.3,1000,Bab el-Mandeb|Suez Canal
+CPCB-VADI-AFR,CPCB,Novorossiysk CPC,Vadinar SPM,RedSea_Suez,Aframax,4620,16.3,650,Bab el-Mandeb|Suez Canal
+CPCB-MUND-VLC,CPCB,Novorossiysk CPC,Mundra,RedSea_Suez,VLCC,4720,17.1,2000,Bab el-Mandeb|Suez Canal
+CPCB-MUND-SUE,CPCB,Novorossiysk CPC,Mundra,RedSea_Suez,Suezmax,4720,16.6,1000,Bab el-Mandeb|Suez Canal
+CPCB-MUND-AFR,CPCB,Novorossiysk CPC,Mundra,RedSea_Suez,Aframax,4720,16.6,650,Bab el-Mandeb|Suez Canal
+CPCB-MUMB-SUE,CPCB,Novorossiysk CPC,Mumbai (Butcher Island),RedSea_Suez,Suezmax,4980,17.4,1000,Bab el-Mandeb|Suez Canal
+CPCB-MUMB-AFR,CPCB,Novorossiysk CPC,Mumbai (Butcher Island),RedSea_Suez,Aframax,4980,17.4,650,Bab el-Mandeb|Suez Canal
+CPCB-NEW-VLC,CPCB,Novorossiysk CPC,New Mangalore,RedSea_Suez,VLCC,5430,19.4,2000,Bab el-Mandeb|Suez Canal
+CPCB-NEW-SUE,CPCB,Novorossiysk CPC,New Mangalore,RedSea_Suez,Suezmax,5430,18.8,1000,Bab el-Mandeb|Suez Canal
+CPCB-NEW-AFR,CPCB,Novorossiysk CPC,New Mangalore,RedSea_Suez,Aframax,5430,18.8,650,Bab el-Mandeb|Suez Canal
+CPCB-KOCH-VLC,CPCB,Novorossiysk CPC,Kochi (Puthuvypeen SPM),RedSea_Suez,VLCC,5650,20.1,2000,Bab el-Mandeb|Suez Canal
+CPCB-KOCH-SUE,CPCB,Novorossiysk CPC,Kochi (Puthuvypeen SPM),RedSea_Suez,Suezmax,5650,19.4,1000,Bab el-Mandeb|Suez Canal
+CPCB-KOCH-AFR,CPCB,Novorossiysk CPC,Kochi (Puthuvypeen SPM),RedSea_Suez,Aframax,5650,19.4,650,Bab el-Mandeb|Suez Canal
+CPCB-CHEN-SUE,CPCB,Novorossiysk CPC,Chennai,RedSea_Suez,Suezmax,6450,21.9,1000,Bab el-Mandeb|Suez Canal
+CPCB-CHEN-AFR,CPCB,Novorossiysk CPC,Chennai,RedSea_Suez,Aframax,6450,21.9,650,Bab el-Mandeb|Suez Canal
+CPCB-VISA-VLC,CPCB,Novorossiysk CPC,Visakhapatnam,RedSea_Suez,VLCC,6900,24.1,2000,Bab el-Mandeb|Suez Canal
+CPCB-VISA-SUE,CPCB,Novorossiysk CPC,Visakhapatnam,RedSea_Suez,Suezmax,6900,23.3,1000,Bab el-Mandeb|Suez Canal
+CPCB-VISA-AFR,CPCB,Novorossiysk CPC,Visakhapatnam,RedSea_Suez,Aframax,6900,23.3,650,Bab el-Mandeb|Suez Canal
+CPCB-PARA-VLC,CPCB,Novorossiysk CPC,Paradip,RedSea_Suez,VLCC,7250,25.2,2000,Bab el-Mandeb|Suez Canal
+CPCB-PARA-SUE,CPCB,Novorossiysk CPC,Paradip,RedSea_Suez,Suezmax,7250,24.4,1000,Bab el-Mandeb|Suez Canal
+CPCB-PARA-AFR,CPCB,Novorossiysk CPC,Paradip,RedSea_Suez,Aframax,7250,24.4,650,Bab el-Mandeb|Suez Canal
+JSVE-SIKK-VLC,JSVE,Mongstad,Sikka,Cape,VLCC,11200,37.9,2000,Cape of Good Hope
+JSVE-SIKK-SUE,JSVE,Mongstad,Sikka,Cape,Suezmax,11200,36.6,1000,Cape of Good Hope
+JSVE-SIKK-AFR,JSVE,Mongstad,Sikka,Cape,Aframax,11200,36.6,650,Cape of Good Hope
+JSVE-VADI-VLC,JSVE,Mongstad,Vadinar SPM,Cape,VLCC,11220,38.0,2000,Cape of Good Hope
+JSVE-VADI-SUE,JSVE,Mongstad,Vadinar SPM,Cape,Suezmax,11220,36.6,1000,Cape of Good Hope
+JSVE-VADI-AFR,JSVE,Mongstad,Vadinar SPM,Cape,Aframax,11220,36.6,650,Cape of Good Hope
+JSVE-MUND-VLC,JSVE,Mongstad,Mundra,Cape,VLCC,11320,38.3,2000,Cape of Good Hope
+JSVE-MUND-SUE,JSVE,Mongstad,Mundra,Cape,Suezmax,11320,36.9,1000,Cape of Good Hope
+JSVE-MUND-AFR,JSVE,Mongstad,Mundra,Cape,Aframax,11320,36.9,650,Cape of Good Hope
+JSVE-MUMB-SUE,JSVE,Mongstad,Mumbai (Butcher Island),Cape,Suezmax,11580,37.7,1000,Cape of Good Hope
+JSVE-MUMB-AFR,JSVE,Mongstad,Mumbai (Butcher Island),Cape,Aframax,11580,37.7,650,Cape of Good Hope
+JSVE-NEW-VLC,JSVE,Mongstad,New Mangalore,Cape,VLCC,12030,40.6,2000,Cape of Good Hope
+JSVE-NEW-SUE,JSVE,Mongstad,New Mangalore,Cape,Suezmax,12030,39.1,1000,Cape of Good Hope
+JSVE-NEW-AFR,JSVE,Mongstad,New Mangalore,Cape,Aframax,12030,39.1,650,Cape of Good Hope
+JSVE-KOCH-VLC,JSVE,Mongstad,Kochi (Puthuvypeen SPM),Cape,VLCC,12250,41.3,2000,Cape of Good Hope
+JSVE-KOCH-SUE,JSVE,Mongstad,Kochi (Puthuvypeen SPM),Cape,Suezmax,12250,39.8,1000,Cape of Good Hope
+JSVE-KOCH-AFR,JSVE,Mongstad,Kochi (Puthuvypeen SPM),Cape,Aframax,12250,39.8,650,Cape of Good Hope
+JSVE-CHEN-SUE,JSVE,Mongstad,Chennai,Cape,Suezmax,13050,42.3,1000,Cape of Good Hope
+JSVE-CHEN-AFR,JSVE,Mongstad,Chennai,Cape,Aframax,13050,42.3,650,Cape of Good Hope
+JSVE-VISA-VLC,JSVE,Mongstad,Visakhapatnam,Cape,VLCC,13500,45.3,2000,Cape of Good Hope
+JSVE-VISA-SUE,JSVE,Mongstad,Visakhapatnam,Cape,Suezmax,13500,43.7,1000,Cape of Good Hope
+JSVE-VISA-AFR,JSVE,Mongstad,Visakhapatnam,Cape,Aframax,13500,43.7,650,Cape of Good Hope
+JSVE-PARA-VLC,JSVE,Mongstad,Paradip,Cape,VLCC,13850,46.4,2000,Cape of Good Hope
+JSVE-PARA-SUE,JSVE,Mongstad,Paradip,Cape,Suezmax,13850,44.7,1000,Cape of Good Hope
+JSVE-PARA-AFR,JSVE,Mongstad,Paradip,Cape,Aframax,13850,44.7,650,Cape of Good Hope

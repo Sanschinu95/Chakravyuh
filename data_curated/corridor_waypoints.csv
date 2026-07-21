@@ -1,0 +1,32 @@
+corridor,seq,lat,lon,label
+Hormuz,1,29.0000,48.8000,Northern Gulf loading
+Hormuz,2,27.2000,51.5000,Central Gulf
+Hormuz,3,26.5700,56.2500,Strait of Hormuz
+Hormuz,4,24.5000,58.8000,Gulf of Oman
+Hormuz,5,22.8000,64.0000,Arabian Sea approach
+Hormuz,6,22.4000,69.8000,India west coast
+RedSea_Suez,1,44.7200,37.7900,Novorossiysk
+RedSea_Suez,2,41.1200,29.0700,Bosphorus Strait
+RedSea_Suez,3,35.5000,25.5000,Aegean
+RedSea_Suez,4,32.0000,29.5000,Eastern Mediterranean
+RedSea_Suez,5,30.0200,32.5500,Suez Canal
+RedSea_Suez,6,24.0000,36.5000,Red Sea north
+RedSea_Suez,7,17.0000,40.5000,Red Sea south
+RedSea_Suez,8,12.5800,43.3300,Bab el-Mandeb
+RedSea_Suez,9,12.5000,49.0000,Gulf of Aden
+RedSea_Suez,10,17.5000,62.0000,Arabian Sea
+RedSea_Suez,11,22.4000,69.8000,India west coast
+Cape,1,4.4200,7.1500,West Africa loading
+Cape,2,-12.0000,10.0000,South Atlantic
+Cape,3,-34.3600,18.4700,Cape of Good Hope
+Cape,4,-30.0000,38.0000,Mozambique Channel east
+Cape,5,-12.0000,52.0000,Indian Ocean southwest
+Cape,6,5.0000,62.0000,Arabian Sea south
+Cape,7,22.4000,69.8000,India west coast
+Malacca,1,42.6900,133.0400,Kozmino
+Malacca,2,30.0000,127.0000,East China Sea
+Malacca,3,15.0000,114.0000,South China Sea
+Malacca,4,2.5000,101.3000,Strait of Malacca
+Malacca,5,6.0000,94.0000,Andaman Sea
+Malacca,6,15.0000,84.0000,Bay of Bengal
+Malacca,7,20.2600,86.6700,India east coast

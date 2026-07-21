@@ -1,0 +1,8 @@
+chokepoint_id,name,lat,lon,global_oil_transit_mbd,min_width_nm,alternative_exists,bypass_capacity_mbd,notes
+HORMUZ,Strait of Hormuz,26.5700,56.2500,20.5,21.0,partial,6.5,East-West pipeline 5.0 mbd plus ADCOP Fujairah 1.5 mbd
+BAB,Bab el-Mandeb,12.5800,43.3300,8.8,16.0,yes,0.0,Bypass is the Cape which adds 10-14 days not capacity
+SUEZ,Suez Canal,30.0200,32.5500,5.5,0.2,yes,2.5,SUMED pipeline parallels the canal at 2.5 mbd
+CAPE,Cape of Good Hope,-34.3600,18.4700,6.2,999.0,no,0.0,Open water routing not a physical constraint but adds voyage days
+MALACCA,Strait of Malacca,2.5000,101.3000,23.7,1.5,partial,0.0,Lombok and Sunda add 3-5 days at Capesize draft
+BOSPH,Bosphorus Strait,41.1200,29.0700,2.4,0.4,no,0.0,Turkish Straits queuing already adds days in winter
+DANISH,Danish Straits,55.7500,11.0000,3.2,10.0,no,0.0,Baltic export gateway

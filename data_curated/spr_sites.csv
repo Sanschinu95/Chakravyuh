@@ -1,0 +1,4 @@
+site_id,site,state,lat,lon,capacity_mmbbl,fill_pct,max_drawdown_kbd,cavern_type,operator,notional_grade
+VZG,Visakhapatnam,Andhra Pradesh,17.7100,83.3000,9.77,1.00,180,Underground rock cavern,ISPRL,ARBM
+MNG,Mangaluru,Karnataka,12.9200,74.8300,11.00,1.00,220,Underground rock cavern,ISPRL,ARBL
+PAD,Padur,Karnataka,13.4200,74.7200,18.33,1.00,300,Underground rock cavern,ISPRL,BASM

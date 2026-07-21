@@ -1,0 +1,17 @@
+route_family,corridor,vessel_class,worldscale_points,usd_per_bbl,tce_usd_per_day,war_risk_premium_pct_hull,notes
+AG-WCIndia,Hormuz,VLCC,58,1.35,42000,0.40,TD1-adjacent Arabian Gulf to India west coast
+AG-WCIndia,Hormuz,Suezmax,82,2.10,34000,0.40,Gulf to India Suezmax
+AG-WCIndia,Hormuz,Aframax,105,2.85,29000,0.40,Gulf to India Aframax
+AG-ECIndia,Hormuz,VLCC,68,1.80,44000,0.40,Arabian Gulf to India east coast around Sri Lanka
+BlackSea-India,RedSea_Suez,Suezmax,145,4.20,48000,1.85,Novorossiysk to India via Suez and Bab el-Mandeb
+BlackSea-India,RedSea_Suez,Aframax,178,5.35,41000,1.85,Novorossiysk to India Aframax
+Baltic-India,Cape,VLCC,72,4.55,46000,0.35,Primorsk to India around Cape of Good Hope
+Baltic-India,Cape,Suezmax,95,5.80,39000,0.35,Primorsk to India Suezmax around Cape
+USG-India,Cape,VLCC,68,4.85,45000,0.05,US Gulf to India via Cape of Good Hope
+USG-India,Cape,Suezmax,88,6.10,37000,0.05,US Gulf to India Suezmax
+WAF-India,Cape,VLCC,62,2.95,43000,0.22,West Africa to India TD15-adjacent
+WAF-India,Cape,Suezmax,84,3.70,35000,0.22,West Africa to India Suezmax
+LatAm-India,Cape,VLCC,66,3.60,44000,0.06,Brazil and Guyana to India via Cape
+FarEast-India,Malacca,Aframax,132,3.15,33000,0.30,Kozmino to India via Malacca
+FarEast-India,Malacca,Suezmax,108,2.80,36000,0.30,Far East Russia to India Suezmax
+NorthSea-India,Cape,Suezmax,92,5.40,38000,0.04,Norway to India around Cape
