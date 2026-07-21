@@ -119,6 +119,17 @@ INSTRUMENTS: list[Instrument] = [
 ]
 
 
+# The most any purchasable instrument set can neutralise, before severity is
+# accounted for. Pre-positioned barrels and optionality buy time and routing
+# freedom; they do not manufacture crude.
+MAX_MITIGATION = 0.45
+
+# No single instrument may supply more than this share of one attack's
+# achievable mitigation. Forces the optimiser to build a diversified hedge
+# rather than loading up on whichever lever is cheapest per unit.
+SINGLE_INSTRUMENT_CAP = 0.40
+
+
 def _mitigation(inst: Instrument, attack: dict[str, Any]) -> float:
     """Per-unit mitigation of this instrument against this attack."""
     total = 0.0
@@ -128,6 +139,18 @@ def _mitigation(inst: Instrument, attack: dict[str, Any]) -> float:
         if kind == "chokepoint":
             total += inst.counters_chokepoint.get(target, 0.0)
     return total
+
+
+def _ceiling(attack: dict[str, Any]) -> float:
+    """How much of this attack's damage is mitigable at all.
+
+    Scales down with severity: a partial restriction leaves re-routing options
+    that money can exploit, a total closure does not. A 100% chokepoint closure
+    lands near 0.27 -- meaning even a perfect portfolio absorbs about a quarter
+    of the damage, and the rest is simply borne.
+    """
+    worst = max((a.get("severity", 0.0) for a in attack.get("attacks", [])), default=0.0)
+    return round(MAX_MITIGATION * (1.0 - 0.4 * worst), 4)
 
 
 def optimise_portfolio(
@@ -151,15 +174,29 @@ def optimise_portfolio(
     solver.SetTimeLimit(10_000)
 
     x = {i.id: solver.IntVar(0, i.max_units, f"x_{i.id}") for i in INSTRUMENTS}
-    m = [solver.NumVar(0.0, 1.0, f"m_{k}") for k in range(len(attacks))]
+    ceilings = [_ceiling(a) for a in attacks]
+    m = [solver.NumVar(0.0, ceilings[k], f"m_{k}") for k in range(len(attacks))]
 
+    # Per-instrument contribution, so no single lever can carry a whole attack.
+    # Without this the optimiser finds the cheapest generic instrument, buys the
+    # maximum of it, saturates the ceiling and stops -- which is a purchase
+    # order, not a portfolio. Concentration risk applies to hedges too.
+    contrib: dict[tuple[str, int], Any] = {}
     for k, atk in enumerate(attacks):
-        c = solver.Constraint(0.0, solver.infinity(), f"mit_{k}")
-        c.SetCoefficient(m[k], -1.0)
+        cap_k = ceilings[k] * SINGLE_INSTRUMENT_CAP
+        agg = solver.Constraint(0.0, solver.infinity(), f"mit_{k}")
+        agg.SetCoefficient(m[k], -1.0)
         for inst in INSTRUMENTS:
             mit = _mitigation(inst, atk)
-            if mit > 0:
-                c.SetCoefficient(x[inst.id], mit)
+            if mit <= 0:
+                continue
+            c_ik = solver.NumVar(0.0, cap_k, f"c_{inst.id}_{k}")
+            contrib[(inst.id, k)] = c_ik
+            # contribution cannot exceed what the units actually deliver
+            lim = solver.Constraint(0.0, solver.infinity(), f"lim_{inst.id}_{k}")
+            lim.SetCoefficient(x[inst.id], mit)
+            lim.SetCoefficient(c_ik, -1.0)
+            agg.SetCoefficient(c_ik, 1.0)
 
     bc = solver.Constraint(0.0, budget_usd_mn, "budget")
     for inst in INSTRUMENTS:
@@ -194,7 +231,8 @@ def optimise_portfolio(
                 ),
                 "damage_usd_bn": round(attacks[k].get("damage_usd_bn", 0.0), 2),
                 "share_neutralised_pct": round(
-                    min(1.0, _mitigation(inst, attacks[k]) * units) * 100, 1
+                    (contrib[(iid, k)].solution_value()
+                     if (iid, k) in contrib else 0.0) * 100, 1
                 ),
             }
             for k in range(len(attacks))
@@ -232,6 +270,7 @@ def optimise_portfolio(
             "probability": round(probs[k], 4),
             "damage_usd_bn": round(attacks[k].get("damage_usd_bn", 0.0), 2),
             "neutralised_pct": round(m[k].solution_value() * 100, 1),
+            "max_mitigable_pct": round(ceilings[k] * 100, 1),
             "residual_expected_usd_mn": round(
                 probs[k] * attacks[k].get("damage_usd_bn", 0.0) * 1000.0
                 * (1 - m[k].solution_value()), 1
@@ -261,6 +300,12 @@ def optimise_portfolio(
             f"Attack probabilities are scaled from damage-per-dollar, peaking at "
             f"{default_prob:.0%} for the cheapest-damage attack. This is a "
             f"modelling assumption, not a forecast."
+        ),
+        "ceiling_note": (
+            f"No attack can be more than {MAX_MITIGATION:.0%} mitigated by "
+            f"purchased instruments, and that ceiling falls with severity: a "
+            f"total chokepoint closure caps near 27%. Optionality buys routing "
+            f"freedom and time, it does not manufacture crude."
         ),
         "provenance": Provenance.SIMULATED,
     }

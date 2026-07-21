@@ -296,6 +296,81 @@ def main() -> int:
               bool(cal["market_proxy"]["formula"])
               and len(cal["market_proxy"]["caveats"]) >= 3)
 
+        print("sourcing advisor")
+        r = c.get("/api/sourcing")
+        sv = r.json()
+        check("countries returned", len(sv["countries"]) > 8)
+        check("shares sum to ~100",
+              abs(sum(x["share_pct"] for x in sv["countries"]) - 100) < 1.0,
+              str(sum(x["share_pct"] for x in sv["countries"])))
+        check("HHI in valid range", 0 < sv["concentration"]["hhi"] <= 10000)
+        check("every country has an action",
+              all(x["recommendation"]["action"] for x in sv["countries"]))
+        check("every country has a lead time",
+              all(x["lead_time_days"] >= 0 for x in sv["countries"]))
+        # Under a Hormuz closure, Gulf counterparties must flip to replace-now.
+        sv2 = c.get("/api/sourcing?scenario_id=hormuz_full").json()
+        iraq = next(x for x in sv2["countries"] if x["country"] == "Iraq")
+        check("blocked country flips to replace now",
+              iraq["recommendation"]["action"] == "replace now",
+              iraq["recommendation"]["action"])
+        check("blocked volume is reported", iraq["blocked_kbd"] > 0)
+
+        print("phase 4 -- tender")
+        r = c.post("/api/tender", json={"scenario_id": "hormuz_partial"})
+        td = r.json()
+        check("tender 200", r.status_code == 200, r.text[:160])
+        check("tenders drafted", td["count"] > 0)
+        t0 = td["tenders"][0]
+        check("tender has a body", len(t0["body"]) > 300)
+        # A tender that fails the buyer's crude diet must never be issuable.
+        check("every tender is grade-compatible",
+              all(t["quality"]["compatible"] for t in td["tenders"]))
+        check("laycan opens before ETA",
+              all(t["schedule"]["laycan_open"] < t["schedule"]["eta_discharge"]
+                  for t in td["tenders"]))
+        check("tender carries pricing basis",
+              all(t["commercial"]["pricing_basis"] for t in td["tenders"]))
+        check("tender marked draft",
+              all("DRAFT" in t["status"] for t in td["tenders"]))
+
+        print("phase 7 -- red team + portfolio")
+        r = c.get("/api/redteam")
+        rt = r.json()
+        check("redteam 200", r.status_code == 200, r.text[:160])
+        check("best attack found", rt["best_attack"] is not None)
+        check("resilience score 0-100", 0 <= rt["resilience_score"] <= 100)
+        check("attacks stay within budget",
+              rt["best_attack"]["cost_usd_mn"] <= rt["budget_usd_mn"] + 0.01,
+              f"{rt['best_attack']['cost_usd_mn']} vs {rt['budget_usd_mn']}")
+        check("damage measured by solvers, not asserted",
+              rt["best_attack"]["damage_usd_bn"] > 0
+              and rt["best_attack"]["coverage_pct"] <= 100)
+        check("baseline sweep ran", len(rt["baseline_top"]) > 0)
+        check("red team output is labelled injected",
+              rt["provenance"] == "injected", rt["provenance"])
+
+        r = c.get("/api/portfolio")
+        pf = r.json()
+        check("portfolio 200", r.status_code == 200, r.text[:160])
+        check("portfolio optimal", pf["status"] == "OPTIMAL", pf["status"])
+        check("holdings selected", len(pf["holdings"]) > 0)
+        check("spend within budget", pf["spend_usd_mn"] <= pf["budget_usd_mn"] + 0.01)
+        # Instruments cannot undo physics: a total closure must never be
+        # reported as fully neutralised.
+        check("no attack fully neutralised",
+              all(a["neutralised_pct"] <= 45.1 for a in pf["per_attack"]),
+              str(max(a["neutralised_pct"] for a in pf["per_attack"])))
+        check("neutralisation respects its ceiling",
+              all(a["neutralised_pct"] <= a["max_mitigable_pct"] + 0.1
+                  for a in pf["per_attack"]))
+        check("portfolio is diversified, not one lever",
+              len(pf["holdings"]) >= 2, str(len(pf["holdings"])))
+        check("residual loss is below gross",
+              pf["expected_loss_residual_usd_mn"] < pf["expected_loss_gross_usd_mn"])
+        check("assumptions disclosed",
+              bool(pf["probability_note"]) and bool(pf["ceiling_note"]))
+
     print()
     if FAILURES:
         print(f"{len(FAILURES)} FAILED: {', '.join(FAILURES)}")
