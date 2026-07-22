@@ -33,7 +33,7 @@ export default function TenderPanel({ scenarioId, shocks }: Props) {
   if (!scenarioId && !shocks) {
     return (
       <div className="empty">
-        Run a scenario or execute an attack, then the optimiser's plan is
+        Run a scenario or stress test, then the optimiser's plan is
         converted into draft procurement tenders here — grade specs, laycan
         windows and pricing basis included.
       </div>

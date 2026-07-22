@@ -38,7 +38,7 @@ export default function RedTeamPanel() {
     return (
       <div className="empty">
         {busy
-          ? 'Running the adversarial search — this puts every candidate attack through the full defense pipeline.'
+          ? 'Searching for weak points — every candidate disruption is run through the full response pipeline.'
           : 'No run yet.'}
       </div>
     )
@@ -51,7 +51,7 @@ export default function RedTeamPanel() {
       <div className="cascade-head">
         <div className="cascade-name">Red team</div>
         <div className="cascade-sum">
-          An adversary with a ${rt.budget_usd_mn}M budget, searching for the
+          A simulated disruptor with a ${rt.budget_usd_mn}M budget, searching for the
           cheapest damage. Damage is measured by our own cascade and optimiser,
           not asserted by the model.
         </div>
@@ -59,7 +59,7 @@ export default function RedTeamPanel() {
           found by {rt.found_by.replace('_', ' ')} · {rt.generator}
           {rt.computed_at ? ` · ${rt.computed_at.slice(0, 16).replace('T', ' ')}` : ''}
         </div>
-        <span className="tag prov-injected">injected / adversarial</span>
+        <span className="tag prov-injected">stress test</span>
       </div>
 
       <div className="hero-row">
@@ -198,7 +198,7 @@ export default function RedTeamPanel() {
 
       <button className="btn-reset" style={{ marginTop: 12 }}
         onClick={() => load(true)} disabled={busy}>
-        {busy ? 'searching…' : 're-run adversarial search (~2 min)'}
+        {busy ? 'searching…' : 're-run vulnerability search (~2 min)'}
       </button>
     </>
   )

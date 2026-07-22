@@ -34,7 +34,7 @@ interface Props {
 }
 
 /**
- * "You are the adversary." Lets a judge build their own attack and run it
+ * Lets anyone build their own disruption and run it
  * through the same defense pipeline the scenarios use — no special casing,
  * no pre-baked answer.
  */
@@ -128,7 +128,7 @@ export default function AttackConsole({ running, onExecute }: Props) {
 
       <button className="btn-execute" disabled={running}
         onClick={() => onExecute(build())}>
-        {running ? 'DEFENDING…' : 'EXECUTE ATTACK'}
+        {running ? 'Analysing…' : 'Run stress test'}
       </button>
       <div className="micro">
         Runs the same pipeline as the scenario library: cascade → procurement

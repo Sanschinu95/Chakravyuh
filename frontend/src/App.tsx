@@ -15,6 +15,7 @@ import GradePanel from './components/GradePanel'
 import RedTeamPanel from './components/RedTeamPanel'
 import TenderPanel from './components/TenderPanel'
 import AttackConsole, { type CustomShock } from './components/AttackConsole'
+import PipelineOverlay from './components/PipelineOverlay'
 import LayerControls, {
   DEFAULT_LAYERS,
   type LayerVisibility,
@@ -71,7 +72,7 @@ export default function App() {
   const [corridorFilter, setCorridorFilter] = useState<Set<string>>(new Set())
   const [railOpen, setRailOpen] = useState(true)
 
-  const { connected } = useEventStream()
+  const { connected, events } = useEventStream()
 
   // The backend may still be booting (or reloading) when the page first
   // paints. Without a retry the dashboard silently stays empty, so keep
@@ -234,7 +235,7 @@ export default function App() {
           </Collapsible>
 
           <Collapsible
-            title="Attack console"
+            title="Stress test"
             badge={customShocks ? 'live' : undefined}
             defaultOpen={false}
           >
@@ -274,6 +275,18 @@ export default function App() {
           >
             {railOpen ? '‹' : '›'}
           </button>
+
+          <PipelineOverlay
+            running={running}
+            events={events}
+            label={
+              customShocks
+                ? 'Operator attack'
+                : activeScenario
+                  ? scenarios.find((s) => s.id === activeScenario)?.name
+                  : undefined
+            }
+          />
         </div>
 
         {/* --------------------------------------------------- right rail */}
