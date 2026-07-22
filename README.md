@@ -272,3 +272,34 @@ frontend/              React + deck.gl + MapLibre, Vite on 5173
 ```
 
 See `ARCHITECTURE.md` for the component diagram, the LP and MILP formulations, the CRI weighting, and the two design rules the code enforces.
+
+## Map boundaries
+
+The basemap (CARTO, built on OpenStreetMap) renders Jammu & Kashmir and Ladakh
+with dashed "disputed" lines, placing Aksai Chin and Pakistan-administered
+Kashmir outside India. That is not the boundary recognised in India.
+
+CHAKRAVYUH therefore **hides every administrative boundary layer** in the
+basemap (`boundary_country_outline`, `boundary_country_inner`,
+`boundary_state`, `boundary_county`). This is a maritime supply-chain tool —
+corridors, chokepoints, ports and refineries carry the analysis, and land
+borders carry none of it — so drawing no boundary is preferable to drawing an
+incorrect one.
+
+### Showing an authoritative national outline
+
+To render India's official boundary instead, place a GeoJSON
+`FeatureCollection` at:
+
+```
+frontend/public/india-boundary.geojson
+```
+
+It is picked up automatically on the next load; no code change and no rebuild
+of the layer logic is needed. If the file is absent, malformed, or not served
+as JSON, the map simply shows no boundary.
+
+Source it from an authoritative publisher — Survey of India, or a dataset on
+data.gov.in that carries the official depiction. **Do not** use a generic
+world-countries GeoJSON from an international source: those reproduce the same
+depiction the basemap does, which is the problem this setting exists to solve.

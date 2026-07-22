@@ -27,8 +27,96 @@ const FALLBACK_STYLE = {
   version: 8 as const,
   sources: {},
   layers: [
-    { id: 'bg', type: 'background' as const, paint: { 'background-color': '#080d14' } },
+    { id: 'bg', type: 'background' as const, paint: { 'background-color': '#131720' } },
   ],
+}
+
+/**
+ * Administrative boundary layers in the CARTO/OpenStreetMap basemap.
+ *
+ * We hide all of them. The OSM depiction of Jammu & Kashmir and Ladakh shows
+ * dashed "disputed" lines with Aksai Chin and PoK outside India, which is not
+ * the boundary recognised in India and is wrong for this audience. This is a
+ * maritime supply-chain tool -- corridors, chokepoints, ports and refineries
+ * carry all the meaning, and land borders carry none -- so the honest fix is
+ * to draw no administrative boundary rather than an incorrect one.
+ *
+ * To show an authoritative national outline instead, drop a GeoJSON at
+ * `frontend/public/india-boundary.geojson` (see README). It renders
+ * automatically when present.
+ */
+const BOUNDARY_LAYER_IDS = [
+  'boundary_country_outline',
+  'boundary_country_inner',
+  'boundary_state',
+  'boundary_county',
+]
+
+const INDIA_BOUNDARY_URL = '/india-boundary.geojson'
+
+/** Whether the optional authoritative outline exists; probed once. */
+let indiaBoundary: GeoJSON.FeatureCollection | null | undefined
+
+async function loadIndiaBoundary() {
+  if (indiaBoundary !== undefined) return indiaBoundary
+  indiaBoundary = null
+  try {
+    const r = await fetch(INDIA_BOUNDARY_URL)
+    // A dev server's SPA fallback answers 200 with index.html for a missing
+    // file, so `r.ok` alone is not evidence the outline exists. Check the
+    // content type and the GeoJSON shape before trusting it.
+    if (!r.ok) return indiaBoundary
+    if (!/json/i.test(r.headers.get('content-type') ?? '')) return indiaBoundary
+    const j = await r.json()
+    if (j?.type === 'FeatureCollection' && Array.isArray(j.features)) {
+      indiaBoundary = j
+    }
+  } catch {
+    /* absent or malformed: fall back to drawing no boundary at all */
+  }
+  return indiaBoundary
+}
+
+/**
+ * Suppress the basemap's administrative boundaries, then draw an authoritative
+ * national outline if one has been supplied.
+ *
+ * Idempotent and defensive: called on every style event, and any failure is
+ * swallowed so a basemap quirk can never take the map down.
+ */
+function applyBoundaryPolicy(map: maplibregl.Map) {
+  if (!map || typeof map.getLayer !== 'function') return
+
+  for (const id of BOUNDARY_LAYER_IDS) {
+    try {
+      if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', 'none')
+    } catch {
+      /* layer absent in this style version -- nothing to hide */
+    }
+  }
+
+  void loadIndiaBoundary().then((fc) => {
+    if (!fc) return
+    try {
+      if (!map.getSource('india-official')) {
+        map.addSource('india-official', { type: 'geojson', data: fc })
+      }
+      if (!map.getLayer('india-official-line')) {
+        map.addLayer({
+          id: 'india-official-line',
+          type: 'line',
+          source: 'india-official',
+          paint: {
+            'line-color': '#8fa3b8',
+            'line-width': 1.1,
+            'line-opacity': 0.75,
+          },
+        })
+      }
+    } catch {
+      /* style torn down mid-load; the next style event will retry */
+    }
+  })
 }
 
 interface Props {
@@ -334,8 +422,18 @@ export default function MapView({
         attributionControl={{ compact: true }}
         style={{ width: '100%', height: '100%' }}
         onLoad={(e) => {
+          applyBoundaryPolicy(e.target as maplibregl.Map)
           // Dev-only handle so the map can be driven from the console when
           // debugging projection / picking. Never present in a production build.
+          if (import.meta.env.DEV) {
+            ;(window as unknown as { __map?: unknown }).__map = e.target
+          }
+        }}
+        // The basemap re-adds its own layers whenever the style reloads, so
+        // reapply on every style event rather than only on first load. This
+        // also fires in embeddings where `load` never does.
+        onStyleData={(e) => {
+          applyBoundaryPolicy(e.target as maplibregl.Map)
           if (import.meta.env.DEV) {
             ;(window as unknown as { __map?: unknown }).__map = e.target
           }
