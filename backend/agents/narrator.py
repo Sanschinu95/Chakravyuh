@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from backend.agents.llm import complete, llm_available
+from backend.agents.llm import complete, llm_available, provider_label
 from backend.config import Provenance
 
 SYSTEM = """You are the analyst on an energy supply-chain war room desk in India.
@@ -163,16 +163,23 @@ async def narrate_plan(result: dict[str, Any]) -> dict[str, Any]:
         return {
             "text": text,
             "mode": "llm",
-            "model_note": "Claude narrating solver output; all figures come "
-                          "from the LP and cascade, not from the model.",
+            "generator": provider_label(),
+            # Name the model that actually wrote this. Attributing Groq output
+            # to Claude would be exactly the kind of quiet inaccuracy the
+            # honesty legend exists to prevent.
+            "model_note": f"{provider_label()} narrating solver output; all "
+                          f"figures come from the LP and cascade, not from "
+                          f"the model.",
             "provenance": Provenance.SIMULATED,
         }
 
     return {
         "text": _fallback(result),
         "mode": "deterministic",
-        "model_note": "No ANTHROPIC_API_KEY configured — this narration is a "
-                      "deterministic template over the same solver output, not "
-                      "a language model.",
+        "generator": "deterministic template",
+        "model_note": "No LLM provider configured (set GROQ_API_KEY or "
+                      "ANTHROPIC_API_KEY) — this narration is a deterministic "
+                      "template over the same solver output, not a language "
+                      "model.",
         "provenance": Provenance.SIMULATED,
     }

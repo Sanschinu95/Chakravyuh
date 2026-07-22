@@ -19,6 +19,32 @@ export default function HonestyLegend({ legend }: { legend: Legend | null }) {
             </span>
           </div>
         ))}
+        {legend.feeds && legend.feeds.length > 0 && (
+          <>
+            <div className="ctl-label" style={{ marginTop: 12 }}>
+              Feed status this session
+            </div>
+            {legend.feeds.map((f) => (
+              <div className="legend-row" key={f.feed}>
+                <span
+                  className="legend-swatch"
+                  style={{ background: f.live ? 'var(--live)' : 'var(--replay)' }}
+                />
+                <span className="legend-label">{f.feed}</span>
+                <span className={`legend-flag ${f.live ? 'active' : 'idle'}`}>
+                  {f.live ? 'LIVE' : 'REPLAY'}
+                </span>
+              </div>
+            ))}
+            {legend.feeds
+              .filter((f) => !f.live)
+              .map((f) => (
+                <div className="micro" key={f.feed}>
+                  {f.feed}: {f.note}
+                </div>
+              ))}
+          </>
+        )}
         <div className="legend-note">{legend.disclosure}</div>
       </div>
     </>

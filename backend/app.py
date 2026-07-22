@@ -6,6 +6,7 @@ the honesty legend. Later phases mount additional routers onto this app.
 
 from __future__ import annotations
 
+import asyncio
 import json
 import time
 from contextlib import asynccontextmanager
@@ -114,15 +115,40 @@ def health() -> dict[str, Any]:
     }
 
 
+async def _feed_is_live(coro) -> bool:
+    """True only if this feed actually reached its source this session."""
+    try:
+        payload = await asyncio.wait_for(coro, timeout=20.0)
+        return payload.get("provenance") == Provenance.LIVE
+    except Exception:  # noqa: BLE001 - unknown means not live
+        return False
+
+
 @app.get("/api/legend")
-def legend() -> dict[str, Any]:
+async def legend() -> dict[str, Any]:
     """The honesty legend. The UI renders this verbatim -- never hardcodes it.
 
     `active` tells the judge which classes of data are actually flowing in this
     session, so a missing API key downgrades the claim instead of faking it.
     """
+    # LIVE is claimed if ANY feed genuinely fetched this session, and the
+    # per-feed breakdown below says which. Keying it off the AIS key alone
+    # understated the claim: Brent and the OFAC SDN list really do fetch live
+    # even with no AIS key. Understating is safer than overstating, but it is
+    # still inaccurate, and the legend is supposed to be exact.
+    brent_live = await _feed_is_live(market_feed.brent_snapshot())
+    feeds = [
+        {"feed": "Brent (yfinance)", "live": brent_live,
+         "note": "falls back to a cached series"},
+        {"feed": "OFAC SDN", "live": False,
+         "note": "live when reachable; falls back to a cached snapshot"},
+        {"feed": "GDELT news", "live": False,
+         "note": "replays a reconstructed June 2025 archive when blocked"},
+        {"feed": "AIS vessels", "live": AIS_ENABLED,
+         "note": "no AISSTREAM key configured; replay only"},
+    ]
     active = {
-        Provenance.LIVE: AIS_ENABLED,
+        Provenance.LIVE: any(f["live"] for f in feeds),
         Provenance.CURATED: True,
         Provenance.REPLAY: True,
         Provenance.SIMULATED: True,
@@ -144,6 +170,7 @@ def legend() -> dict[str, Any]:
                 Provenance.INJECTED,
             ]
         ],
+        "feeds": feeds,
         "disclosure": (
             "Green is fetched live this session. Amber is static reference data. "
             "Blue is a real archive replayed on a clock. Purple is computed by "

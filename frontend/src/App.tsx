@@ -10,6 +10,11 @@ import AssumptionLedger from './components/AssumptionLedger'
 import PlanPanel from './components/PlanPanel'
 import SourcingPanel from './components/SourcingPanel'
 import Collapsible from './components/Collapsible'
+import IntelPanel from './components/IntelPanel'
+import GradePanel from './components/GradePanel'
+import RedTeamPanel from './components/RedTeamPanel'
+import TenderPanel from './components/TenderPanel'
+import AttackConsole, { type CustomShock } from './components/AttackConsole'
 import LayerControls, {
   DEFAULT_LAYERS,
   type LayerVisibility,
@@ -27,13 +32,19 @@ import {
   type Summary,
 } from './lib/api'
 
-type RightTab = 'corridor' | 'cascade' | 'plan' | 'sourcing' | 'assumptions'
+type RightTab =
+  | 'corridor' | 'cascade' | 'plan' | 'tender' | 'sourcing'
+  | 'intel' | 'grade' | 'redteam' | 'assumptions'
 
 const TABS: Array<{ id: RightTab; label: string }> = [
+  { id: 'intel', label: 'Risk' },
   { id: 'corridor', label: 'Corridor' },
   { id: 'cascade', label: 'Cascade' },
   { id: 'plan', label: 'Plan' },
+  { id: 'tender', label: 'Tender' },
   { id: 'sourcing', label: 'Sourcing' },
+  { id: 'redteam', label: 'Red team' },
+  { id: 'grade', label: 'Grade' },
   { id: 'assumptions', label: 'Assumptions' },
 ]
 
@@ -49,6 +60,7 @@ export default function App() {
   const [activeScenario, setActiveScenario] = useState<string | null>(null)
   const [cascade, setCascade] = useState<CascadeResult | null>(null)
   const [defense, setDefense] = useState<DefenseResult | null>(null)
+  const [customShocks, setCustomShocks] = useState<CustomShock[] | null>(null)
   const [overrides, setOverrides] = useState<Record<string, number>>({})
   const [running, setRunning] = useState(false)
   const [elapsed, setElapsed] = useState<number | null>(null)
@@ -136,14 +148,41 @@ export default function App() {
       .finally(() => setRunning(false))
   }, [])
 
+  // Judge-as-adversary: an operator-built shock runs the identical pipeline.
+  const runAttack = useCallback((shocks: CustomShock[], ov: Record<string, number>) => {
+    setRunning(true)
+    setElapsed(null)
+    const t0 = performance.now()
+    api
+      .defend({ shocks, overrides: ov })
+      .then((r) => {
+        setDefense(r)
+        setCascade(r.cascade)
+        setLedger(r.ledger)
+        setElapsed(performance.now() - t0)
+        setTab('plan')
+      })
+      .catch((e) => setBootError(String(e)))
+      .finally(() => setRunning(false))
+  }, [])
+
   const onRun = (id: string) => {
     setActiveScenario(id)
+    setCustomShocks(null)
     setSelected(null)
     runDefense(id, overrides)
   }
 
+  const onExecuteAttack = (shocks: CustomShock[]) => {
+    setActiveScenario(null)
+    setCustomShocks(shocks)
+    setSelected(null)
+    runAttack(shocks, overrides)
+  }
+
   const onClear = () => {
     setActiveScenario(null)
+    setCustomShocks(null)
     setCascade(null)
     setDefense(null)
     setElapsed(null)
@@ -191,6 +230,18 @@ export default function App() {
               running={running}
               onRun={onRun}
               onClear={onClear}
+            />
+          </Collapsible>
+
+          <Collapsible
+            title="Attack console"
+            badge={customShocks ? 'live' : undefined}
+            defaultOpen={false}
+          >
+            <AttackConsole
+              corridors={corridors}
+              running={running}
+              onExecute={onExecuteAttack}
             />
           </Collapsible>
 
@@ -296,7 +347,17 @@ export default function App() {
                 </div>
               ))}
 
+            {tab === 'tender' && (
+              <TenderPanel scenarioId={activeScenario} shocks={customShocks} />
+            )}
+
             {tab === 'sourcing' && <SourcingPanel scenarioId={activeScenario} />}
+
+            {tab === 'intel' && <IntelPanel />}
+
+            {tab === 'redteam' && <RedTeamPanel />}
+
+            {tab === 'grade' && <GradePanel />}
 
             {tab === 'assumptions' && (
               <AssumptionLedger

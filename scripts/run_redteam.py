@@ -20,6 +20,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+# The Windows console defaults to cp1252, which cannot encode the rupee sign
+# the portfolio headline uses. Reconfigure rather than strip the symbol.
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
 from backend.agents.red_team import run_red_team  # noqa: E402
 from backend.config import STATE_DIR  # noqa: E402
 from backend.solve.portfolio import optimise_portfolio  # noqa: E402
