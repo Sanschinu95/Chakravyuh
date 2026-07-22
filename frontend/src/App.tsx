@@ -61,24 +61,46 @@ export default function App() {
 
   const { connected } = useEventStream()
 
+  // The backend may still be booting (or reloading) when the page first
+  // paints. Without a retry the dashboard silently stays empty, so keep
+  // trying with backoff before surfacing an error.
   useEffect(() => {
-    Promise.all([
-      api.summary(),
-      api.legend(),
-      api.network(),
-      api.corridors(),
-      api.scenarios(),
-      api.assumptions(),
-    ])
-      .then(([s, l, n, c, sc, as]) => {
+    let cancelled = false
+
+    const boot = async (attempt = 0): Promise<void> => {
+      try {
+        const [s, l, n, c, sc, as] = await Promise.all([
+          api.summary(),
+          api.legend(),
+          api.network(),
+          api.corridors(),
+          api.scenarios(),
+          api.assumptions(),
+        ])
+        if (cancelled) return
         setSummary(s)
         setLegend(l)
         setNetwork(n)
         setCorridors(c)
         setScenarios(sc)
         setLedger(as)
-      })
-      .catch((e) => setBootError(String(e)))
+        setBootError(null)
+      } catch (e) {
+        if (cancelled) return
+        if (attempt < 6) {
+          setBootError(`Backend not ready — retrying (${attempt + 1}/6)…`)
+          const delay = Math.min(4000, 500 * 2 ** attempt)
+          window.setTimeout(() => void boot(attempt + 1), delay)
+        } else {
+          setBootError(String(e))
+        }
+      }
+    }
+
+    void boot()
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   const debounce = useRef<number | undefined>(undefined)

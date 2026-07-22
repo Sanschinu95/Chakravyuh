@@ -13,7 +13,7 @@
     "Liberia": 60,
     "Palau": 53
   },
-  "fetched_at": "2026-07-21T18:48:51+00:00",
+  "fetched_at": "2026-07-21T18:53:45+00:00",
   "source": "https://sanctionslistservice.ofac.treas.gov/api/PublicationPreview/exports/SDN.CSV",
   "history": [
     {
@@ -48,6 +48,11 @@
     },
     {
       "fetched_at": "2026-07-21T18:48:51+00:00",
+      "vessel_entries": 1517,
+      "in_scope_maritime_entries": 1853
+    },
+    {
+      "fetched_at": "2026-07-21T18:53:45+00:00",
       "vessel_entries": 1517,
       "in_scope_maritime_entries": 1853
     }

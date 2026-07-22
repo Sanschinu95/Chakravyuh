@@ -6,6 +6,7 @@ the honesty legend. Later phases mount additional routers onto this app.
 
 from __future__ import annotations
 
+import json
 import time
 from contextlib import asynccontextmanager
 from typing import Any, Awaitable, Callable
@@ -23,6 +24,7 @@ from backend.config import (
     LLM_ENABLED,
     PROVENANCE_COLORS,
     PROVENANCE_LABELS,
+    STATE_DIR,
     Provenance,
 )
 from backend.data import ais_stream, loaders
@@ -39,6 +41,35 @@ from backend.solve.pipeline import run_defense_pipeline
 from backend.solve.portfolio import optimise_portfolio
 
 
+async def _warm_caches() -> None:
+    """Pre-compute the slow endpoints in the background at boot.
+
+    The Corridor Risk Index has to reach three external feeds (one of which
+    times out on most networks) and the red team runs the full defense
+    pipeline per candidate attack. Cold, those are ~18s and ~2min. Nobody
+    should discover that by clicking during a demo, so we pay it at startup
+    while the map is still loading. Failures are logged and ignored -- a warm
+    cache is an optimisation, never a requirement.
+    """
+    import asyncio
+
+    async def warm(name: str, coro) -> None:
+        t0 = time.perf_counter()
+        try:
+            await coro
+            print(f"[warm] {name} ready in {time.perf_counter() - t0:.1f}s")
+        except Exception as exc:  # noqa: BLE001
+            print(f"[warm] {name} failed ({type(exc).__name__}: {exc}) -- "
+                  f"will compute on first request")
+
+    # Only the CRI is warmed here. The red team is deliberately NOT run at
+    # boot: it is minutes of solver work and, even offloaded to threads, the
+    # GIL contention degrades every other request while it runs. It is a
+    # nightly job -- run `python scripts/run_redteam.py` to produce the
+    # artifact, which this process then serves instantly.
+    await warm("corridor risk index", cri_mod.cri_snapshot())
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     if not loaders.db_exists():
@@ -46,7 +77,12 @@ async def lifespan(app: FastAPI):
             "chakravyuh.duckdb not found -- run `python scripts/seed_db.py` first"
         )
     twin.get_graph()  # warm the cache so first request is fast
+
+    import asyncio
+
+    task = asyncio.create_task(_warm_caches())
     yield
+    task.cancel()
 
 
 app = FastAPI(
@@ -533,17 +569,36 @@ async def tender(req: SimulateRequest) -> dict[str, Any]:
 # Phase 7 -- red team + peacetime portfolio
 # --------------------------------------------------------------------------
 _redteam_cache: dict[str, Any] = {}
+REDTEAM_ARTIFACT = STATE_DIR / "redteam.json"
+
+
+def _load_redteam_artifact() -> dict[str, Any] | None:
+    """Read the persisted nightly run, if scripts/run_redteam.py has produced one."""
+    if _redteam_cache:
+        return _redteam_cache
+    try:
+        if REDTEAM_ARTIFACT.exists():
+            data = json.loads(REDTEAM_ARTIFACT.read_text(encoding="utf-8"))
+            _redteam_cache.update(data)
+            return _redteam_cache
+    except Exception as exc:  # noqa: BLE001
+        print(f"[redteam] could not read artifact: {exc}")
+    return None
 
 
 @app.get("/api/redteam")
 async def redteam(refresh: bool = False, budget: float = 50.0) -> dict[str, Any]:
     """Latest adversarial run.
 
-    The search is expensive (it runs the full defense pipeline per candidate),
-    so this serves the last nightly result unless explicitly refreshed --
-    which is also the honest framing: the red team runs overnight, not on
-    demand while a judge waits.
+    The search runs the full defense pipeline against every candidate attack,
+    which takes minutes. It is a nightly job, not an on-demand one: this
+    serves the persisted artifact instantly and only recomputes when asked.
     """
+    if not refresh:
+        cached = _load_redteam_artifact()
+        if cached:
+            return {**cached, "cached": True}
+
     if refresh or not _redteam_cache:
         t0 = time.perf_counter()
         out = await run_red_team(budget=budget)

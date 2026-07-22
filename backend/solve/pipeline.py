@@ -7,6 +7,7 @@ a few seconds and then dumping an answer.
 
 from __future__ import annotations
 
+import asyncio
 import time
 import uuid
 from typing import Any
@@ -38,7 +39,10 @@ async def run_defense_pipeline(
                       provenance=Provenance.INJECTED, run_id=run_id)
 
     # -- 1. cascade -------------------------------------------------------
-    cascade = run_cascade(shocks, overrides).to_dict()
+    # The simulator and both solvers are synchronous and CPU-bound; running
+    # them inline would block the event loop (and every other request) for the
+    # duration of the pipeline.
+    cascade = (await asyncio.to_thread(run_cascade, shocks, overrides)).to_dict()
     ms = mark("cascade", f"{cascade['headline']['net_lost_kbd']:.0f} kbd supply gap "
                          f"across {len(cascade['stages'])} stages")
     await bus.publish("pipeline.cascade", {"run_id": run_id, "elapsed_ms": ms,
@@ -56,10 +60,11 @@ async def run_defense_pipeline(
     }
     duration = cascade["headline"]["duration_days"]
 
-    plan = solve_procurement(
+    plan = (await asyncio.to_thread(
+        solve_procurement,
         gap_by_refinery, duration, disrupted,
-        reroute_lag_days=cascade["assumptions"]["reroute_lag_days"],
-    ).to_dict()
+        cascade["assumptions"]["reroute_lag_days"],
+    )).to_dict()
     ms = mark("procurement_lp",
               f"{plan['status']}: {plan['coverage_pct']}% of gap covered, "
               f"first delivery day {plan['first_delivery_day']}")
@@ -76,7 +81,7 @@ async def run_defense_pipeline(
         first_delivery_day=plan["first_delivery_day"],
         covered_kbd=covered_kbd,
     )
-    spr = solve_spr(curve).to_dict()
+    spr = (await asyncio.to_thread(solve_spr, curve)).to_dict()
     ms = mark("spr_bridge",
               f"draws {spr['total_drawn_mmbbl']} mmbbl, holds "
               f"{spr['end_buffer_mmbbl']} mmbbl buffer")

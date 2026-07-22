@@ -18,6 +18,7 @@ Two things keep this honest:
 
 from __future__ import annotations
 
+import asyncio
 import json
 import random
 from dataclasses import dataclass, field
@@ -306,8 +307,14 @@ async def run_red_team(
     budget: float = DEFAULT_BUDGET_USD_MN,
     max_iterations: int = 10,
 ) -> dict[str, Any]:
-    """Nightly adversarial run. Baseline sweep always; LLM agent if available."""
-    baseline = search_baseline(budget)
+    """Nightly adversarial run. Baseline sweep always; LLM agent if available.
+
+    Every solver call is pushed to a worker thread. OR-Tools is CPU-bound and
+    synchronous, so running it inline on the event loop stalls the entire API
+    for as long as the search takes -- which for this sweep is minutes. The
+    server must stay responsive while the red team thinks.
+    """
+    baseline = await asyncio.to_thread(search_baseline, budget)
     best = baseline[0] if baseline else None
 
     tested: list[dict[str, Any]] = []
@@ -348,7 +355,7 @@ async def run_red_team(
             cost = sum(a.cost_usd_mn() for a in atks)
             if cost > budget:
                 return f"Rejected: costs ${cost:.1f}mn, over the ${budget:.0f}mn budget."
-            res = score_attack(atks)
+            res = await asyncio.to_thread(score_attack, atks)
             tested.append(res.to_dict())
             nonlocal agent_best
             if agent_best is None or res.damage_per_dollar > agent_best.damage_per_dollar:
