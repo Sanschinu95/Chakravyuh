@@ -275,31 +275,34 @@ See `ARCHITECTURE.md` for the component diagram, the LP and MILP formulations, t
 
 ## Map boundaries
 
-The basemap (CARTO, built on OpenStreetMap) renders Jammu & Kashmir and Ladakh
+The basemap (CARTO, built on OpenStreetMap) draws Jammu & Kashmir and Ladakh
 with dashed "disputed" lines, placing Aksai Chin and Pakistan-administered
 Kashmir outside India. That is not the boundary recognised in India.
 
-CHAKRAVYUH therefore **hides every administrative boundary layer** in the
-basemap (`boundary_country_outline`, `boundary_country_inner`,
-`boundary_state`, `boundary_county`). This is a maritime supply-chain tool —
-corridors, chokepoints, ports and refineries carry the analysis, and land
-borders carry none of it — so drawing no boundary is preferable to drawing an
-incorrect one.
+Political boundaries stay visible for every country — they are useful context.
+Only India's depiction is corrected, by **mask-then-redraw**: India's official
+extent is drawn over the basemap in the land colour, concealing the dashed
+lines through the claimed territory, and the correct national outline is
+stroked on top. The mask sits beneath the label layers so place names still
+read.
 
-### Showing an authoritative national outline
+### Regenerating the boundary
 
-To render India's official boundary instead, place a GeoJSON
-`FeatureCollection` at:
-
-```
-frontend/public/india-boundary.geojson
+```bash
+python scripts/fetch_india_boundary.py    # fetch, validate, simplify
+python scripts/verify_india_boundary.py   # point-in-polygon assertions
 ```
 
-It is picked up automatically on the next load; no code change and no rebuild
-of the layer logic is needed. If the file is absent, malformed, or not served
-as JSON, the map simply shows no boundary.
+`fetch_india_boundary.py` pulls the outline from
+[DataMeet](https://github.com/datameet/maps), an Indian civic-data community
+whose India boundary follows the official depiction. It **refuses to write the
+file** if the northern extent falls short of ~36.5°N, since a truncated
+international rendering stops near 35.5°N. Output is simplified from ~10 MB to
+~86 KB.
 
-Source it from an authoritative publisher — Survey of India, or a dataset on
-data.gov.in that carries the official depiction. **Do not** use a generic
-world-countries GeoJSON from an international source: those reproduce the same
-depiction the basemap does, which is the problem this setting exists to solve.
+`verify_india_boundary.py` is the test that actually matters — it asserts that
+Aksai Chin, Gilgit-Baltistan, Muzaffarabad, Srinagar and Leh fall *inside* the
+polygon, and that Lahore, Kathmandu and Colombo fall *outside* it.
+
+If `frontend/public/india-boundary.geojson` is absent, the map falls back to
+the basemap's own boundaries unchanged.
